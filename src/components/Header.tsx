@@ -56,7 +56,8 @@ export const Header = () => {
             Submit Proposal
           </Button>
           <Button size="sm" className="hidden md:flex">
-            Portal Login
+            <Calendar className="h-4 w-4 mr-2" />
+            View Events
           </Button>
           
           {/* Mobile Menu Button */}
@@ -96,7 +97,8 @@ export const Header = () => {
                 Submit Proposal
               </Button>
               <Button size="sm" className="w-full">
-                Portal Login
+                <Calendar className="h-4 w-4 mr-2" />
+                View Events
               </Button>
             </div>
           </div>
