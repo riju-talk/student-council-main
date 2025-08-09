@@ -50,15 +50,15 @@ export const Header = () => {
         {/* Action Buttons */}
         <div className="flex items-center space-x-3">
           <Button variant="outline" size="sm" className="hidden md:flex" asChild>
-            <Link to="/submit-proposal">
-              <FileText className="h-4 w-4 mr-2" />
-              Submit Proposal
+            <Link to="/about">
+              <Users className="h-4 w-4 mr-2" />
+              About Council
             </Link>
           </Button>
           <Button size="sm" className="hidden md:flex" asChild>
-            <Link to="/events">
-              <Calendar className="h-4 w-4 mr-2" />
-              View Events
+            <Link to="/submit-proposal">
+              <FileText className="h-4 w-4 mr-2" />
+              Submit Proposal
             </Link>
           </Button>
           
@@ -92,15 +92,15 @@ export const Header = () => {
             </Link>
             <div className="pt-3 space-y-2">
               <Button variant="outline" size="sm" className="w-full" asChild>
-                <Link to="/submit-proposal">
-                  <FileText className="h-4 w-4 mr-2" />
-                  Submit Proposal
+                <Link to="/about">
+                  <Users className="h-4 w-4 mr-2" />
+                  About Council
                 </Link>
               </Button>
               <Button size="sm" className="w-full" asChild>
-                <Link to="/events">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  View Events
+                <Link to="/submit-proposal">
+                  <FileText className="h-4 w-4 mr-2" />
+                  Submit Proposal
                 </Link>
               </Button>
             </div>

@@ -44,11 +44,13 @@ export const About = () => {
             <Heart className="h-3 w-3 mr-2" />
             About Us
           </Badge>
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">IIIT Delhi Student Council</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Who We Are</h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            The Student Council at IIIT Delhi serves as the bridge between students and administration, 
-            fostering academic excellence, cultural vibrancy, and personal growth. We organize events, 
-            address student concerns, and create opportunities for every member of our community to thrive.
+            The Student Council at IIIT Delhi is the official voice of our student body, dedicated to 
+            enhancing campus life, advocating for student rights, and fostering academic excellence. 
+            We bridge the gap between students and administration, ensuring every voice is heard 
+            and every concern is addressed. Through our diverse clubs and committees, we create 
+            opportunities for personal growth, skill development, and community engagement.
           </p>
         </div>
 
