@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X, FileText, Users, Calendar, Settings } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,32 +33,33 @@ export const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
-          <a href="#home" className="text-sm font-medium hover:text-accent transition-colors">
+          <Link to="/" className="text-sm font-medium hover:text-accent transition-colors">
             Home
-          </a>
-          <a href="#events" className="text-sm font-medium hover:text-accent transition-colors">
-            Events
-          </a>
-          <a href="#portal" className="text-sm font-medium hover:text-accent transition-colors">
-            Portal
-          </a>
-          <a href="#about" className="text-sm font-medium hover:text-accent transition-colors">
+          </Link>
+          <Link to="/about" className="text-sm font-medium hover:text-accent transition-colors">
             About
-          </a>
-          <a href="#contact" className="text-sm font-medium hover:text-accent transition-colors">
-            Contact
-          </a>
+          </Link>
+          <Link to="/representatives" className="text-sm font-medium hover:text-accent transition-colors">
+            Representatives
+          </Link>
+          <Link to="/events" className="text-sm font-medium hover:text-accent transition-colors">
+            Events
+          </Link>
         </nav>
 
         {/* Action Buttons */}
         <div className="flex items-center space-x-3">
-          <Button variant="outline" size="sm" className="hidden md:flex">
-            <FileText className="h-4 w-4 mr-2" />
-            Submit Proposal
+          <Button variant="outline" size="sm" className="hidden md:flex" asChild>
+            <Link to="/submit-proposal">
+              <FileText className="h-4 w-4 mr-2" />
+              Submit Proposal
+            </Link>
           </Button>
-          <Button size="sm" className="hidden md:flex">
-            <Calendar className="h-4 w-4 mr-2" />
-            View Events
+          <Button size="sm" className="hidden md:flex" asChild>
+            <Link to="/events">
+              <Calendar className="h-4 w-4 mr-2" />
+              View Events
+            </Link>
           </Button>
           
           {/* Mobile Menu Button */}
@@ -76,29 +78,30 @@ export const Header = () => {
       {isMenuOpen && (
         <div className="md:hidden border-t bg-background">
           <div className="container py-4 space-y-3">
-            <a href="#home" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
+            <Link to="/" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
               Home
-            </a>
-            <a href="#events" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
-              Events
-            </a>
-            <a href="#portal" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
-              Portal
-            </a>
-            <a href="#about" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
+            </Link>
+            <Link to="/about" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
               About
-            </a>
-            <a href="#contact" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
-              Contact
-            </a>
+            </Link>
+            <Link to="/representatives" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
+              Representatives
+            </Link>
+            <Link to="/events" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
+              Events
+            </Link>
             <div className="pt-3 space-y-2">
-              <Button variant="outline" size="sm" className="w-full">
-                <FileText className="h-4 w-4 mr-2" />
-                Submit Proposal
+              <Button variant="outline" size="sm" className="w-full" asChild>
+                <Link to="/submit-proposal">
+                  <FileText className="h-4 w-4 mr-2" />
+                  Submit Proposal
+                </Link>
               </Button>
-              <Button size="sm" className="w-full">
-                <Calendar className="h-4 w-4 mr-2" />
-                View Events
+              <Button size="sm" className="w-full" asChild>
+                <Link to="/events">
+                  <Calendar className="h-4 w-4 mr-2" />
+                  View Events
+                </Link>
               </Button>
             </div>
           </div>
