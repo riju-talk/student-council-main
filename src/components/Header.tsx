@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, FileText, Users, Calendar, Settings } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -49,6 +50,7 @@ export const Header = () => {
 
         {/* Action Buttons */}
         <div className="flex items-center space-x-3">
+          <ThemeToggle />
           <Button variant="outline" size="sm" className="hidden md:flex" asChild>
             <Link to="/about">
               <Users className="h-4 w-4 mr-2" />

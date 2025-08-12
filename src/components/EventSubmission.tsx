@@ -2,8 +2,11 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FileText, Upload, CheckCircle, Clock, ArrowRight } from "lucide-react";
+import { EventProposalModal } from "@/components/EventProposalModal";
+import { useState } from "react";
 
 export const EventSubmission = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const steps = [
     {
       icon: FileText,
@@ -101,7 +104,7 @@ export const EventSubmission = () => {
                   </p>
                 </div>
                 
-                <Button size="lg" className="w-full mb-4">
+                <Button size="lg" className="w-full mb-4" onClick={() => setIsModalOpen(true)}>
                   <FileText className="h-5 w-5 mr-2" />
                   Start Event Proposal
                   <ArrowRight className="h-4 w-4 ml-2" />
@@ -131,6 +134,11 @@ export const EventSubmission = () => {
           </div>
         </div>
       </div>
+      
+      <EventProposalModal 
+        open={isModalOpen} 
+        onOpenChange={setIsModalOpen}
+      />
     </section>
   );
 };
