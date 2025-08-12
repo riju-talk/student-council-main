@@ -69,48 +69,64 @@ All colors MUST be HSL.
   }
 
   .light {
-    --background: 220 20% 98%;
-    --foreground: 220 25% 20%;
+    /* IIITD Light Sophisticated Theme - Clean & Professional */
+    --background: 0 0% 100%;
+    --foreground: 220 25% 15%;
 
-    --card: 220 15% 97%;
-    --card-foreground: 220 20% 25%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 15%;
 
-    --popover: 220 20% 98%;
-    --popover-foreground: 220 25% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 15%;
 
-    --primary: 220 25% 28%;
-    --primary-foreground: 220 20% 98%;
-    --primary-hover: 220 30% 22%;
+    /* Primary - Deep Navy */
+    --primary: 220 60% 25%;
+    --primary-foreground: 0 0% 98%;
+    --primary-hover: 220 65% 20%;
 
-    --secondary: 250 15% 92%;
-    --secondary-foreground: 220 20% 35%;
+    /* Secondary - Light Gray */
+    --secondary: 220 10% 95%;
+    --secondary-foreground: 220 25% 20%;
 
-    --accent: 280 35% 65%;
-    --accent-foreground: 220 20% 98%;
-    --accent-hover: 280 40% 55%;
+    /* Accent - Sophisticated Purple */
+    --accent: 280 45% 55%;
+    --accent-foreground: 0 0% 98%;
+    --accent-hover: 280 50% 50%;
 
-    --muted: 220 12% 95%;
-    --muted-foreground: 220 15% 55%;
+    /* Muted tones */
+    --muted: 220 8% 96%;
+    --muted-foreground: 220 12% 45%;
 
-    --destructive: 0 50% 60%;
-    --destructive-foreground: 220 20% 98%;
-    --success: 145 45% 50%;
-    --success-foreground: 220 20% 98%;
-    --warning: 35 70% 55%;
-    --warning-foreground: 220 20% 98%;
+    /* Status colors */
+    --destructive: 0 60% 55%;
+    --destructive-foreground: 0 0% 98%;
+    --success: 145 50% 45%;
+    --success-foreground: 0 0% 98%;
+    --warning: 35 80% 50%;
+    --warning-foreground: 0 0% 98%;
 
-    --border: 220 15% 90%;
-    --input: 220 12% 94%;
-    --ring: 280 35% 65%;
+    /* Borders and inputs */
+    --border: 220 12% 88%;
+    --input: 220 8% 96%;
+    --ring: 280 45% 55%;
 
-    --sidebar-background: 220 15% 97%;
-    --sidebar-foreground: 220 20% 25%;
-    --sidebar-primary: 280 35% 65%;
-    --sidebar-primary-foreground: 220 20% 98%;
-    --sidebar-accent: 250 15% 92%;
-    --sidebar-accent-foreground: 220 20% 35%;
-    --sidebar-border: 220 15% 90%;
-    --sidebar-ring: 280 35% 65%;
+    /* Design system */
+    --radius: 0.75rem;
+    --shadow-elegant: 0 8px 32px -8px hsl(220 15% 35% / 0.1);
+    --shadow-accent: 0 4px 20px -4px hsl(280 45% 55% / 0.2);
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--secondary)));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-hover)));
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 25% 15%;
+    --sidebar-primary: 280 45% 55%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 220 10% 95%;
+    --sidebar-accent-foreground: 220 25% 20%;
+    --sidebar-border: 220 12% 88%;
+    --sidebar-ring: 280 45% 55%;
   }
 }
 
@@ -126,7 +142,7 @@ All colors MUST be HSL.
     overflow-x: hidden;
   }
 
-  /* Animated Background */
+  /* Animated Background - Dark Mode */
   body::before {
     content: '';
     position: fixed;
@@ -141,6 +157,14 @@ All colors MUST be HSL.
     animation: float 20s ease-in-out infinite;
     z-index: -1;
     pointer-events: none;
+  }
+
+  /* Light Mode Background */
+  :root.light body::before {
+    background: 
+      radial-gradient(circle at 25% 25%, hsl(280 45% 85% / 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, hsl(220 30% 90% / 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, hsl(0 0% 96% / 0.4) 0%, transparent 70%);
   }
 
   @keyframes float {
