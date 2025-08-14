@@ -2,11 +2,16 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Home, Phone, Users, Clock, Shield, Wifi, Car, Coffee } from "lucide-react";
+import { Home, Phone, Users, Clock, Shield, Wifi, Car, Coffee, Search } from "lucide-react";
+import HostelGuidelines from "@/components/HostelGuidelines";
+import { useState } from "react";
 
 const Hostel = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+
   const { data: hostels = [], isLoading } = useQuery({
     queryKey: ["hostels"],
     queryFn: async () => {
@@ -19,6 +24,24 @@ const Hostel = () => {
       return data;
     },
   });
+
+  const { data: messCommittee = [], isLoading: isCommitteeLoading } = useQuery({
+    queryKey: ["mess-hostel-committee"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("mess_hostel_committee")
+        .select("*")
+        .order("name");
+      
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const filteredCommittee = messCommittee.filter(member =>
+    member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    member.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const facilityIcons: { [key: string]: any } = {
     "WiFi": Wifi,
@@ -210,6 +233,66 @@ const Hostel = () => {
               </Card>
             )}
           </div>
+
+          {/* Hostel Guidelines */}
+          <HostelGuidelines />
+
+          {/* Mess and Hostel Committee */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Users className="h-5 w-5" />
+                Mess and Hostel Committee
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="mb-4">
+                <div className="relative">
+                  <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Search by name or email..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+              </div>
+              
+              {isCommitteeLoading ? (
+                <div className="space-y-2">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="h-12 bg-muted rounded animate-pulse" />
+                  ))}
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left py-2 px-4 font-medium">Name</th>
+                        <th className="text-left py-2 px-4 font-medium">Email</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredCommittee.map((member) => (
+                        <tr key={member.id} className="border-b hover:bg-muted/50">
+                          <td className="py-2 px-4">{member.name}</td>
+                          <td className="py-2 px-4">
+                            <a 
+                              href={`mailto:${member.email}`}
+                              className="text-primary hover:underline"
+                            >
+                              {member.email}
+                            </a>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
           {/* Emergency Information */}
           <Card className="border-destructive/20 bg-destructive/5">

@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Menu, X, FileText, Users } from "lucide-react";
+import { Menu, X, FileText, Users, Plus } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { EventProposalModal } from "./EventProposalModal";
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isEventModalOpen, setIsEventModalOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -52,6 +54,16 @@ export const Header = () => {
 
         {/* Action Buttons */}
         <div className="flex items-center space-x-3">
+          <Button 
+            variant="default" 
+            size="sm" 
+            className="hidden md:flex"
+            onClick={() => setIsEventModalOpen(true)}
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Propose an Event
+          </Button>
+          
           <Button variant="outline" size="sm" className="hidden md:flex">
             <Users className="h-4 w-4 mr-2" />
             About Council
@@ -88,7 +100,16 @@ export const Header = () => {
             <Link to="/important-contacts" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
               Important Contacts
             </Link>
-            <div className="pt-3">
+            <div className="pt-3 space-y-2">
+              <Button 
+                variant="default" 
+                size="sm" 
+                className="w-full"
+                onClick={() => setIsEventModalOpen(true)}
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Propose an Event
+              </Button>
               <Button variant="outline" size="sm" className="w-full">
                 <Users className="h-4 w-4 mr-2" />
                 About Council
@@ -97,6 +118,11 @@ export const Header = () => {
           </div>
         </div>
       )}
+      
+      <EventProposalModal 
+        open={isEventModalOpen} 
+        onOpenChange={setIsEventModalOpen} 
+      />
     </header>
   );
 };
