@@ -4,7 +4,6 @@ import { About } from "@/components/About";
 import { Representatives } from "@/components/Representatives";
 import { EventSubmission } from "@/components/EventSubmission";
 import { Footer } from "@/components/Footer";
-
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">

@@ -8,8 +8,8 @@ export const Hero = () => {
     <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/30 to-background overflow-hidden">
       {/* Background Student Council Logo */}
       <div className="absolute inset-0 flex items-center justify-center opacity-10 dark:opacity-5">
-        <div className="w-96 h-96 rounded-full bg-accent/30 dark:bg-accent/20 flex items-center justify-center">
-          <Users className="w-64 h-64 text-accent dark:text-primary" />
+        <div className="w-96 h-96 rounded-full bg-accent/30 dark:bg-accent/40 flex items-center justify-center">
+          <img src="student_council.jpg" alt="Student Council Logo" className="w-96 h-96 text-accent dark:text-primary" />
         </div>
       </div>
       

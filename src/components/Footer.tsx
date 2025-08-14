@@ -11,8 +11,8 @@ export const Footer = () => {
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-3 mb-4">
               {/* Placeholder for logos */}
-              <div className="h-10 w-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
-                <span className="text-accent font-bold text-sm">IIITD</span>
+              <div className="h-10 w-auto bg-muted/20 flex items-center justify-center">
+                <img src="student_council.jpg" alt="IIIT Delhi Logo" className="h-12 w-auto" />
               </div>
               <div>
                 <h3 className="text-lg font-bold text-foreground">Student Council</h3>
@@ -24,16 +24,16 @@ export const Footer = () => {
               streamlined event management and collaborative decision-making.
             </p>
             <div className="flex space-x-2">
-              <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" onClick={() => window.open("https://www.facebook.com/IIITDcouncil", "_blank")}>
                 <Facebook className="h-4 w-4" />
-              </Button>
-              <Button variant="outline" size="sm">
+                </Button>
+              <Button variant="outline" size="sm" onClick={() => window.open("https://twitter.com", "_blank")}  >
                 <Twitter className="h-4 w-4" />
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" onClick={() => window.open("https://www.instagram.com/sc.iiitd/", "_blank")}>
                 <Instagram className="h-4 w-4" />
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" onClick={() => window.open("https://linkedin.com", "_blank")} >
                 <Linkedin className="h-4 w-4" />
               </Button>
             </div>
@@ -99,7 +99,7 @@ export const Footer = () => {
         {/* Bottom */}
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="text-sm text-muted-foreground">
-            © 2024 IIIT Delhi Student Council. All rights reserved.
+            © 2025 IIIT Delhi Student Council. All rights reserved.
           </div>
           <div className="flex space-x-6 text-sm">
             <a href="#privacy" className="text-muted-foreground hover:text-accent transition-colors">

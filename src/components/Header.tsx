@@ -16,13 +16,13 @@ export const Header = () => {
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-3">
             {/* Placeholder for IIITD Logo */}
-            <div className="h-10 w-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
-              <span className="text-accent font-bold text-sm">IIITD</span>
+            <div className="h-10 w-auto rounded-full flex items-center justify-center">
+              <img src="IIITD.png" alt="IIIT Delhi Logo" className="h-12 w-auto" />
             </div>
             
             {/* Placeholder for Student Council Logo */}
-            <div className="h-10 w-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-              <Users className="h-5 w-5 text-primary" />
+            <div className="h-10 w-10 rounded-full flex items-center justify-center">
+              <img src="student_council.jpg" alt="Student Council Logo" className="h-10 w-10" />
             </div>
             
             <div className="hidden md:block">
@@ -38,13 +38,16 @@ export const Header = () => {
             Home
           </Link>
           <Link to="/about" className="text-sm font-medium hover:text-accent transition-colors">
-            About
+            Clubs
           </Link>
           <Link to="/representatives" className="text-sm font-medium hover:text-accent transition-colors">
             Representatives
           </Link>
-          <Link to="/events" className="text-sm font-medium hover:text-accent transition-colors">
-            Events
+          <Link to="/hostel" className="text-sm font-medium hover:text-accent transition-colors">
+            Hostel
+          </Link>
+          <Link to="/important-contacts" className="text-sm font-medium hover:text-accent transition-colors">
+            Important Contacts
           </Link>
         </nav>
 
