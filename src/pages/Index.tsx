@@ -1,6 +1,6 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-import { About } from "@/components/About";
+import { AboutCouncil } from "@/components/AboutCouncil";
 import { Representatives } from "@/components/Representatives";
 import { EventSubmission } from "@/components/EventSubmission";
 import { Footer } from "@/components/Footer";
@@ -10,7 +10,7 @@ const Index = () => {
       <Header />
       <main>
         <Hero />
-        <About />
+        <AboutCouncil />
         <Representatives />
         <EventSubmission />
       </main>

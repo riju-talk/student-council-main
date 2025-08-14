@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Menu, X, FileText, Users, Calendar, Settings } from "lucide-react";
+import { Menu, X, FileText, Users, Plus } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { EventProposalModal } from "./EventProposalModal";
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isEventModalOpen, setIsEventModalOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -37,11 +38,11 @@ export const Header = () => {
           <Link to="/" className="text-sm font-medium hover:text-accent transition-colors">
             Home
           </Link>
-          <Link to="/about" className="text-sm font-medium hover:text-accent transition-colors">
-            Clubs
-          </Link>
           <Link to="/representatives" className="text-sm font-medium hover:text-accent transition-colors">
             Representatives
+          </Link>
+          <Link to="/clubs" className="text-sm font-medium hover:text-accent transition-colors">
+            Clubs
           </Link>
           <Link to="/hostel" className="text-sm font-medium hover:text-accent transition-colors">
             Hostel
@@ -53,18 +54,19 @@ export const Header = () => {
 
         {/* Action Buttons */}
         <div className="flex items-center space-x-3">
-          <ThemeToggle />
-          <Button variant="outline" size="sm" className="hidden md:flex" asChild>
-            <Link to="/about">
-              <Users className="h-4 w-4 mr-2" />
-              About Council
-            </Link>
+          <Button 
+            variant="default" 
+            size="sm" 
+            className="hidden md:flex"
+            onClick={() => setIsEventModalOpen(true)}
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Propose an Event
           </Button>
-          <Button size="sm" className="hidden md:flex" asChild>
-            <Link to="/submit-proposal">
-              <FileText className="h-4 w-4 mr-2" />
-              Submit Proposal
-            </Link>
+          
+          <Button variant="outline" size="sm" className="hidden md:flex">
+            <Users className="h-4 w-4 mr-2" />
+            About Council
           </Button>
           
           {/* Mobile Menu Button */}
@@ -86,32 +88,41 @@ export const Header = () => {
             <Link to="/" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
               Home
             </Link>
-            <Link to="/about" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
-              About
-            </Link>
             <Link to="/representatives" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
               Representatives
             </Link>
-            <Link to="/events" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
-              Events
+            <Link to="/clubs" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
+              Clubs
+            </Link>
+            <Link to="/hostel" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
+              Hostel
+            </Link>
+            <Link to="/important-contacts" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
+              Important Contacts
             </Link>
             <div className="pt-3 space-y-2">
-              <Button variant="outline" size="sm" className="w-full" asChild>
-                <Link to="/about">
-                  <Users className="h-4 w-4 mr-2" />
-                  About Council
-                </Link>
+              <Button 
+                variant="default" 
+                size="sm" 
+                className="w-full"
+                onClick={() => setIsEventModalOpen(true)}
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Propose an Event
               </Button>
-              <Button size="sm" className="w-full" asChild>
-                <Link to="/submit-proposal">
-                  <FileText className="h-4 w-4 mr-2" />
-                  Submit Proposal
-                </Link>
+              <Button variant="outline" size="sm" className="w-full">
+                <Users className="h-4 w-4 mr-2" />
+                About Council
               </Button>
             </div>
           </div>
         </div>
       )}
+      
+      <EventProposalModal 
+        open={isEventModalOpen} 
+        onOpenChange={setIsEventModalOpen} 
+      />
     </header>
   );
 };
