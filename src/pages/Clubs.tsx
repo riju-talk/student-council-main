@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -37,24 +38,29 @@ const Clubs = () => {
     setIsFormSubmitting(true);
     
     const formData = new FormData(event.currentTarget);
-    const clubData = {
-      club_name: formData.get("clubName") as string,
-      proposed_by_name: formData.get("proposedByName") as string,
-      proposed_by_email: formData.get("proposedByEmail") as string,
-      proposed_by_phone: formData.get("proposedByPhone") as string,
-      club_description: formData.get("clubDescription") as string,
-      club_objectives: formData.get("clubObjectives") as string,
-      faculty_advisor: formData.get("facultyAdvisor") as string,
-      initial_members: (formData.get("initialMembers") as string).split(",").map(m => m.trim()),
-      proposed_activities: formData.get("proposedActivities") as string,
-    };
 
     try {
+      const clubData = {
+        club_name: formData.get("clubName") as string,
+        proposed_by_name: formData.get("proposedByName") as string,
+        proposed_by_email: formData.get("proposedByEmail") as string,
+        proposed_by_phone: (formData.get("proposedByPhone") as string) || null,
+        club_description: formData.get("clubDescription") as string,
+        club_objectives: formData.get("clubObjectives") as string,
+        faculty_advisor: (formData.get("facultyAdvisor") as string) || null,
+        initial_members: (formData.get("initialMembers") as string).split(",").map(m => m.trim()).filter(m => m.length > 0),
+        proposed_activities: (formData.get("proposedActivities") as string) || null,
+        status: 'pending'
+      };
+
       const { error } = await supabase
         .from("club_formation_requests")
         .insert([clubData]);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
 
       toast({
         title: "Club Formation Request Submitted",

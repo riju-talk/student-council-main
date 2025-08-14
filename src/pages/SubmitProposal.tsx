@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { FileText, Upload, Send, Calendar, Users, DollarSign } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const SubmitProposal = () => {
   const { toast } = useToast();
@@ -37,13 +38,39 @@ const SubmitProposal = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      // Prepare the data for Supabase
+      const proposalData = {
+        event_name: formData.eventTitle,
+        event_type: formData.eventType,
+        description: formData.description,
+        event_date: formData.date,
+        start_time: formData.time,
+        end_time: formData.time, // Using same time for now, can be enhanced
+        venue: formData.venue || 'TBD',
+        expected_participants: parseInt(formData.expectedAttendees) || 0,
+        budget_estimate: parseFloat(formData.budget) || 0,
+        organizer_name: formData.organizer,
+        organizer_email: formData.contactEmail,
+        organizer_phone: formData.contactPhone || null,
+        additional_requirements: formData.requirements || null,
+        status: 'pending'
+      };
+
+      const { error } = await supabase
+        .from('event_proposals')
+        .insert([proposalData]);
+
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
+
       toast({
         title: "Proposal Submitted Successfully!",
         description: "Your event proposal has been submitted for review. You'll receive an update within 48 hours.",
       });
-      setIsSubmitting(false);
+      
       // Reset form
       setFormData({
         eventTitle: "",
@@ -59,7 +86,16 @@ const SubmitProposal = () => {
         contactPhone: "",
         requirements: ""
       });
-    }, 2000);
+    } catch (error) {
+      console.error('Error submitting proposal:', error);
+      toast({
+        title: "Submission failed",
+        description: "There was an error submitting your proposal. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

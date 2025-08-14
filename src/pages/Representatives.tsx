@@ -1,13 +1,16 @@
+import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Mail, Phone, Award, Users } from "lucide-react";
+import { Mail, Phone, Search, Award, Users, Crown } from "lucide-react";
 
 const Representatives = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+
   const { data: representatives = [], isLoading } = useQuery({
     queryKey: ["student-representatives"],
     queryFn: async () => {
@@ -21,19 +24,49 @@ const Representatives = () => {
     },
   });
 
-  const getInitials = (name: string) => {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase();
+  const filteredRepresentatives = representatives.filter(rep =>
+    rep.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    rep.position.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    rep.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    rep.branch.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    rep.program.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Separate leadership roles from regular members
+  const leadershipRoles = ['President', 'Vice-President', 'Treasurer', 'Sports Secretary'];
+  const leadership = filteredRepresentatives.filter(rep => 
+    leadershipRoles.includes(rep.position)
+  );
+  const members = filteredRepresentatives.filter(rep => 
+    !leadershipRoles.includes(rep.position)
+  );
+
+  const getPositionIcon = (position: string) => {
+    switch (position) {
+      case 'President':
+        return Crown;
+      case 'Vice-President':
+      case 'Treasurer':
+      case 'Sports Secretary':
+        return Award;
+      default:
+        return Users;
+    }
   };
 
   const getPositionColor = (position: string) => {
-    const colors: { [key: string]: string } = {
-      'President': 'bg-primary text-primary-foreground',
-      'Vice-President': 'bg-secondary text-secondary-foreground',
-      'Treasurer': 'bg-accent text-accent-foreground',
-      'Sports Secretary': 'bg-blue-500 text-white',
-      'Member': 'bg-muted text-muted-foreground'
-    };
-    return colors[position] || colors['Member'];
+    switch (position) {
+      case 'President':
+        return 'bg-primary text-primary-foreground';
+      case 'Vice-President':
+        return 'bg-accent text-accent-foreground';
+      case 'Treasurer':
+        return 'bg-secondary text-secondary-foreground';
+      case 'Sports Secretary':
+        return 'bg-blue-500 text-white';
+      default:
+        return 'bg-muted text-muted-foreground';
+    }
   };
 
   return (
@@ -48,74 +81,154 @@ const Representatives = () => {
             </p>
           </div>
 
-          {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[...Array(6)].map((_, i) => (
-                <Card key={i} className="overflow-hidden animate-pulse">
-                  <CardHeader className="text-center pb-4">
-                    <div className="flex flex-col items-center space-y-4">
-                      <div className="w-20 h-20 bg-muted rounded-full" />
-                      <div className="space-y-2">
-                        <div className="h-6 bg-muted rounded w-32" />
-                        <div className="h-5 bg-muted rounded w-20" />
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-2">
-                      <div className="h-4 bg-muted rounded" />
-                      <div className="h-4 bg-muted rounded" />
-                      <div className="h-4 bg-muted rounded" />
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {representatives.map((rep) => (
-                <Card key={rep.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <CardHeader className="text-center pb-4">
-                    <div className="flex flex-col items-center space-y-4">
-                      <Avatar className="w-20 h-20">
-                        <AvatarFallback className="text-lg font-semibold">
-                          {getInitials(rep.name)}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <CardTitle className="text-xl">{rep.name}</CardTitle>
-                        <Badge className={`mt-2 ${getPositionColor(rep.position)}`}>
-                          {rep.position}
-                        </Badge>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2 text-sm">
-                        <Award className="h-4 w-4 text-muted-foreground" />
-                        <span>{rep.program} {rep.year} - {rep.branch}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm">
-                        <Mail className="h-4 w-4 text-muted-foreground" />
-                        <a href={`mailto:${rep.email}`} className="text-primary hover:underline">
-                          {rep.email}
-                        </a>
-                      </div>
-                      {rep.official_email && (
-                        <div className="flex items-center gap-2 text-sm">
-                          <Mail className="h-4 w-4 text-muted-foreground" />
-                          <a href={`mailto:${rep.official_email}`} className="text-primary hover:underline">
-                            {rep.official_email}
-                          </a>
+          {/* Search Bar */}
+          <Card>
+            <CardContent className="pt-6">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                <Input
+                  placeholder="Search by name, position, email, or department..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Leadership Section */}
+          {leadership.length > 0 && (
+            <div className="space-y-6">
+              <div className="text-center">
+                <h2 className="text-2xl font-semibold mb-2">Leadership Team</h2>
+                <p className="text-muted-foreground">Key leadership positions in the Student Council</p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {leadership.map((rep) => {
+                  const IconComponent = getPositionIcon(rep.position);
+                  return (
+                    <Card key={rep.id} className="hover:shadow-lg transition-shadow border-2 hover:border-accent/20">
+                      <CardHeader className="text-center pb-4">
+                        <div className="flex flex-col items-center space-y-3">
+                          <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center">
+                            <IconComponent className="h-8 w-8 text-accent" />
+                          </div>
+                          <div>
+                            <CardTitle className="text-lg">{rep.name}</CardTitle>
+                            <Badge className={`mt-2 ${getPositionColor(rep.position)}`}>
+                              {rep.position}
+                            </Badge>
+                          </div>
                         </div>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <div className="text-center text-sm text-muted-foreground">
+                          {rep.program} {rep.year} - {rep.branch}
+                        </div>
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2 text-sm">
+                            <Mail className="h-3 w-3 text-muted-foreground flex-shrink-0" />
+                            <a href={`mailto:${rep.email}`} className="text-primary hover:underline truncate">
+                              {rep.email}
+                            </a>
+                          </div>
+                          {rep.official_email && (
+                            <div className="flex items-center gap-2 text-sm">
+                              <Mail className="h-3 w-3 text-muted-foreground flex-shrink-0" />
+                              <a href={`mailto:${rep.official_email}`} className="text-primary hover:underline truncate">
+                                {rep.official_email}
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
             </div>
           )}
+
+          {/* All Representatives Section */}
+          <div className="space-y-6">
+            <div className="text-center">
+              <h2 className="text-2xl font-semibold mb-2">All Representatives</h2>
+              <p className="text-muted-foreground">Complete directory of student council members</p>
+            </div>
+
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[...Array(9)].map((_, i) => (
+                  <Card key={i} className="animate-pulse">
+                    <CardContent className="p-4">
+                      <div className="space-y-3">
+                        <div className="h-5 bg-muted rounded w-3/4" />
+                        <div className="h-4 bg-muted rounded w-1/2" />
+                        <div className="h-4 bg-muted rounded w-full" />
+                        <div className="h-4 bg-muted rounded w-2/3" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {filteredRepresentatives.map((rep) => {
+                  const IconComponent = getPositionIcon(rep.position);
+                  return (
+                    <Card key={rep.id} className="hover:shadow-md transition-shadow">
+                      <CardContent className="p-4">
+                        <div className="space-y-3">
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <h3 className="font-semibold text-lg">{rep.name}</h3>
+                              <Badge className={`mt-1 ${getPositionColor(rep.position)}`} variant="secondary">
+                                <IconComponent className="h-3 w-3 mr-1" />
+                                {rep.position}
+                              </Badge>
+                            </div>
+                          </div>
+                          
+                          <div className="text-sm text-muted-foreground">
+                            {rep.program} {rep.year} - {rep.branch}
+                          </div>
+                          
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-2 text-sm">
+                              <Mail className="h-3 w-3 text-muted-foreground flex-shrink-0" />
+                              <a href={`mailto:${rep.email}`} className="text-primary hover:underline truncate">
+                                {rep.email}
+                              </a>
+                            </div>
+                            {rep.official_email && (
+                              <div className="flex items-center gap-2 text-sm">
+                                <Mail className="h-3 w-3 text-muted-foreground flex-shrink-0" />
+                                <a href={`mailto:${rep.official_email}`} className="text-primary hover:underline truncate">
+                                  {rep.official_email}
+                                </a>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            )}
+
+            {filteredRepresentatives.length === 0 && !isLoading && (
+              <Card>
+                <CardContent className="text-center py-8">
+                  <Users className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                  <p className="text-muted-foreground">
+                    No representatives found matching your search criteria.
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+          </div>
         </div>
       </main>
       <Footer />

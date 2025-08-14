@@ -97,17 +97,52 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
 
     setIsSubmitting(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    toast({
-      title: "Proposal submitted successfully!",
-      description: "Your event proposal has been submitted for review. You'll hear back within 24-48 hours.",
-    });
-    
-    setIsSubmitting(false);
-    resetForm();
-    onOpenChange(false);
+    try {
+      // Prepare the data for Supabase
+      const proposalData = {
+        event_name: formData.eventName,
+        event_type: formData.eventType,
+        description: formData.description,
+        event_date: formData.date,
+        start_time: formData.time,
+        end_time: formData.time, // Using same time for now, can be enhanced
+        venue: formData.venue || 'TBD',
+        expected_participants: parseInt(formData.expectedAttendees) || 0,
+        budget_estimate: parseFloat(formData.budget) || 0,
+        organizer_name: formData.organizer,
+        organizer_email: formData.email,
+        organizer_phone: formData.phone || null,
+        additional_requirements: formData.specialRequirements || null,
+        objectives: formData.marketingPlan || null,
+        status: 'pending'
+      };
+
+      const { error } = await supabase
+        .from('event_proposals')
+        .insert([proposalData]);
+
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
+
+      toast({
+        title: "Proposal submitted successfully!",
+        description: "Your event proposal has been submitted for review. You'll hear back within 24-48 hours.",
+      });
+      
+      resetForm();
+      onOpenChange(false);
+    } catch (error) {
+      console.error('Error submitting proposal:', error);
+      toast({
+        title: "Submission failed",
+        description: "There was an error submitting your proposal. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleCancel = () => {
