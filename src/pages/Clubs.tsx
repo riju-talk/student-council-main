@@ -76,12 +76,12 @@ const Clubs = () => {
   };
 
   const clubGuidelines = [
-    "All clubs must have a faculty advisor",
-    "Minimum 10 founding members required",
-    "Clear objectives and activities plan needed",
-    "Regular meetings and activities mandatory",
-    "Annual report submission required",
-    "Budget utilization transparency required"
+    "At least 15 active members and 3 co-ordinators are required for any club to exist. The 3 co-ordinators can be a part of the 15 active members.",
+    "There must be at least two activities per semester.",
+    "The internal website of the club should be regularly updated. It shall, at least, have an updated list of club members, events list, budget details, and contact details of co-ordinators.",
+    "If any club has a requirement of a visiting instructor, there must be at least 15 interested students who will benefit from it.",
+    "The tentative annual budget should be provided to the Student Council (when the new session starts). The budget can be ZERO depending on the nature of the group. The club must give a justification for the usage of money, and a strong justification must be provided if the requirement is more than Rs. 30,000.",
+    "The detailed breakdown of the budget (in terms of events, inventory, etc.) should be provided as well."
   ];
 
   return (

@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/card";
 import { Upload, X, FileText, Calendar, Users, DollarSign, MapPin, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { isAfter, parseISO, startOfDay } from "date-fns";
 
 interface EventProposalModalProps {
   open: boolean;
@@ -28,6 +29,7 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
     description: "",
     date: "",
     time: "",
+    endTime: "", // <-- Add this
     duration: "",
     venue: "",
     expectedAttendees: "",
@@ -47,6 +49,7 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
       description: "",
       date: "",
       time: "",
+      endTime: "", // <-- Add this
       duration: "",
       venue: "",
       expectedAttendees: "",
@@ -84,6 +87,14 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
     }
   };
 
+  // Helper: Validate date is today or future
+  const isFutureOrToday = (dateStr: string) => {
+    if (!dateStr) return false;
+    const today = startOfDay(new Date());
+    const inputDate = startOfDay(parseISO(dateStr));
+    return isAfter(inputDate, today) || inputDate.getTime() === today.getTime();
+  };
+
   const handleSubmit = async () => {
     // Basic validation
     if (!formData.eventName || !formData.eventType || !formData.description || !formData.organizer || !formData.email) {
@@ -95,16 +106,139 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
       return;
     }
 
+    // Validate date
+    if (!formData.date || !isFutureOrToday(formData.date)) {
+      toast({
+        title: "Invalid date",
+        description: "Event date must be today or a future date.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate expected attendees
+    if (formData.expectedAttendees && Number(formData.expectedAttendees) < 0) {
+      toast({
+        title: "Invalid attendees",
+        description: "Expected attendees cannot be negative.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate budget
+    if (formData.budget && Number(formData.budget) < 0) {
+      toast({
+        title: "Invalid budget",
+        description: "Budget cannot be negative.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate file (if present)
+    if (uploadedFile && uploadedFile.type !== "application/pdf") {
+      toast({
+        title: "Invalid file type",
+        description: "Please upload a PDF file only.",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (uploadedFile && uploadedFile.size > 10 * 1024 * 1024) {
+      toast({
+        title: "File too large",
+        description: "PDF must be less than 10MB.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate end time
+    if (!formData.endTime) {
+      toast({
+        title: "Missing end time",
+        description: "Please provide the event end time.",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (formData.time && formData.endTime && formData.endTime <= formData.time) {
+      toast({
+        title: "Invalid end time",
+        description: "End time must be after start time.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
+
+    let fileUrl = null;
+    if (uploadedFile) {
+      const filePath = `event-proposals/${Date.now()}_${uploadedFile.name}`;
+      const { error: uploadError } = await supabase.storage
+        .from("event-proposals")
+        .upload(filePath, uploadedFile, { cacheControl: "3600", upsert: false });
+
+      if (uploadError) {
+        toast({
+          title: "File upload failed",
+          description: "Could not upload supporting document." + uploadError.message,
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+      const { data: publicUrlData } = supabase.storage
+        .from("event-proposals")
+        .getPublicUrl(filePath);
+      fileUrl = publicUrlData?.publicUrl || null;
+    }
+
+    // Map formData to table columns
+    const proposalData = {
+      event_name: formData.eventName,
+      event_type: formData.eventType,
+      description: formData.description,
+      objectives: formData.marketingPlan || null,
+      event_date: formData.date,
+      start_time: formData.time,
+      end_time: formData.endTime, // <-- Add this
+      venue: formData.venue,
+      expected_participants: formData.expectedAttendees ? Number(formData.expectedAttendees) : null,
+      budget_estimate: formData.budget ? Number(formData.budget) : null,
+      organizer_name: formData.organizer,
+      organizer_email: formData.email,
+      organizer_phone: formData.phone,
+      additional_requirements: formData.specialRequirements || null,
+      pdf_document_url: fileUrl,
+      status: "pending",
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+
+    // Insert into Supabase
+    const { error } = await supabase
+      .from("event_proposals")
+      .insert([proposalData]);
+
+    if (error) {
+      console.error("Supabase insert error:", error);
+      toast({
+        title: "Submission failed",
+        description: "Could not submit your proposal. Please try again.",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
     toast({
       title: "Proposal submitted successfully!",
       description: "Your event proposal has been submitted for review. You'll hear back within 24-48 hours.",
     });
-    
+
     setIsSubmitting(false);
     resetForm();
     onOpenChange(false);
@@ -224,6 +358,15 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
                     type="time"
                     value={formData.time}
                     onChange={(e) => handleInputChange("time", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="endTime">End Time *</Label>
+                  <Input
+                    id="endTime"
+                    type="time"
+                    value={formData.endTime}
+                    onChange={(e) => handleInputChange("endTime", e.target.value)}
                   />
                 </div>
                 <div>

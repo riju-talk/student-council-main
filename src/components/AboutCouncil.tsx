@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
@@ -7,17 +9,18 @@ import { Users, Calendar, BookOpen, Target, CheckCircle, Vote } from "lucide-rea
 export const AboutCouncil = () => {
   const [activeTab, setActiveTab] = useState("scope");
 
-  const representatives = [
-    { name: "John Doe", position: "President", year: "B.Tech 2022", department: "CSE", email: "john.doe@iiitd.ac.in" },
-    { name: "Jane Smith", position: "Vice President", year: "B.Tech 2022", department: "ECE", email: "jane.smith@iiitd.ac.in" },
-    { name: "Mike Johnson", position: "Secretary", year: "B.Tech 2023", department: "CSAM", email: "mike.johnson@iiitd.ac.in" },
-    { name: "Sarah Wilson", position: "Treasurer", year: "B.Tech 2023", department: "CSSS", email: "sarah.wilson@iiitd.ac.in" },
-    { name: "Alex Brown", position: "CSE Representative", year: "B.Tech 2024", department: "CSE", email: "alex.brown@iiitd.ac.in" },
-    { name: "Emma Davis", position: "CSD Representative", year: "B.Tech 2024", department: "CSD", email: "emma.davis@iiitd.ac.in" },
-    { name: "Chris Lee", position: "CSB Representative", year: "B.Tech 2025", department: "CSB", email: "chris.lee@iiitd.ac.in" },
-    { name: "Taylor Garcia", position: "CSAI Representative", year: "B.Tech 2025", department: "CSAI", email: "taylor.garcia@iiitd.ac.in" },
-    { name: "Jordan Martinez", position: "EVE Representative", year: "B.Tech 2025", department: "EVE", email: "jordan.martinez@iiitd.ac.in" }
-  ];
+  // Fetch representatives from Supabase
+  const { data: representatives = [], isLoading } = useQuery({
+    queryKey: ["student-representatives"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("student_representatives")
+        .select("*")
+        .order("position", { ascending: true });
+      if (error) throw error;
+      return data;
+    },
+  });
 
   return (
     <section className="py-20 bg-background">
@@ -81,7 +84,7 @@ export const AboutCouncil = () => {
                   <div className="bg-muted/50 p-4 rounded-lg">
                     <p className="text-sm">
                       <strong>Note:</strong> To know about Cultural Council, which is an independent body, 
-                      <a href="/cultural-council" className="text-primary hover:underline ml-1">click here</a>
+                      <a href="https://www.instagram.com/cc_iiitd/?hl=en" className="text-primary hover:underline ml-1" target="_blank" rel="noopener noreferrer">click here</a>
                     </p>
                   </div>
                 </CardContent>
@@ -108,48 +111,78 @@ export const AboutCouncil = () => {
                 <TabsContent value="members" className="space-y-6">
                   <Card>
                     <CardHeader>
-                      <CardTitle>Student Representatives</CardTitle>
+                      <CardTitle>Student Council Leadership</CardTitle>
                       <p className="text-sm text-muted-foreground">
-                        The elections were conducted on 26th May 2025 for open positions in the Student Council.
+                        The following are the current leadership positions in the Student Council.
                       </p>
                     </CardHeader>
                     <CardContent>
-                      <div className="space-y-4">
-                        <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg">
-                          <h4 className="font-medium mb-2">BTech 2025: 9 Student Representatives</h4>
-                          <ul className="text-sm space-y-1 text-muted-foreground">
-                            <li>• 2 for CSE</li>
-                            <li>• 1 for ECE, CSAM, CSSS, CSD, CSB, CSAI, EVE (each)</li>
+                      <div className="space-y-6">
+                        {/* --- Elections and Members Info --- */}
+                        <div className="p-4 rounded-lg bg-gradient-to-r from-primary/90 to-accent/80 text-white shadow-md">
+                          <p className="text-sm">
+                            <strong>The elections were conducted on 26th May 2025 for open positions in the Student Council.</strong>
+                          </p>
+                          <p className="text-sm mt-1">
+                            <strong>BTech 2025: 9 Student Representatives:</strong> 2 for CSE; 1 for ECE; 1 for CSAM, 1 for CSSS, 1 for CSD, 1 for CSB, 1 for CSAI, 1 for EVE
+                          </p>
+                          <p className="text-sm mt-1">
+                            <strong>Any student representative must have a CGPA of 7.0 or above.</strong>
+                          </p>
+                          <p className="text-sm mt-1">
+                            <strong>Student coordinators for identified activity clubs</strong> – students will select in consultation with the Dean.
+                          </p>
+                        </div>
+
+                        {/* --- Leadership Positions --- */}
+                        <div className="p-4 rounded-lg bg-gradient-to-r from-secondary/90 to-muted/80 text-foreground shadow-md border border-secondary">
+                          <h4 className="font-medium mb-2">Leadership Positions</h4>
+                          <ul className="text-sm space-y-1">
+                            <li>• President</li>
+                            <li>• Vice-President</li>
+                            <li>• Treasurer</li>
+                            <li>• Sports Secretary</li>
                           </ul>
-                          <p className="text-sm mt-2 font-medium">
-                            Requirement: Any student representative must have a CGPA of 7.0 or above.
-                          </p>
                         </div>
 
+                        {/* --- Leadership Cards --- */}
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          {representatives.map((rep, index) => (
-                            <Card key={index} className="hover:shadow-md transition-shadow">
-                              <CardContent className="p-4">
-                                <div className="space-y-2">
-                                  <h4 className="font-medium">{rep.name}</h4>
-                                  <Badge variant="secondary">{rep.position}</Badge>
-                                  <div className="text-sm text-muted-foreground space-y-1">
-                                    <p>{rep.year} - {rep.department}</p>
-                                    <a href={`mailto:${rep.email}`} className="text-primary hover:underline break-all">
-                                      {rep.email}
-                                    </a>
+                          {isLoading ? (
+                            [...Array(4)].map((_, i) => (
+                              <Card key={i} className="animate-pulse">
+                                <CardContent className="p-4">
+                                  <div className="space-y-2">
+                                    <div className="h-5 bg-muted rounded w-3/4" />
+                                    <div className="h-4 bg-muted rounded w-1/2" />
+                                    <div className="h-4 bg-muted rounded w-full" />
                                   </div>
-                                </div>
-                              </CardContent>
-                            </Card>
-                          ))}
-                        </div>
-
-                        <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg">
-                          <h4 className="font-medium mb-2">Student Coordinators</h4>
-                          <p className="text-sm text-muted-foreground">
-                            Student coordinators for identified activity clubs – students will select in consultation with the Dean.
-                          </p>
+                                </CardContent>
+                              </Card>
+                            ))
+                          ) : (
+                            representatives
+                              .filter(rep =>
+                                ["President", "Vice-President", "Treasurer", "Sports Secretary"].includes(rep.position)
+                              )
+                              .map((rep, index) => (
+                                <Card key={rep.id || index} className="hover:shadow-md transition-shadow">
+                                  <CardContent className="p-4">
+                                    <div className="space-y-2">
+                                      <h4 className="font-medium">{rep.name}</h4>
+                                      <Badge variant="secondary">{rep.position}</Badge>
+                                      <div className="text-sm text-muted-foreground space-y-1">
+                                        <p>
+                                          {rep.program || rep.year} - {rep.branch}
+                                        </p>
+                                        <a href={`mailto:${rep.email}`} className="text-primary hover:underline break-all">
+                                          {rep.email}
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </CardContent>
+                                </Card>
+                              ))
+                          )}
                         </div>
                       </div>
                     </CardContent>
