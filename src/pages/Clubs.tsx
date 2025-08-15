@@ -298,8 +298,8 @@ const Clubs = () => {
                               <div className="flex-1 min-w-0">
                                 <span className="font-medium text-foreground">Coordinators:</span>
                                 <div className="mt-1 space-y-1">
-                                  {club.coordinator_name ? (
-                                    club.coordinator_name.split(',').map((name, index) => (
+                                  {(club as any).coordinator_names ? (
+                                    (club as any).coordinator_names.split(',').map((name: string, index: number) => (
                                       <div key={index} className="text-sm text-muted-foreground truncate">
                                         {name.trim()}
                                       </div>
@@ -316,8 +316,8 @@ const Clubs = () => {
                               <div className="flex-1 min-w-0">
                                 <span className="font-medium text-foreground">Contact:</span>
                                 <div className="mt-1 space-y-1">
-                                  {club.coordinator_email ? (
-                                    club.coordinator_email.split(',').map((email, index) => (
+                                  {(club as any).coordinator_emails ? (
+                                    (club as any).coordinator_emails.split(',').map((email: string, index: number) => (
                                       <a 
                                         key={index}
                                         href={`mailto:${email.trim()}`}
