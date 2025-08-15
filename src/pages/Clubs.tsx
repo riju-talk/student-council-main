@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,12 +12,20 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
-import { ExternalLink, Mail, Users, FileText, Plus } from "lucide-react";
+import { ExternalLink, Mail, Users, FileText, Plus, ChevronDown, ChevronUp } from "lucide-react";
 
 const Clubs = () => {
   const [isNewClubModalOpen, setIsNewClubModalOpen] = useState(false);
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
   const { toast } = useToast();
+
+  const toggleExpanded = (clubId: string) => {
+    setExpandedCards(prev => ({
+      ...prev,
+      [clubId]: !prev[clubId]
+    }));
+  };
 
   const { data: clubs = [], isLoading } = useQuery({
     queryKey: ["clubs"],
@@ -28,6 +37,7 @@ const Clubs = () => {
         .order("name");
       
       if (error) throw error;
+      console.log("Clubs data:", data); // Debug log
       return data;
     },
   });
@@ -229,63 +239,128 @@ const Clubs = () => {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {clubs.map((club) => (
-                  <Card key={club.id} className="hover:shadow-lg transition-shadow">
-                    <CardHeader>
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <CardTitle className="text-lg">{club.name}</CardTitle>
-                          <Badge variant="secondary" className="mt-1">
-                            {club.category}
-                          </Badge>
+                {clubs.map((club) => {
+                  const isExpanded = expandedCards[club.id];
+                  const description = club.description || "";
+                  const shouldShowReadMore = description.length > 120;
+                  const displayDescription = shouldShowReadMore && !isExpanded 
+                    ? description.slice(0, 120) + "..."
+                    : description;
+
+                  return (
+                    <Card key={club.id} className="hover:shadow-lg transition-shadow h-full flex flex-col">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-start gap-3">
+                          <Avatar className="h-12 w-12 flex-shrink-0">
+                            <AvatarImage src="" alt={club.name} />
+                            <AvatarFallback className="bg-primary/10 text-primary">
+                              {club.name.charAt(0).toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1 min-w-0">
+                            <CardTitle className="text-lg leading-tight">{club.name}</CardTitle>
+                            <Badge variant="secondary" className="mt-1 text-xs">
+                              {club.category}
+                            </Badge>
+                          </div>
                         </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      {club.description && (
-                        <p className="text-sm text-muted-foreground">{club.description}</p>
-                      )}
+                      </CardHeader>
                       
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2 text-sm">
-                          <Users className="h-4 w-4" />
-                          <span className="font-medium">Coordinator:</span>
-                          <span>{club.coordinator_name}</span>
-                        </div>
-                        
-                        <div className="flex items-center gap-2 text-sm">
-                          <Mail className="h-4 w-4" />
-                          <a 
-                            href={`mailto:${club.coordinator_email}`}
-                            className="text-primary hover:underline"
-                          >
-                            {club.coordinator_email}
-                          </a>
-                        </div>
-                      </div>
-                      
-                      <div className="flex gap-2">
-                        {club.channel_link && (
-                          <Button size="sm" variant="outline" asChild>
-                            <a href={club.channel_link} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="h-3 w-3 mr-1" />
-                              Channel
-                            </a>
-                          </Button>
+                      <CardContent className="flex-1 flex flex-col space-y-4">
+                        {description && (
+                          <div>
+                            <p className="text-sm text-muted-foreground">{displayDescription}</p>
+                            {shouldShowReadMore && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => toggleExpanded(club.id)}
+                                className="h-auto p-0 mt-1 text-primary hover:text-primary/80"
+                              >
+                                {isExpanded ? (
+                                  <>
+                                    <ChevronUp className="h-3 w-3 mr-1" />
+                                    Read less
+                                  </>
+                                ) : (
+                                  <>
+                                    <ChevronDown className="h-3 w-3 mr-1" />
+                                    Read more
+                                  </>
+                                )}
+                              </Button>
+                            )}
+                          </div>
                         )}
                         
-                        {club.instagram_link && (
-                          <Button size="sm" variant="outline" asChild>
-                            <a href={club.instagram_link} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="h-3 w-3 mr-1" />
-                              Instagram
-                            </a>
-                          </Button>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                        <div className="space-y-3 flex-1">
+                          <div className="space-y-2">
+                            <div className="flex items-start gap-2 text-sm">
+                              <Users className="h-4 w-4 mt-0.5 text-muted-foreground" />
+                              <div className="flex-1 min-w-0">
+                                <span className="font-medium text-foreground">Coordinators:</span>
+                                <div className="mt-1 space-y-1">
+                                  {(club as any).coordinator_names ? (
+                                    (club as any).coordinator_names.split(',').map((name: string, index: number) => (
+                                      <div key={index} className="text-sm text-muted-foreground truncate">
+                                        {name.trim()}
+                                      </div>
+                                    ))
+                                  ) : (
+                                    <div className="text-sm text-muted-foreground">No coordinators listed</div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-start gap-2 text-sm">
+                              <Mail className="h-4 w-4 mt-0.5 text-muted-foreground" />
+                              <div className="flex-1 min-w-0">
+                                <span className="font-medium text-foreground">Contact:</span>
+                                <div className="mt-1 space-y-1">
+                                  {(club as any).coordinator_emails ? (
+                                    (club as any).coordinator_emails.split(',').map((email: string, index: number) => (
+                                      <a 
+                                        key={index}
+                                        href={`mailto:${email.trim()}`}
+                                        className="text-primary hover:underline block text-sm truncate"
+                                        title={email.trim()}
+                                      >
+                                        {email.trim()}
+                                      </a>
+                                    ))
+                                  ) : (
+                                    <div className="text-sm text-muted-foreground">No contact info available</div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="flex gap-2 mt-auto pt-2">
+                          {club.channel_link && (
+                            <Button size="sm" variant="outline" asChild className="flex-1">
+                              <a href={club.channel_link} target="_blank" rel="noopener noreferrer">
+                                <ExternalLink className="h-3 w-3 mr-1" />
+                                Channel
+                              </a>
+                            </Button>
+                          )}
+                          
+                          {club.instagram_link && (
+                            <Button size="sm" variant="outline" asChild className="flex-1">
+                              <a href={club.instagram_link} target="_blank" rel="noopener noreferrer">
+                                <ExternalLink className="h-3 w-3 mr-1" />
+                                Instagram
+                              </a>
+                            </Button>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
             )}
           </div>
