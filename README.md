@@ -1,73 +1,25 @@
-# Welcome to your Lovable project
+# IIITD Student Council Website 
 
-## Project info
+This is a centralized platform designed for the IIITD - Student Council to manage, discover, and participate in campus events and student club activities. The website serves as a hub for students, faculty, and council members to streamline event proposals, club formation requests, and the overall organization of student-led initiatives.
 
-**URL**: https://lovable.dev/projects/868315bd-6aa3-449f-b667-b7906f3337d7
+# **Snapshots**
 
-## How can I edit this code?
+The platform serves as:
+- A unified portal for all student council and club-related activities.
+- A central repository for event information, club details, and council updates.
+- A transparent interface for communication between students, clubs, and council members.
+- A digital workspace to streamline student engagement and organizational processes.
 
-There are several ways of editing your application.
+The platform enables:
+- Submission and review of event proposals by students and clubs.
+- Management and discovery of active student clubs, including their coordinators and contact information.
+- Transparent display of student council representatives and leadership.
+- Access to important guidelines, charters, and documentation relevant to student activities.
 
-**Use Lovable**
+**Tech Stack (brief):**
+- React (with TypeScript) for the frontend
+- Supabase for backend database and file storage
+- Tailwind CSS and Shadcn UI for styling and UI components
+- React Query for data fetching and caching
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/868315bd-6aa3-449f-b667-b7906f3337d7) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/868315bd-6aa3-449f-b667-b7906f3337d7) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+This project aims to foster a vibrant, well-organized, and transparent student life at IIITD by digitizing and simplifying event and
