@@ -1,22 +1,27 @@
 # IIITD Student Council Website 
 
-![Student Council Logo](public/student_council.jpg)
+<p align="center">
+  <img src="public/student_council.jpg" alt="Student Council Logo" height="150"/>
+</p>
 
 This is a centralized platform designed for the IIITD - Student Council to manage, discover, and participate in campus events and student club activities. The website serves as a hub for students, faculty, and council members to streamline event proposals, club formation requests, and the overall organization of student-led initiatives.
 
 # **Snapshots**
-![Homepage](media/home.png)
-![About Page](media/about.png)
-![Submit Event proposals](media/proposal.png)
-![Fill the details here](media/box.png)
+<p align="center">
+  <img src="media/home.png" alt="Homepage" height="150"/>
+  <img src="media/about.png" alt="About Page" height="150"/>
+  <img src="media/proposal.png" alt="Submit Event proposals" height="150"/>
+  <img src="media/box.png" alt="Fill the details here" height="150"/>
+</p>
+
 ---
-The platform serves as:
+# The platform serves as:
 - A unified portal for all student council and club-related activities.
 - A central repository for event information, club details, and council updates.
 - A transparent interface for communication between students, clubs, and council members.
 - A digital workspace to streamline student engagement and organizational processes.
 
-The platform enables:
+# The platform enables:
 - Submission and review of event proposals by students and clubs.
 - Management and discovery of active student clubs, including their coordinators and contact information.
 - Transparent display of student council representatives and leadership.
