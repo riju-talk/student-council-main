@@ -37,6 +37,7 @@ const Clubs = () => {
         .order("name");
       
       if (error) throw error;
+      console.log("Clubs data:", data); // Debug log
       return data;
     },
   });
@@ -297,11 +298,15 @@ const Clubs = () => {
                               <div className="flex-1 min-w-0">
                                 <span className="font-medium text-foreground">Coordinators:</span>
                                 <div className="mt-1 space-y-1">
-                                  {club.coordinator_name?.split(',').map((name, index) => (
-                                    <div key={index} className="text-sm text-muted-foreground truncate">
-                                      {name.trim()}
-                                    </div>
-                                  ))}
+                                  {club.coordinator_name ? (
+                                    club.coordinator_name.split(',').map((name, index) => (
+                                      <div key={index} className="text-sm text-muted-foreground truncate">
+                                        {name.trim()}
+                                      </div>
+                                    ))
+                                  ) : (
+                                    <div className="text-sm text-muted-foreground">No coordinators listed</div>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -311,16 +316,20 @@ const Clubs = () => {
                               <div className="flex-1 min-w-0">
                                 <span className="font-medium text-foreground">Contact:</span>
                                 <div className="mt-1 space-y-1">
-                                  {club.coordinator_email?.split(',').map((email, index) => (
-                                    <a 
-                                      key={index}
-                                      href={`mailto:${email.trim()}`}
-                                      className="text-primary hover:underline block text-sm truncate"
-                                      title={email.trim()}
-                                    >
-                                      {email.trim()}
-                                    </a>
-                                  ))}
+                                  {club.coordinator_email ? (
+                                    club.coordinator_email.split(',').map((email, index) => (
+                                      <a 
+                                        key={index}
+                                        href={`mailto:${email.trim()}`}
+                                        className="text-primary hover:underline block text-sm truncate"
+                                        title={email.trim()}
+                                      >
+                                        {email.trim()}
+                                      </a>
+                                    ))
+                                  ) : (
+                                    <div className="text-sm text-muted-foreground">No contact info available</div>
+                                  )}
                                 </div>
                               </div>
                             </div>
