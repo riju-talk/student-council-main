@@ -3,10 +3,12 @@ import { Menu, X, FileText, Users, Plus } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { EventProposalModal } from "./EventProposalModal";
+import { useNavigate } from "react-router-dom";
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -64,7 +66,12 @@ export const Header = () => {
             Propose an Event
           </Button>
           
-          <Button variant="outline" size="sm" className="hidden md:flex">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="hidden md:flex"
+            onClick={() => navigate("/about")}
+          >
             <Users className="h-4 w-4 mr-2" />
             About Council
           </Button>
@@ -110,7 +117,15 @@ export const Header = () => {
                 <Plus className="h-4 w-4 mr-2" />
                 Propose an Event
               </Button>
-              <Button variant="outline" size="sm" className="w-full">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="w-full"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  navigate("/about");
+                }}
+              >
                 <Users className="h-4 w-4 mr-2" />
                 About Council
               </Button>
