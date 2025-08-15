@@ -245,20 +245,36 @@ const Clubs = () => {
                       )}
                       
                       <div className="space-y-2">
-                        <div className="flex items-center gap-2 text-sm">
-                          <Users className="h-4 w-4" />
-                          <span className="font-medium">Coordinator:</span>
-                          <span>{club.coordinator_name}</span>
+                        <div className="flex items-start gap-2 text-sm">
+                          <Users className="h-4 w-4 mt-0.5" />
+                          <div>
+                            <span className="font-medium">Coordinators:</span>
+                            <div className="mt-1 space-y-1">
+                              {club.coordinator_name?.split(',').map((name, index) => (
+                                <div key={index} className="text-sm">
+                                  {name.trim()}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
                         </div>
                         
-                        <div className="flex items-center gap-2 text-sm">
-                          <Mail className="h-4 w-4" />
-                          <a 
-                            href={`mailto:${club.coordinator_email}`}
-                            className="text-primary hover:underline"
-                          >
-                            {club.coordinator_email}
-                          </a>
+                        <div className="flex items-start gap-2 text-sm">
+                          <Mail className="h-4 w-4 mt-0.5" />
+                          <div>
+                            <span className="font-medium">Emails:</span>
+                            <div className="mt-1 space-y-1">
+                              {club.coordinator_email?.split(',').map((email, index) => (
+                                <a 
+                                  key={index}
+                                  href={`mailto:${email.trim()}`}
+                                  className="text-primary hover:underline block text-sm"
+                                >
+                                  {email.trim()}
+                                </a>
+                              ))}
+                            </div>
+                          </div>
                         </div>
                       </div>
                       
