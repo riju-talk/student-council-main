@@ -66,8 +66,10 @@ const Clubs = () => {
         description: "Your request has been submitted successfully and will be reviewed by the council.",
       });
 
+      if (event.currentTarget) {
+        event.currentTarget.reset();
+      }
       setIsNewClubModalOpen(false);
-      event.currentTarget.reset();
     } catch (error) {
       console.error("Error submitting club formation request:", error);
       toast({
