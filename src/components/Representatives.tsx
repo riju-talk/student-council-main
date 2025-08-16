@@ -1,87 +1,60 @@
+import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Mail, Phone, Crown, Users, Briefcase } from "lucide-react";
+import { Crown, Users, Briefcase, Mail, Volleyball, IndianRupee } from "lucide-react";
 
 export const Representatives = () => {
-  const representatives = [
-    {
-      name: "Arjun Sharma",
-      position: "President",
-      year: "4th Year, CSE",
-      email: "president@iiitd.ac.in",
-      phone: "+91 98765 43210",
-      avatar: "/placeholder.svg",
-      icon: Crown
+  // Fetch representatives from Supabase
+  const { data: representatives = [], isLoading } = useQuery({
+    queryKey: ["student-representatives"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("student_representatives")
+        .select("*");
+      if (error) throw error;
+      return data;
     },
-    {
-      name: "Priya Patel",
-      position: "Vice President",
-      year: "3rd Year, ECE",
-      email: "vp@iiitd.ac.in",
-      phone: "+91 98765 43211",
-      avatar: "/placeholder.svg",
-      icon: Briefcase
-    },
-    {
-      name: "Rahul Singh",
-      position: "General Secretary",
-      year: "3rd Year, CSE",
-      email: "secretary@iiitd.ac.in",
-      phone: "+91 98765 43212",
-      avatar: "/placeholder.svg",
-      icon: Users
-    },
-    {
-      name: "Ananya Gupta",
-      position: "Cultural Secretary",
-      year: "2nd Year, CSB",
-      email: "cultural@iiitd.ac.in",
-      phone: "+91 98765 43213",
-      avatar: "/placeholder.svg",
-      icon: Users
-    },
-    {
-      name: "Vikram Rao",
-      position: "Sports Secretary",
-      year: "3rd Year, CSD",
-      email: "sports@iiitd.ac.in",
-      phone: "+91 98765 43214",
-      avatar: "/placeholder.svg",
-      icon: Users
-    },
-    {
-      name: "Sneha Jain",
-      position: "Technical Secretary",
-      year: "2nd Year, CSE",
-      email: "technical@iiitd.ac.in",
-      phone: "+91 98765 43215",
-      avatar: "/placeholder.svg",
-      icon: Users
-    }
+  });
+
+  // Only show these specific representatives
+  const allowedEmails = [
+    "nootan22340@iiitd.ac.in",
+    "riya22410@iiitd.ac.in",
+    "ayaan22121@iiitd.ac.in",
+    "krish22253@iiitd.ac.in",
   ];
 
-  const committees = [
-    {
-      name: "Academic Committee",
-      members: ["Rohan Mehta", "Kavya Shetty", "Aditya Kumar"],
-      focus: "Curriculum feedback, academic policies, student welfare"
-    },
-    {
-      name: "Infrastructure Committee", 
-      members: ["Siddharth Joshi", "Meera Singh", "Harsh Agarwal"],
-      focus: "Campus facilities, maintenance, student amenities"
-    },
-    {
-      name: "Disciplinary Committee",
-      members: ["Abhishek Tiwari", "Ritika Sharma", "Varun Khanna"],
-      focus: "Student conduct, conflict resolution, policy enforcement"
-    }
-  ];
+  const iconMap: Record<string, any> = {
+    President: Crown,
+    "Vice-President": Briefcase,
+    Treasurer: IndianRupee,
+    "Sports Secretary": Volleyball,
+  };
+
+  const filteredReps = useMemo(
+    () =>
+      representatives.filter(
+        (rep: any) =>
+          allowedEmails.includes(rep.email)
+      ),
+    [representatives]
+  );
 
   return (
-    <section className="py-20">
-      <div className="container px-4">
+    <section className="py-20 relative overflow-hidden">
+      {/* Animated background */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0"
+      >
+        <div className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-accent/30 via-primary/20 to-transparent animate-spin-slow blur-3xl opacity-40" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-gradient-to-br from-primary/20 via-accent/20 to-transparent animate-pulse blur-2xl opacity-30" />
+      </div>
+
+      <div className="container px-4 relative z-10">
         {/* Representatives Section */}
         <div className="max-w-6xl mx-auto mb-20">
           <div className="text-center mb-12">
@@ -95,74 +68,63 @@ export const Representatives = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {representatives.map((rep, index) => {
-              const Icon = rep.icon;
-              return (
-                <Card key={index} className="p-6 hover:shadow-lg transition-all duration-300 hover:border-accent/20">
-                  <div className="flex items-center mb-4">
-                    <Avatar className="h-12 w-12 mr-4">
-                      <AvatarImage src={rep.avatar} alt={rep.name} />
-                      <AvatarFallback className="bg-accent/10 text-accent">
-                        {rep.name.split(' ').map(n => n[0]).join('')}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-lg">{rep.name}</h3>
-                      <div className="flex items-center text-accent text-sm">
-                        <Icon className="h-3 w-3 mr-1" />
-                        {rep.position}
-                      </div>
-                    </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {isLoading ? (
+              [...Array(4)].map((_, index) => (
+                <Card key={index} className="p-6 animate-pulse rounded-2xl shadow-xl bg-gradient-to-br from-background to-accent/10 border-0">
+                  <div className="flex flex-col items-center mb-4">
+                    <Avatar className="h-16 w-16 mb-2 ring-4 ring-accent/30 shadow-lg" />
+                    <div className="h-4 bg-muted rounded w-3/4 mb-2" />
+                    <div className="h-3 bg-muted rounded w-1/2" />
                   </div>
-                  
                   <div className="space-y-2 text-sm">
-                    <p className="text-muted-foreground">{rep.year}</p>
-                    <div className="flex items-center text-muted-foreground">
-                      <Mail className="h-3 w-3 mr-2" />
-                      {rep.email}
-                    </div>
-                    <div className="flex items-center text-muted-foreground">
-                      <Phone className="h-3 w-3 mr-2" />
-                      {rep.phone}
-                    </div>
+                    <div className="h-3 bg-muted rounded w-1/3" />
                   </div>
                 </Card>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Committees Section */}
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Committees</h2>
-            <p className="text-muted-foreground">
-              Specialized committees working on specific aspects of student life and campus improvement
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-6">
-            {committees.map((committee, index) => (
-              <Card key={index} className="p-6 hover:shadow-lg transition-all duration-300 hover:border-accent/20">
-                <h3 className="font-semibold text-lg mb-3">{committee.name}</h3>
-                <div className="mb-4">
-                  <h4 className="text-sm font-medium text-muted-foreground mb-2">Members:</h4>
-                  <ul className="text-sm space-y-1">
-                    {committee.members.map((member, idx) => (
-                      <li key={idx} className="text-foreground">{member}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium text-muted-foreground mb-1">Focus:</h4>
-                  <p className="text-sm text-foreground">{committee.focus}</p>
-                </div>
-              </Card>
-            ))}
+              ))
+            ) : (
+              filteredReps.map((rep: any, index: number) => {
+                const Icon = iconMap[rep.position] || Users;
+                return (
+                  <Card
+                    key={index}
+                    className="p-8 rounded-2xl bg-gradient-to-br from-background to-accent/10 border-0 shadow-xl hover:scale-105 transition-transform duration-300 group relative overflow-hidden"
+                  >
+                    {/* Glow effect */}
+                    <div className="absolute -inset-1 bg-gradient-to-tr from-accent/30 to-primary/10 blur-2xl opacity-40 group-hover:opacity-60 transition-opacity pointer-events-none" />
+                    <div className="flex flex-col items-center relative z-10">
+                      <h3 className="font-bold text-xl text-foreground mb-1">{rep.name}</h3>
+                      <div className="flex items-center text-accent text-base font-medium mb-2">
+                        <Icon className="h-4 w-4 mr-1" />
+                        {rep.position}
+                      </div>
+                      <span className="text-xs bg-accent/10 text-accent px-3 py-1 rounded-full mb-2 tracking-wide">
+                        Batch of {rep.year}
+                      </span>
+                      <div className="flex items-center text-muted-foreground text-sm mt-2">
+                        <Mail className="h-4 w-4 mr-2" />
+                        <span className="break-all">{rep.email}</span>
+                      </div>
+                    </div>
+                  </Card>
+                );
+              })
+            )}
           </div>
         </div>
       </div>
+      {/* Custom animation utility for slow spin */}
+      <style>
+        {`
+          .animate-spin-slow {
+            animation: spin 18s linear infinite;
+          }
+          @keyframes spin {
+            0% { transform: rotate(0deg);}
+            100% { transform: rotate(360deg);}
+          }
+        `}
+      </style>
     </section>
   );
 };
