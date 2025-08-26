@@ -52,6 +52,9 @@ export const Header = () => {
           <Link to="/important-contacts" className="text-sm font-medium hover:text-accent transition-colors">
             Important Contacts
           </Link>
+          <Link to="/meeting-minutes" className="text-sm font-medium hover:text-accent transition-colors">
+            Meeting Minutes
+          </Link>
         </nav>
 
         {/* Action Buttons */}
@@ -106,6 +109,9 @@ export const Header = () => {
             </Link>
             <Link to="/important-contacts" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
               Important Contacts
+            </Link>
+            <Link to="/meeting-minutes" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
+              Meeting Minutes
             </Link>
             <div className="pt-3 space-y-2">
               <Button 
