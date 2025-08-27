@@ -27,14 +27,8 @@ export const Footer = () => {
                 <Button variant="outline" size="sm" onClick={() => window.open("https://www.facebook.com/IIITDcouncil", "_blank")}>
                 <Facebook className="h-4 w-4" />
                 </Button>
-              <Button variant="outline" size="sm" onClick={() => window.open("https://twitter.com", "_blank")}  >
-                <Twitter className="h-4 w-4" />
-              </Button>
               <Button variant="outline" size="sm" onClick={() => window.open("https://www.instagram.com/sc.iiitd/", "_blank")}>
                 <Instagram className="h-4 w-4" />
-              </Button>
-              <Button variant="outline" size="sm" onClick={() => window.open("https://linkedin.com", "_blank")} >
-                <Linkedin className="h-4 w-4" />
               </Button>
             </div>
           </div>
