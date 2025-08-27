@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { Menu, X, FileText, Users, Plus } from "lucide-react";
+import { Menu, X, FileText, Users, Plus, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { EventProposalModal } from "./EventProposalModal";
 import { useNavigate } from "react-router-dom";
-import { ThemeToggle } from "./theme-toggle";
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,8 +29,8 @@ export const Header = () => {
             </div>
             
             <div className="hidden md:block">
-              <h1 className="text-xl font-bold text-foreground bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Student Council</h1>
-              <p className="text-xs text-muted-foreground">IIIT Delhi</p>
+              <h1 className="text-xl font-bold text-primary animate-pulse">Student Council</h1>
+              <p className="text-xs text-accent">IIIT Delhi</p>
             </div>
           </div>
         </div>
@@ -63,36 +62,32 @@ export const Header = () => {
           <Button 
             variant="default" 
             size="sm" 
-            className="hidden md:flex hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
+            className="hidden md:flex hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-2xl bg-primary hover:bg-primary/90 animate-pulse hover:animate-none group"
             onClick={() => setIsEventModalOpen(true)}
           >
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="h-4 w-4 mr-2 group-hover:rotate-180 transition-transform duration-300" />
             Propose an Event
+            <Sparkles className="h-3 w-3 ml-2 animate-pulse" />
           </Button>
           
           <Button 
             variant="outline" 
             size="sm" 
-            className="hidden md:flex hover:scale-105 transition-all duration-200"
+            className="hidden md:flex hover:scale-105 transition-all duration-200 border-accent hover:bg-accent/20 hover:border-accent/50"
             onClick={() => navigate("/about")}
           >
             <Users className="h-4 w-4 mr-2" />
             About Council
           </Button>
-
-          {/* Theme Toggle */}
-          <div className="hidden md:flex">
-            <ThemeToggle />
-          </div>
           
           {/* Mobile Menu Button */}
           <Button
             variant="ghost"
             size="sm"
-            className="md:hidden"
+            className="md:hidden hover:bg-accent/20 hover:scale-110 transition-all duration-200"
             onClick={toggleMenu}
           >
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {isMenuOpen ? <X className="h-5 w-5 rotate-180 transition-transform duration-200" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
       </div>
@@ -123,16 +118,17 @@ export const Header = () => {
               <Button 
                 variant="default" 
                 size="sm" 
-                className="w-full"
+                className="w-full hover:scale-105 transition-all duration-200"
                 onClick={() => setIsEventModalOpen(true)}
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Propose an Event
+                <Sparkles className="h-3 w-3 ml-2 animate-pulse" />
               </Button>
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="w-full"
+                className="w-full hover:scale-105 transition-all duration-200 border-accent hover:bg-accent/20"
                 onClick={() => {
                   setIsMenuOpen(false);
                   navigate("/about");
@@ -141,9 +137,6 @@ export const Header = () => {
                 <Users className="h-4 w-4 mr-2" />
                 About Council
               </Button>
-              <div className="pt-2 flex justify-center">
-                <ThemeToggle />
-              </div>
             </div>
           </div>
         </div>
