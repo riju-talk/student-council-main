@@ -92,30 +92,6 @@ All colors MUST be HSL.
       radial-gradient(circle at 60% 70%, hsl(var(--primary) / 0.08) 0%, transparent 40%);
     pointer-events: none;
     z-index: -1;
-    animation: electricFloat 25s ease-in-out infinite alternate;
-  }
-
-  @keyframes electricFloat {
-    0% {
-      transform: translate(0px, 0px) scale(1) rotate(0deg);
-      filter: hue-rotate(0deg);
-    }
-    25% {
-      transform: translate(40px, -40px) scale(1.1) rotate(1deg);
-      filter: hue-rotate(15deg);
-    }
-    50% {
-      transform: translate(-30px, 30px) scale(0.9) rotate(-1deg);
-      filter: hue-rotate(30deg);
-    }
-    75% {
-      transform: translate(20px, -20px) scale(1.05) rotate(0.5deg);
-      filter: hue-rotate(15deg);
-    }
-    100% {
-      transform: translate(0px, 0px) scale(1) rotate(0deg);
-      filter: hue-rotate(0deg);
-    }
   }
 
   /* Professional typography */
