@@ -7,13 +7,46 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "13.0.4"
   }
   public: {
     Tables: {
+      authorized_admins: {
+        Row: {
+          approval_order: number
+          created_at: string
+          email: string
+          id: string
+          is_active: boolean
+          name: string
+          role: string
+          updated_at: string
+        }
+        Insert: {
+          approval_order: number
+          created_at?: string
+          email: string
+          id?: string
+          is_active?: boolean
+          name: string
+          role: string
+          updated_at?: string
+        }
+        Update: {
+          approval_order?: number
+          created_at?: string
+          email?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          role?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       club_formation_requests: {
         Row: {
           charter_document_url: string | null
@@ -67,51 +100,90 @@ export type Database = {
       }
       clubs: {
         Row: {
-          category: string
-          channel_link: string | null
-          charter_url: string | null
-          coordinator_email: string
-          coordinator_name: string
+          avatar_url: string
+          channel_links: string | null
+          coordinator_emails: string
+          coordinator_names: string
           created_at: string
           description: string | null
-          formed_date: string | null
           id: string
-          instagram_link: string | null
           is_active: boolean | null
           name: string
           updated_at: string
         }
         Insert: {
-          category: string
-          channel_link?: string | null
-          charter_url?: string | null
-          coordinator_email: string
-          coordinator_name: string
+          avatar_url?: string
+          channel_links?: string | null
+          coordinator_emails: string
+          coordinator_names: string
           created_at?: string
           description?: string | null
-          formed_date?: string | null
           id?: string
-          instagram_link?: string | null
           is_active?: boolean | null
           name: string
           updated_at?: string
         }
         Update: {
-          category?: string
-          channel_link?: string | null
-          charter_url?: string | null
-          coordinator_email?: string
-          coordinator_name?: string
+          avatar_url?: string
+          channel_links?: string | null
+          coordinator_emails?: string
+          coordinator_names?: string
           created_at?: string
           description?: string | null
-          formed_date?: string | null
           id?: string
-          instagram_link?: string | null
           is_active?: boolean | null
           name?: string
           updated_at?: string
         }
         Relationships: []
+      }
+      event_approvals: {
+        Row: {
+          admin_email: string
+          approved_at: string | null
+          comments: string | null
+          created_at: string
+          event_proposal_id: string
+          id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          admin_email: string
+          approved_at?: string | null
+          comments?: string | null
+          created_at?: string
+          event_proposal_id: string
+          id?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          admin_email?: string
+          approved_at?: string | null
+          comments?: string | null
+          created_at?: string
+          event_proposal_id?: string
+          id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_approvals_admin_email_fkey"
+            columns: ["admin_email"]
+            isOneToOne: false
+            referencedRelation: "authorized_admins"
+            referencedColumns: ["email"]
+          },
+          {
+            foreignKeyName: "event_approvals_event_proposal_id_fkey"
+            columns: ["event_proposal_id"]
+            isOneToOne: false
+            referencedRelation: "event_proposals"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       event_proposals: {
         Row: {
@@ -284,30 +356,30 @@ export type Database = {
         }
         Relationships: []
       }
-      profiles: {
+      otp_verifications: {
         Row: {
           created_at: string
           email: string
-          full_name: string | null
+          expires_at: string
           id: string
-          updated_at: string
-          username: string
+          otp: string
+          used: boolean
         }
         Insert: {
           created_at?: string
           email: string
-          full_name?: string | null
+          expires_at: string
           id?: string
-          updated_at?: string
-          username: string
+          otp: string
+          used?: boolean
         }
         Update: {
           created_at?: string
           email?: string
-          full_name?: string | null
+          expires_at?: string
           id?: string
-          updated_at?: string
-          username?: string
+          otp?: string
+          used?: boolean
         }
         Relationships: []
       }
@@ -355,7 +427,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_event_approval_status: {
+        Args: { event_id: string }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
