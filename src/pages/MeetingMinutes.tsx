@@ -40,7 +40,7 @@ const MeetingMinutes = () => {
   ];
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden flex flex-col">
       {/* Animated Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/20">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.1),transparent_70%)] animate-pulse"></div>
@@ -53,87 +53,87 @@ const MeetingMinutes = () => {
       </div>
       
       {/* Content */}
-      <div className="relative z-10">
+      <div className="relative z-10 flex flex-col min-h-screen">
         <Header />
       
-      <main className="container mx-auto px-4 py-8">
-        {/* Page Header */}
-        <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-foreground mb-4">Meeting Minutes</h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Access official records of Student Council meetings, decisions, and discussions.
-          </p>
-        </div>
-
-        {/* Meeting Minutes Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {meetingMinutes.map((meeting) => (
-            <Card key={meeting.id} className="hover:shadow-lg transition-shadow duration-300">
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <CardTitle className="text-lg font-semibold line-clamp-2">
-                    {meeting.title}
-                  </CardTitle>
-                  <Badge variant={meeting.status === 'published' ? 'default' : 'secondary'}>
-                    {meeting.status}
-                  </Badge>
-                </div>
-              </CardHeader>
-              
-              <CardContent>
-                <div className="space-y-4">
-                  {/* Meeting Details */}
-                  <div className="space-y-2">
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CalendarDays className="h-4 w-4 mr-2" />
-                      {new Date(meeting.date).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </div>
-                    
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Clock className="h-4 w-4 mr-2" />
-                      {meeting.duration} • {meeting.attendees} attendees
-                    </div>
-                  </div>
-
-                  {/* Summary */}
-                  <p className="text-sm text-muted-foreground line-clamp-3">
-                    {meeting.summary}
-                  </p>
-
-                  {/* Download Link */}
-                  {meeting.status === 'published' && (
-                    <a
-                      href={meeting.downloadUrl}
-                      className="inline-flex items-center text-sm text-primary hover:text-primary/80 transition-colors"
-                    >
-                      <FileText className="h-4 w-4 mr-2" />
-                      Download Minutes
-                    </a>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Empty State or Load More */}
-        {meetingMinutes.length === 0 && (
-          <div className="text-center py-12">
-            <FileText className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-            <h3 className="text-lg font-semibold text-foreground mb-2">
-              No Meeting Minutes Available
-            </h3>
-            <p className="text-muted-foreground">
-              Meeting minutes will be published here after each council session.
+        <main className="container mx-auto px-4 py-8 flex-1">
+          {/* Page Header */}
+          <div className="mb-8 text-center">
+            <h1 className="text-4xl font-bold text-foreground mb-4">Meeting Minutes</h1>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Access official records of Student Council meetings, decisions, and discussions.
             </p>
           </div>
-        )}
-      </main>
-      
+
+          {/* Meeting Minutes Grid */}
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {meetingMinutes.map((meeting) => (
+              <Card key={meeting.id} className="hover:shadow-lg transition-shadow duration-300">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <CardTitle className="text-lg font-semibold line-clamp-2">
+                      {meeting.title}
+                    </CardTitle>
+                    <Badge variant={meeting.status === 'published' ? 'default' : 'secondary'}>
+                      {meeting.status}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                
+                <CardContent>
+                  <div className="space-y-4">
+                    {/* Meeting Details */}
+                    <div className="space-y-2">
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <CalendarDays className="h-4 w-4 mr-2" />
+                        {new Date(meeting.date).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
+                      </div>
+                      
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <Clock className="h-4 w-4 mr-2" />
+                        {meeting.duration} • {meeting.attendees} attendees
+                      </div>
+                    </div>
+
+                    {/* Summary */}
+                    <p className="text-sm text-muted-foreground line-clamp-3">
+                      {meeting.summary}
+                    </p>
+
+                    {/* Download Link */}
+                    {meeting.status === 'published' && (
+                      <a
+                        href={meeting.downloadUrl}
+                        className="inline-flex items-center text-sm text-primary hover:text-primary/80 transition-colors"
+                      >
+                        <FileText className="h-4 w-4 mr-2" />
+                        Download Minutes
+                      </a>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Empty State or Load More */}
+          {meetingMinutes.length === 0 && (
+            <div className="text-center py-12">
+              <FileText className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+              <h3 className="text-lg font-semibold text-foreground mb-2">
+                No Meeting Minutes Available
+              </h3>
+              <p className="text-muted-foreground">
+                Meeting minutes will be published here after each council session.
+              </p>
+            </div>
+          )}
+        </main>
+        
         <Footer />
       </div>
     </div>

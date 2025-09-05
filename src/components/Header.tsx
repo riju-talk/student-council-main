@@ -36,7 +36,7 @@ export const Header = () => {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-6">
+        <nav className="hidden md:flex items-center space-x-8">
           <Link to="/" className="text-sm font-medium hover:text-accent transition-all duration-200 hover:scale-105 story-link">
             Home
           </Link>

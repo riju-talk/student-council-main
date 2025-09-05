@@ -4,7 +4,7 @@ import { Mail, MapPin, Phone, Facebook, Twitter, Instagram, Linkedin } from "luc
 
 export const Footer = () => {
   return (
-    <footer className="bg-muted/50 border-t">
+    <footer className="bg-muted/80 border-t backdrop-blur-sm">
       <div className="container px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo and Description */}

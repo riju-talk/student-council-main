@@ -5,12 +5,38 @@ import { ArrowRight, FileText, CheckCircle, Users, Calendar } from "lucide-react
 
 export const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/30 to-background overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center bg-background overflow-hidden">
       {/* Background Student Council Logo */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-10 dark:opacity-5">
-        <div className="w-96 h-96 rounded-full bg-accent/30 dark:bg-accent/40 flex items-center justify-center">
-          <img src="student_council.jpg" alt="Student Council Logo" className="w-96 h-96 text-accent dark:text-primary" />
+      <div className="absolute inset-0 flex items-center justify-center opacity-10">
+        <div className="w-96 h-96 rounded-full bg-accent/20 flex items-center justify-center">
+          <img src="student_council.jpg" alt="Student Council Logo" className="w-96 h-96 text-accent" />
         </div>
+      </div>
+
+      {/* Animated Floating Polygons */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Large polygons */}
+        <div className="absolute top-20 left-10 w-24 h-24 bg-primary/20 rounded-lg rotate-45 animate-bounce [animation-duration:8s] [animation-delay:0s] transform-gpu"></div>
+        <div className="absolute top-40 right-20 w-32 h-32 bg-secondary/15 rounded-full animate-pulse [animation-duration:6s] [animation-delay:1s] transform-gpu"></div>
+        <div className="absolute bottom-32 left-1/4 w-20 h-20 bg-accent/25 transform rotate-12 animate-bounce [animation-duration:7s] [animation-delay:2s] transform-gpu"></div>
+        <div className="absolute bottom-20 right-1/3 w-28 h-28 bg-primary/10 rounded-full animate-pulse [animation-duration:9s] [animation-delay:3s] transform-gpu"></div>
+        
+        {/* Medium polygons */}
+        <div className="absolute top-1/3 left-1/2 w-16 h-16 bg-secondary/20 transform rotate-45 animate-bounce [animation-duration:5s] [animation-delay:1.5s] transform-gpu"></div>
+        <div className="absolute top-1/4 right-1/4 w-14 h-14 bg-accent/15 rounded-lg rotate-12 animate-pulse [animation-duration:4s] [animation-delay:0.5s] transform-gpu"></div>
+        <div className="absolute bottom-1/3 left-20 w-18 h-18 bg-primary/15 rounded-full animate-bounce [animation-duration:6s] [animation-delay:2.5s] transform-gpu"></div>
+        <div className="absolute top-60 right-40 w-12 h-12 bg-secondary/25 transform rotate-90 animate-pulse [animation-duration:7s] [animation-delay:1s] transform-gpu"></div>
+        
+        {/* Small polygons */}
+        <div className="absolute top-80 left-1/3 w-8 h-8 bg-accent/30 rounded-full animate-bounce [animation-duration:3s] [animation-delay:0.8s] transform-gpu"></div>
+        <div className="absolute bottom-40 right-20 w-10 h-10 bg-primary/20 transform rotate-45 animate-pulse [animation-duration:4s] [animation-delay:1.2s] transform-gpu"></div>
+        <div className="absolute top-1/2 left-40 w-6 h-6 bg-secondary/35 rounded-lg animate-bounce [animation-duration:5s] [animation-delay:2s] transform-gpu"></div>
+        <div className="absolute bottom-60 left-1/2 w-12 h-12 bg-accent/20 transform rotate-12 animate-pulse [animation-duration:6s] [animation-delay:0.3s] transform-gpu"></div>
+        
+        {/* Extra floating elements */}
+        <div className="absolute top-32 right-1/3 w-5 h-5 bg-primary/40 rounded-full animate-bounce [animation-duration:4s] [animation-delay:3s] transform-gpu"></div>
+        <div className="absolute bottom-80 right-10 w-7 h-7 bg-secondary/30 transform rotate-45 animate-pulse [animation-duration:5s] [animation-delay:1.8s] transform-gpu"></div>
+        <div className="absolute top-1/4 left-10 w-9 h-9 bg-accent/25 rounded-lg rotate-90 animate-bounce [animation-duration:7s] [animation-delay:0.7s] transform-gpu"></div>
       </div>
       
       <div className="container relative z-10 px-4 text-center">
