@@ -25,6 +25,7 @@ interface ApprovedEvent {
   organizer_name: string;
   organizer_email: string;
   venue: string;
+  status?: string;
 }
 
 interface EventClosureModalProps {
@@ -49,20 +50,19 @@ export const EventClosureModal = ({ open, onOpenChange }: EventClosureModalProps
   const fetchApprovedEvents = async () => {
     setLoading(true);
     try {
-      // Get all event proposals that are approved
+      // Get all event proposals from the table
       const { data: events, error } = await supabase
         .from('event_proposals')
-        .select('id, event_name, event_date, organizer_name, organizer_email, venue')
-        .eq('status', 'approved')
+        .select('id, event_name, event_date, organizer_name, organizer_email, venue, status')
         .order('event_date', { ascending: true });
 
       if (error) throw error;
       setApprovedEvents(events || []);
     } catch (error) {
-      console.error('Error fetching approved events:', error);
+      console.error('Error fetching events:', error);
       toast({
         title: "Error",
-        description: "Failed to fetch approved events. Please try again.",
+        description: "Failed to fetch events. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -123,10 +123,10 @@ export const EventClosureModal = ({ open, onOpenChange }: EventClosureModalProps
           <div className="bg-muted/50 p-4 rounded-lg">
             <h3 className="font-semibold mb-2">Event Closure Instructions</h3>
             <ul className="text-sm text-muted-foreground space-y-1">
-              <li>• Select an approved event from the dropdown below</li>
+              <li>• Select any event from the dropdown below</li>
               <li>• Provide a detailed reason for event closure</li>
               <li>• This action will permanently remove the event from the system</li>
-              <li>• Use this form to verify events and delete approved proposals from the portal</li>
+              <li>• Use this form to verify events and delete proposals from the portal</li>
             </ul>
           </div>
 
@@ -141,7 +141,7 @@ export const EventClosureModal = ({ open, onOpenChange }: EventClosureModalProps
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder={loading ? "Loading events..." : "Select an approved event"} />
+                          <SelectValue placeholder={loading ? "Loading events..." : "Select an event to close"} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -154,7 +154,7 @@ export const EventClosureModal = ({ open, onOpenChange }: EventClosureModalProps
                           </SelectItem>
                         ) : approvedEvents.length === 0 ? (
                           <SelectItem value="no-events" disabled>
-                            No approved events found
+                            No events found
                           </SelectItem>
                         ) : (
                           approvedEvents.map((event) => (
@@ -162,7 +162,7 @@ export const EventClosureModal = ({ open, onOpenChange }: EventClosureModalProps
                               <div className="flex flex-col items-start">
                                 <span className="font-medium">{event.event_name}</span>
                                 <span className="text-xs text-muted-foreground">
-                                  {new Date(event.event_date).toLocaleDateString()} • {event.venue} • by {event.organizer_name}
+                                  {new Date(event.event_date).toLocaleDateString()} • {event.venue} • by {event.organizer_name} • Status: {event.status || 'pending'}
                                 </span>
                               </div>
                             </SelectItem>
