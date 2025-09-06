@@ -11,6 +11,7 @@ import ImportantContacts from "./pages/ImportantContacts";
 import NotFound from "./pages/NotFound";
 import About from "./pages/About";
 import MeetingMinutes from "./pages/MeetingMinutes";
+import Penalties from "./pages/Penalties";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/representatives" element={<Representatives />} />
           <Route path="/clubs" element={<Clubs />} />
           <Route path="/hostel" element={<Hostel />} />
+          <Route path="/penalties" element={<Penalties />} />
           <Route path="/important-contacts" element={<ImportantContacts />} />
           <Route path="/meeting-minutes" element={<MeetingMinutes />} />
           <Route path="*" element={<NotFound />} />

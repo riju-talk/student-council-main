@@ -7,9 +7,9 @@ export const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-background overflow-hidden">
       {/* Background Student Council Logo */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-10">
-        <div className="w-96 h-96 rounded-full bg-accent/20 flex items-center justify-center">
-          <img src="student_council.jpg" alt="Student Council Logo" className="w-96 h-96 text-accent" />
+      <div className="absolute inset-0 flex items-center justify-center opacity-30">
+        <div className="w-96 h-96 rounded-full bg-accent/30 flex items-center justify-center">
+          <img src="student_council.jpg" alt="Student Council Logo" className="w-96 h-96 text-accent brightness-150" />
         </div>
       </div>
 
