@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Mail, Phone, Search, Award, Users, Crown } from "lucide-react";
+import { Mail, Phone, Search, Award, Users, Crown, Shield, Trophy, Heart, Globe, Building, Briefcase, MessageCircle, Calendar, UserCheck, GraduationCap, Utensils, Volleyball, IndianRupee, Palette, Laptop, Megaphone, TreePine } from "lucide-react";
 
 const Representatives = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -32,25 +32,68 @@ const Representatives = () => {
     rep.program.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Separate leadership roles from regular members
-  const leadershipRoles = ['President', 'Vice-President', 'Treasurer', 'Sports Secretary'];
+  // Separate leadership roles from regular members - all non-"Member" positions are leadership
+  const leadershipRoles = [
+    'President', 'Vice President', 'Treasurer', 'Sports Secretary', 'Technical Secretary',
+    'Cultural Secretary', 'Web Dev Head', 'PR Head', 'Head of Communication', 'Alumni Secretary',
+    'Diversity and Inclusion Secretary', 'Clubs Coordinator', 'Hostel Secretary', 
+    'Environment and Sustainability Secretary', 'Well-Being Secretary', 'Day Scholars Affairs Secretary',
+    'Mess Secretary', 'DAC Representative', 'SA office Representative', 'Batch Representatives'
+  ];
+  
   const leadership = filteredRepresentatives.filter(rep => 
     leadershipRoles.includes(rep.position)
   );
   const members = filteredRepresentatives.filter(rep => 
-    !leadershipRoles.includes(rep.position)
+    rep.position === 'Member'
   );
 
   const getPositionIcon = (position: string) => {
     switch (position) {
       case 'President':
         return Crown;
-      case 'Vice-President':
+      case 'Vice President':
+        return Shield;
       case 'Treasurer':
+        return IndianRupee;
       case 'Sports Secretary':
-        return Award;
-      default:
+        return Volleyball;
+      case 'Technical Secretary':
+        return Laptop;
+      case 'Cultural Secretary':
+        return Palette;
+      case 'Web Dev Head':
+        return Laptop;
+      case 'PR Head':
+        return Megaphone;
+      case 'Head of Communication':
+        return MessageCircle;
+      case 'Alumni Secretary':
+        return GraduationCap;
+      case 'Diversity and Inclusion Secretary':
+        return Heart;
+      case 'Clubs Coordinator':
         return Users;
+      case 'Hostel Secretary':
+        return Building;
+      case 'Environment and Sustainability Secretary':
+        return TreePine;
+      case 'Well-Being Secretary':
+        return Heart;
+      case 'Day Scholars Affairs Secretary':
+        return Calendar;
+      case 'Mess Secretary':
+        return Utensils;
+      case 'DAC Representative':
+        return UserCheck;
+      case 'SA office Representative':
+        return Briefcase;
+      case 'Batch Representatives':
+        return Users;
+      case 'Member':
+        return Users;
+      default:
+        return Award;
     }
   };
 
@@ -58,14 +101,48 @@ const Representatives = () => {
     switch (position) {
       case 'President':
         return 'bg-primary text-primary-foreground';
-      case 'Vice-President':
+      case 'Vice President':
         return 'bg-accent text-accent-foreground';
       case 'Treasurer':
-        return 'bg-secondary text-secondary-foreground';
+        return 'bg-green-500 text-white';
       case 'Sports Secretary':
         return 'bg-blue-500 text-white';
-      default:
+      case 'Technical Secretary':
+        return 'bg-purple-500 text-white';
+      case 'Cultural Secretary':
+        return 'bg-pink-500 text-white';
+      case 'Web Dev Head':
+        return 'bg-indigo-500 text-white';
+      case 'PR Head':
+        return 'bg-orange-500 text-white';
+      case 'Head of Communication':
+        return 'bg-cyan-500 text-white';
+      case 'Alumni Secretary':
+        return 'bg-amber-500 text-white';
+      case 'Diversity and Inclusion Secretary':
+        return 'bg-rose-500 text-white';
+      case 'Clubs Coordinator':
+        return 'bg-teal-500 text-white';
+      case 'Hostel Secretary':
+        return 'bg-slate-500 text-white';
+      case 'Environment and Sustainability Secretary':
+        return 'bg-emerald-500 text-white';
+      case 'Well-Being Secretary':
+        return 'bg-red-400 text-white';
+      case 'Day Scholars Affairs Secretary':
+        return 'bg-violet-500 text-white';
+      case 'Mess Secretary':
+        return 'bg-yellow-600 text-white';
+      case 'DAC Representative':
+        return 'bg-gray-600 text-white';
+      case 'SA office Representative':
+        return 'bg-stone-500 text-white';
+      case 'Batch Representatives':
+        return 'bg-sky-500 text-white';
+      case 'Member':
         return 'bg-muted text-muted-foreground';
+      default:
+        return 'bg-secondary text-secondary-foreground';
     }
   };
 
@@ -100,11 +177,11 @@ const Representatives = () => {
           {leadership.length > 0 && (
             <div className="space-y-6">
               <div className="text-center">
-                <h2 className="text-2xl font-semibold mb-2">Leadership Team</h2>
-                <p className="text-muted-foreground">Key leadership positions in the Student Council</p>
+                <h2 className="text-2xl font-semibold mb-2">Student Council Leadership</h2>
+                <p className="text-muted-foreground">Executive positions and secretaries leading various student affairs</p>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {leadership.map((rep) => {
                   const IconComponent = getPositionIcon(rep.position);
                   return (
@@ -153,8 +230,8 @@ const Representatives = () => {
           {/* All Members Section */}
           <div className="space-y-6">
             <div className="text-center">
-              <h2 className="text-2xl font-semibold mb-2">All Members</h2>
-              <p className="text-muted-foreground">Complete directory of student council members (excluding leadership)</p>
+              <h2 className="text-2xl font-semibold mb-2">General Members</h2>
+              <p className="text-muted-foreground">Student council members in general roles</p>
             </div>
 
             {isLoading ? (
