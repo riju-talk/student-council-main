@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { Upload, X, FileText, Calendar, Users, DollarSign, MapPin, Clock } from "lucide-react";
+import { Upload, X, FileText, Calendar, Users, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { isAfter, parseISO, startOfDay } from "date-fns";
@@ -194,6 +194,8 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
         .from("event-proposals")
         .getPublicUrl(filePath);
       fileUrl = publicUrlData?.publicUrl || null;
+
+      
     }
 
     // Map formData to table columns

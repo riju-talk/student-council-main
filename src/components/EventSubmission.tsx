@@ -53,7 +53,7 @@ export const EventSubmission = () => {
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Submit Your Event Proposal</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Transform your ideas into memorable campus events. Our streamlined process ensures 
+              Transform your ideas into memorable campus events. Our streamlined process ensures
               quick approvals and comprehensive support for your initiatives.
             </p>
           </div>
@@ -105,24 +105,28 @@ export const EventSubmission = () => {
                     Complete the online form to submit your event proposal. Our team will review it promptly.
                   </p>
                 </div>
-                
-                <Button size="lg" className="w-full mb-3" onClick={() => setIsModalOpen(true)}>
+
+                <Button
+                  size="lg"
+                  className="w-full mb-3 bg-gray-900 hover:bg-gray-800 text-white border-2 border-blue-400 hover:border-blue-300 transition-colors"
+                  onClick={() => setIsModalOpen(true)}
+                >
                   <FileText className="h-5 w-5 mr-2" />
                   Start Event Proposal
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
-                
-                <Button 
-                  size="lg" 
-                  variant="destructive" 
-                  className="w-full mb-4" 
+
+                <Button
+                  size="lg"
+                  variant="destructive"
+                  className="w-full mb-4 bg-gray-900 hover:bg-gray-800 text-red-400 border-2 border-red-400 hover:border-red-300 transition-colors"
                   onClick={() => setIsClosureModalOpen(true)}
                 >
                   <Trash2 className="h-5 w-5 mr-2" />
                   Close Event
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
-                
+
                 <p className="text-xs text-muted-foreground">
                   Need help? Contact us at events@iiitd.ac.in
                 </p>
@@ -147,12 +151,12 @@ export const EventSubmission = () => {
           </div>
         </div>
       </div>
-      
-      <EventProposalModal 
-        open={isModalOpen} 
+
+      <EventProposalModal
+        open={isModalOpen}
         onOpenChange={setIsModalOpen}
       />
-      
+
       <EventClosureModal
         open={isClosureModalOpen}
         onOpenChange={setIsClosureModalOpen}
