@@ -13,7 +13,7 @@ async function pingSupabase() {
 
     // Make a simple query to keep the database active
     const { data, error } = await supabase
-      .from('student_representatives')  // Replace with your actual table name
+      .from('student_representatives')
       .select('*')
       .limit(1);
 
