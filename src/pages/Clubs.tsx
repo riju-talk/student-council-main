@@ -349,7 +349,7 @@ const Clubs = () => {
                       <div className="absolute -inset-1 bg-gradient-to-tr from-accent/30 to-primary/10 blur-2xl opacity-30 group-hover:opacity-50 transition-opacity pointer-events-none" />
                       <CardHeader className="pb-3 relative z-10">
                         <div className="flex items-start gap-3">
-                          <div className="h-20 w-20 flex-shrink-0 ring-4 ring-accent/30 shadow-xl bg-white overflow-hidden flex items-center justify-center transform transition-transform hover:scale-105 hover:shadow-2xl">
+                          <div className="h-20 w-20 flex-shrink-0 bg-white overflow-hidden flex items-center justify-center transition-transform hover:scale-105">
                             {club.avatar_url ? (
                               <img 
                                 src={club.avatar_url} 
