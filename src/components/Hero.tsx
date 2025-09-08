@@ -1,9 +1,37 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, FileText, CheckCircle, Users, Calendar } from "lucide-react";
+import { FileText, Users, Calendar } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useState, useEffect } from "react";
+
 
 export const Hero = () => {
+  const [activeMembers, setActiveMembers] = useState(0);
+  const [activeClubs, setActiveClubs] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { count: membersCount } = await supabase
+          .from("student_representatives")
+          .select('*', { count: 'exact', head: true });
+        
+        const { count: clubsCount } = await supabase
+          .from("clubs")
+          .select('*', { count: 'exact', head: true })
+          .eq('is_active', true); // Only count active clubs
+
+        setActiveMembers(membersCount || 0);
+        setActiveClubs(clubsCount || 0);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-background overflow-hidden">
       {/* Background Student Council Logo */}
@@ -62,15 +90,15 @@ export const Hero = () => {
           {/* Stats */}
           <div className="flex flex-wrap justify-center gap-8 mb-10">
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-accent">500+</div>
+              <div className="text-3xl md:text-4xl font-bold text-accent">{activeMembers}</div>
               <div className="text-sm text-muted-foreground">Active Students</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-accent">50+</div>
+              <div className="text-3xl md:text-4xl font-bold text-accent">500+</div>
               <div className="text-sm text-muted-foreground">Events This Year</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-accent">6</div>
+              <div className="text-3xl md:text-4xl font-bold text-accent">{activeClubs}</div>
               <div className="text-sm text-muted-foreground">Active Clubs</div>
             </div>
           </div>
