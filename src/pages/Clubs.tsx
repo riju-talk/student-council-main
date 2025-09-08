@@ -349,12 +349,24 @@ const Clubs = () => {
                       <div className="absolute -inset-1 bg-gradient-to-tr from-accent/30 to-primary/10 blur-2xl opacity-30 group-hover:opacity-50 transition-opacity pointer-events-none" />
                       <CardHeader className="pb-3 relative z-10">
                         <div className="flex items-start gap-3">
-                          <Avatar className="h-14 w-14 flex-shrink-0 ring-4 ring-accent/30 shadow-lg bg-white">
-                            <AvatarImage src="/placeholder.svg" alt={club.name} />
-                            <AvatarFallback className="bg-primary/10 text-primary">
+                          <div className="h-20 w-20 flex-shrink-0 ring-4 ring-accent/30 shadow-xl bg-white overflow-hidden flex items-center justify-center transform transition-transform hover:scale-105 hover:shadow-2xl">
+                            {club.avatar_url ? (
+                              <img 
+                                src={club.avatar_url} 
+                                alt={club.name} 
+                                className="w-full h-full object-contain"
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.style.display = 'none';
+                                  const fallback = target.nextElementSibling as HTMLElement;
+                                  if (fallback) fallback.style.display = 'flex';
+                                }}
+                              />
+                            ) : null}
+                            <div className="bg-primary/10 text-primary w-full h-full flex items-center justify-center text-xl font-medium" style={{ display: club.avatar_url ? 'none' : 'flex' }}>
                               {club.name.charAt(0).toUpperCase()}
-                            </AvatarFallback>
-                          </Avatar>
+                            </div>
+                          </div>
                           <div className="flex-1 min-w-0">
                             <CardTitle className="text-lg leading-tight">{club.name}</CardTitle>
                             <Badge variant="secondary" className="mt-1 text-xs">
@@ -362,15 +374,6 @@ const Clubs = () => {
                             </Badge>
                           </div>
                           {/* Toggle details button */}
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="ml-2"
-                            onClick={() => toggleDetails(club.id)}
-                            title={isDetails ? "Show Description" : "Show Coordinators & Contacts"}
-                          >
-                            {isDetails ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
-                          </Button>
                         </div>
                       </CardHeader>
                       <CardContent className="flex-1 flex flex-col space-y-4 relative z-10">

@@ -52,6 +52,9 @@ export const Header = () => {
           <Link to="/important-contacts" className="text-sm font-medium hover:text-accent transition-all duration-200 hover:scale-105 story-link">
             Important Contacts
           </Link>
+          <Link to="/penalties" className="text-sm font-medium hover:text-accent transition-all duration-200 hover:scale-105 story-link">
+            Penalties
+          </Link>
           <Link to="/meeting-minutes" className="text-sm font-medium hover:text-accent transition-all duration-200 hover:scale-105 story-link">
             Meeting Minutes
           </Link>
