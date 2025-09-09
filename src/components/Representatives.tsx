@@ -3,8 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Crown, Users, Briefcase, Mail, Volleyball, IndianRupee } from "lucide-react";
+import { Crown } from "lucide-react";
 
 export const Representatives = () => {
   // Fetch representatives from Supabase
@@ -84,7 +83,6 @@ export const Representatives = () => {
                         {rep.year === 0 ? 'PhD' : `Batch of ${rep.year}`}
                       </span>
                       <div className="flex items-center text-muted-foreground text-sm mt-2">
-                        <Mail className="h-4 w-4 mr-2" />
                         <span className="break-all">{rep.email}</span>
                       </div>
                     </div>

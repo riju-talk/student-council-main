@@ -89,7 +89,7 @@ const Representatives = () => {
     switch (position) {
       case 'President':
         return 'bg-primary text-primary-foreground';
-      case 'Vice-President':
+      case 'Vice President':
         return 'bg-secondary text-secondary-foreground';
       case 'Treasurer':
         return 'bg-green-500 text-white';
@@ -114,7 +114,7 @@ const Representatives = () => {
       <main className="container mx-auto px-4 py-8 relative z-10">
         <div className="max-w-6xl mx-auto space-y-8">
           <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold gold-standard text-glow-primary">Student Representatives</h1>
+            <h1 className="text-4xl font-bold gold-standard text-primary">Student Representatives</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Meet the elected student representatives working for the betterment of campus life and student affairs.
             </p>
@@ -154,7 +154,7 @@ const Representatives = () => {
                             <IconComponent className="h-8 w-8 text-primary" />
                           </div>
                           <div>
-                            <CardTitle className="text-lg">{rep.name}</CardTitle>
+                            <CardTitle className="text-lg font-display text-foreground">{rep.name}</CardTitle>
                             <Badge className={`mt-2 ${getPositionColor(rep.position)}`}>
                               {rep.position}
                             </Badge>
@@ -163,7 +163,7 @@ const Representatives = () => {
                       </CardHeader>
                       <CardContent className="space-y-3">
                         <div className="text-center text-sm text-muted-foreground">
-                          {rep.program} {rep.year} - {rep.branch}
+                        {rep.year === 0 ? 'PhD' : `${rep.year} ${rep.program} ${rep.year !== 0 && `- ${rep.branch}`}`}
                         </div>
                         <div className="space-y-2">
                           <div className="flex items-center gap-2 text-sm">
