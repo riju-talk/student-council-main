@@ -78,15 +78,16 @@ export default {
         },
       },
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)))',
-        'gradient-secondary': 'linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary-glow)))',
-        'gradient-dark': 'linear-gradient(135deg, hsl(var(--background)), hsl(var(--card)))',
+        'gradient-primary': 'linear-gradient(135deg, hsl(45 100% 60%), hsl(45 100% 80%))',
+        'gradient-secondary': 'linear-gradient(135deg, hsl(180 100% 50%), hsl(180 100% 70%))',
+        'gradient-dark': 'linear-gradient(135deg, hsl(0 0% 8%), hsl(0 0% 12%))',
+        'gradient-gold': 'linear-gradient(135deg, hsl(45 100% 60%), hsl(45 100% 80%), hsl(45 100% 60%))',
       },
       boxShadow: {
-        'primary': '0 10px 30px -10px hsl(var(--primary) / 0.3)',
-        'secondary': '0 10px 30px -10px hsl(var(--secondary) / 0.3)',
-        'elegant': '0 20px 60px -10px hsl(220 13% 5% / 0.5)',
-        'glow': '0 0 40px hsl(var(--primary-glow) / 0.4)',
+        'primary': '0 10px 30px -10px hsl(45 100% 60% / 0.3)',
+        'secondary': '0 10px 30px -10px hsl(180 100% 50% / 0.3)',
+        'elegant': '0 20px 60px -10px hsl(0 0% 8% / 0.5)',
+        'glow': '0 0 40px hsl(45 100% 60% / 0.4)',
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -132,16 +133,6 @@ export default {
             opacity: "1",
           },
         },
-        "glow": {
-          "0%, 100%": {
-            transform: "scale(1)",
-            filter: "brightness(1)",
-          },
-          "50%": {
-            transform: "scale(1.02)",
-            filter: "brightness(1.1)",
-          },
-        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -149,7 +140,6 @@ export default {
         "fade-in": "fade-in 0.6s ease-out",
         "scale-in": "scale-in 0.4s ease-out",
         "slide-up": "slide-up 0.5s ease-out",
-        "glow": "glow 3s ease-in-out infinite",
       },
     },
   },

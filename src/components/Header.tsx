@@ -9,22 +9,22 @@ export const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-xl shadow-elegant border-b border-border/50">
+    <header className="sticky top-0 z-50 w-full header-footer-bg backdrop-blur-xl shadow-elegant border-b border-border/50">
       <div className="container mx-auto flex items-center justify-between px-4 py-4 md:py-5">
         {/* Logo Section with enhanced styling */}
         <div className="flex items-center space-x-4">
           <div className="relative">
-            <img src="IIITD.png" alt="IIIT Delhi Logo" className="h-12 transition-all duration-300 hover:scale-110" />
+            <img src="IIITD.png" alt="IIIT Delhi Logo" className="h-12 transition-all duration-300 hover:scale-110 logo-glow" />
           </div>
           <div className="relative">
             <img 
               src="student_council.jpg" 
               alt="Student Council Logo" 
-              className="h-12 rounded-full border-2 border-primary/30 transition-all duration-300 hover:border-primary/60 hover:shadow-primary" 
+              className="h-12 rounded-full border-2 border-primary/50 transition-all duration-300 hover:border-primary logo-glow brightness-125" 
             />
           </div>
           <div className="hidden md:block">
-            <h1 className="text-xl font-display font-bold bg-gradient-primary bg-clip-text text-transparent">
+            <h1 className="text-xl gold-standard">
               Student Council
             </h1>
             <p className="text-xs text-muted-foreground font-medium tracking-wide uppercase">
@@ -37,43 +37,43 @@ export const Header = () => {
         <nav className="hidden xl:flex items-center space-x-8 font-medium text-sm">
           <Link 
             to="/" 
-            className="story-link text-foreground/80 hover:text-foreground transition-all duration-300 font-sans"
+            className="story-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
           >
             Home
           </Link>
           <Link 
             to="/representatives" 
-            className="story-link text-foreground/80 hover:text-foreground transition-all duration-300 font-sans"
+            className="story-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
           >
             Representatives
           </Link>
           <Link 
             to="/clubs" 
-            className="story-link text-foreground/80 hover:text-foreground transition-all duration-300 font-sans"
+            className="story-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
           >
             Clubs
           </Link>
           <Link 
             to="/hostel" 
-            className="story-link text-foreground/80 hover:text-foreground transition-all duration-300 font-sans"
+            className="story-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
           >
             Hostel
           </Link>
           <Link 
             to="/important-contacts" 
-            className="story-link text-foreground/80 hover:text-foreground transition-all duration-300 font-sans"
+            className="story-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
           >
             Contacts
           </Link>
           <Link 
             to="/penalties" 
-            className="story-link text-foreground/80 hover:text-foreground transition-all duration-300 font-sans"
+            className="story-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
           >
             Penalties
           </Link>
           <Link 
             to="/meeting-minutes" 
-            className="story-link text-foreground/80 hover:text-foreground transition-all duration-300 font-sans"
+            className="story-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
           >
             Minutes
           </Link>
@@ -84,7 +84,7 @@ export const Header = () => {
           <Button 
             variant="outline" 
             size="sm" 
-            className="border-primary/30 text-foreground hover:border-primary hover:bg-primary/10 font-medium transition-all duration-300 hover:scale-105" 
+            className="border-primary/50 text-foreground hover:border-primary hover:bg-primary/20 font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/25" 
             onClick={() => navigate("/about")}
           >
             <Award className="h-4 w-4 mr-2" />
@@ -96,7 +96,7 @@ export const Header = () => {
         <Button
           variant="ghost"
           size="sm"
-          className="xl:hidden hover:bg-primary/10 transition-all duration-300"
+          className="xl:hidden hover:bg-primary/20 transition-all duration-300"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -105,7 +105,7 @@ export const Header = () => {
 
       {/* Mobile Dropdown Menu with enhanced styling */}
       {isMenuOpen && (
-        <div className="xl:hidden bg-background/95 backdrop-blur-xl border-t border-border/50">
+        <div className="xl:hidden header-footer-bg backdrop-blur-xl border-t border-border/50">
           <div className="flex flex-col items-start space-y-1 p-6">
             <Link 
               to="/" 
@@ -161,7 +161,7 @@ export const Header = () => {
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="w-full border-primary/30 hover:border-primary hover:bg-primary/10 transition-all duration-300" 
+                className="w-full border-primary/50 hover:border-primary hover:bg-primary/20 transition-all duration-300" 
                 onClick={() => { navigate("/about"); setIsMenuOpen(false); }}
               >
                 <Award className="h-4 w-4 mr-2" /> 

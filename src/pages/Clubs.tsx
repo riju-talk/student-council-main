@@ -63,41 +63,76 @@ const Clubs = () => {
     "Tentative annual budget with justification...",
     "Detailed breakdown of budget must be provided.",
   ];
+    "Coding Club": "darkcode.png",
+    "Cultural Society": "Muse.jpg", 
+    "Sports Club": "madtoes.jpg",
+    "Robotics Club": "Cyborg.jpg",
+    "Photography Club": "tasveer.png",
+    "Technical Society": "ieee.png",
+    "Literary Society": "unquote.jpg",
+    "Entrepreneurship Cell": "enactus.png",
+    "Social Service": "girlup.png",
+    "ACM Student Chapter": "acm.png",
+    "IEEE Student Branch": "ieee.png",
+    "Electroholics": "Electroholics.jpg",
+    "BioBytes": "BioBytes.png",
+    "Astronuts": "Astronuts.png",
+    "Finnexia": "Finnexia.jpg",
+    "MicDrop": "MicDrop.png",
+    "Philosoc": "Philosoc.png",
+    "Trivialis": "Trivialis.png",
+    "AudioBytes": "audiobytes.jpeg",
+    "BYLD": "byld.jpg",
+    "CyFuse": "cyfuse.jpg",
+    "DesignHub": "designhub.png",
+    "Evariste": "evariste.png",
+    "FooBar": "foobar.png",
+    "GirlUp": "girlup.png",
+    "IGDA": "igda.jpg",
+    "IRC": "irc.jpg",
+    "LDA": "lda.png",
+    "Machaan": "machaan.png",
+    "OWASP": "owasp.png",
+    "RoamRovers": "roamrovers.jpg",
+    "SaltNPepper": "saltnpepper.jpg",
+    "SPIC MACAY": "spic-macay.jpeg",
+    "The65thSquare": "the65thsquare.jpg",
+    "URC": "urc.png",
+    "Women in Tech": "women-in-tech-iiitd.jpg",
+    "LeanIn": "leanin.jpg",
+    "Meraki": "meraki.jpg"
+  };
+
+  const getClubLogo = (clubName: string) => {
+    // Try exact match first
+    if (clubLogos[clubName]) {
+      return clubLogos[clubName];
+    }
+    
+    // Try partial matches
+    const clubKey = Object.keys(clubLogos).find(key => 
+      clubName.toLowerCase().includes(key.toLowerCase()) || 
+      key.toLowerCase().includes(clubName.toLowerCase())
+    );
+    
+    return clubKey ? clubLogos[clubKey] : null;
+  };
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       {/* Animated background */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
-        <svg className="absolute inset-0 w-full h-full opacity-10" style={{ zIndex: 1 }}>
-          <defs>
-            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#8884" strokeWidth="1" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-          <div className="absolute bg-primary/20 rounded-full blur-2xl animate-bubble-slow" style={{ width: 180, height: 180, left: '10%', top: '10%' }} />
-          <div className="absolute bg-accent/20 rounded-full blur-2xl animate-bubble-medium" style={{ width: 120, height: 120, left: '70%', top: '30%' }} />
-          <div className="absolute bg-primary/10 rounded-full blur-2xl animate-bubble-fast" style={{ width: 100, height: 100, left: '50%', top: '70%' }} />
-        </div>
-        <style>
-          {`
-            @keyframes bubbleSlow { 0% { transform: translateY(0) scale(1);} 50% { transform: translateY(-30px) scale(1.05);} 100% { transform: translateY(0) scale(1);} }
-            @keyframes bubbleMedium { 0% { transform: translateY(0) scale(1);} 50% { transform: translateY(-20px) scale(1.08);} 100% { transform: translateY(0) scale(1);} }
-            @keyframes bubbleFast { 0% { transform: translateY(0) scale(1);} 50% { transform: translateY(-15px) scale(1.12);} 100% { transform: translateY(0) scale(1);} }
-            .animate-bubble-slow { animation: bubbleSlow 12s ease-in-out infinite; }
-            .animate-bubble-medium { animation: bubbleMedium 8s ease-in-out infinite; }
-            .animate-bubble-fast { animation: bubbleFast 6s ease-in-out infinite; }
-          `}
-        </style>
+      <div className="absolute inset-0 geometric-grid opacity-40"></div>
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="floating-element absolute top-20 left-10 w-32 h-32 bg-primary/20 rounded-3xl rotate-45"></div>
+        <div className="floating-element absolute top-40 right-20 w-24 h-24 bg-secondary/15 rounded-full"></div>
+        <div className="floating-element absolute bottom-32 left-1/4 w-20 h-20 bg-primary/25 rounded-2xl transform rotate-12"></div>
       </div>
 
       <Header />
 
       <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold text-foreground">Student Clubs</h1>
+          <h1 className="text-4xl font-bold gold-standard text-glow-primary">Student Clubs</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Explore our vibrant community of student clubs and organizations. Join existing clubs or propose a new one!
           </p>
@@ -110,13 +145,13 @@ const Clubs = () => {
               placeholder="Search clubs by name, category, or description..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="pl-10"
+              className="pl-10 bg-background/50 border-border/50"
             />
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           </div>
         </div>
 
-        <Card>
+        <Card className="bg-card/80 backdrop-blur-sm border-border/50">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileText className="h-5 w-5" />
@@ -136,11 +171,11 @@ const Clubs = () => {
         </Card>
 
         <div className="space-y-6 pt-6">
-          <h2 className="text-2xl font-semibold">Active Clubs</h2>
+          <h2 className="text-2xl font-semibold gold-standard">Active Clubs</h2>
           {isLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[...Array(6)].map((_, i) => (
-                <Card key={i} className="animate-pulse rounded-2xl shadow-xl bg-gradient-to-br from-background to-accent/10 border-0">
+                <Card key={i} className="animate-pulse rounded-2xl bg-card/80 border-border/50">
                   <CardHeader>
                     <div className="h-6 bg-muted rounded w-3/4" />
                     <div className="h-4 bg-muted rounded w-1/2" />
@@ -158,10 +193,12 @@ const Clubs = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredClubs.map((club: Club) => (
                 <div key={club.id}>
-                  <Card onClick={() => setSelectedClub(club)} className="cursor-pointer h-50">
+                  <Card onClick={() => setSelectedClub(club)} className="card-hover cursor-pointer bg-card/80 backdrop-blur-sm border-border/50">
                     <CardHeader className="pb-3 flex items-center gap-3">
                       <div className="h-20 w-20 flex-shrink-0 bg-white rounded-lg border overflow-hidden flex items-center justify-center">
-                        {club.avatar_url ? (
+                        {getClubLogo(club.name) ? (
+                          <img src={getClubLogo(club.name)} alt={club.name} className="w-full h-full object-contain" />
+                        ) : club.avatar_url ? (
                           <img src={club.avatar_url} alt={club.name} className="w-full h-full object-contain" />
                         ) : (
                           <div className="bg-primary/10 text-primary w-full h-full flex items-center justify-center text-xl font-medium">
@@ -192,7 +229,9 @@ const Clubs = () => {
                           </DialogHeader>
                           <div className="space-y-6">
                             <div className="flex items-center gap-4">
-                              {selectedClub.avatar_url ? (
+                              {getClubLogo(selectedClub.name) ? (
+                                <img src={getClubLogo(selectedClub.name)} alt={selectedClub.name} className="h-24 w-24 object-contain rounded-lg border bg-white" />
+                              ) : selectedClub.avatar_url ? (
                                 <img src={selectedClub.avatar_url} alt={selectedClub.name} className="h-24 w-24 object-contain rounded-lg border bg-white" />
                               ) : (
                                 <div className="bg-primary/10 text-primary h-24 w-24 flex items-center justify-center text-3xl font-medium rounded-lg border bg-white">

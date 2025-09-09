@@ -4,7 +4,7 @@ import { Mail, MapPin, Phone, Facebook, Twitter, Instagram, Linkedin } from "luc
 
 export const Footer = () => {
   return (
-    <footer className="bg-muted/80 border-t backdrop-blur-sm">
+    <footer className="header-footer-bg border-t backdrop-blur-sm">
       <div className="container px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo and Description */}
@@ -12,10 +12,10 @@ export const Footer = () => {
             <div className="flex items-center space-x-3 mb-4">
               {/* Placeholder for logos */}
               <div className="h-10 w-auto bg-muted/20 flex items-center justify-center">
-                <img src="student_council.jpg" alt="IIIT Delhi Logo" className="h-12 w-auto" />
+                <img src="student_council.jpg" alt="IIIT Delhi Logo" className="h-12 w-auto logo-glow brightness-125" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-foreground">Student Council</h3>
+                <h3 className="text-lg gold-standard">Student Council</h3>
                 <p className="text-sm text-muted-foreground">IIIT Delhi</p>
               </div>
             </div>
@@ -35,30 +35,30 @@ export const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-sm font-semibold text-foreground mb-4">Quick Links</h4>
+            <h4 className="text-sm font-semibold text-primary mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#events" className="text-muted-foreground hover:text-accent transition-colors">
+                <a href="#events" className="text-muted-foreground hover:text-primary transition-colors">
                   Events
                 </a>
               </li>
               <li>
-                <a href="#portal" className="text-muted-foreground hover:text-accent transition-colors">
+                <a href="#portal" className="text-muted-foreground hover:text-primary transition-colors">
                   Portal
                 </a>
               </li>
               <li>
-                <a href="#guidelines" className="text-muted-foreground hover:text-accent transition-colors">
+                <a href="#guidelines" className="text-muted-foreground hover:text-primary transition-colors">
                   Guidelines
                 </a>
               </li>
               <li>
-                <a href="#resources" className="text-muted-foreground hover:text-accent transition-colors">
+                <a href="#resources" className="text-muted-foreground hover:text-primary transition-colors">
                   Resources
                 </a>
               </li>
               <li>
-                <a href="#help" className="text-muted-foreground hover:text-accent transition-colors">
+                <a href="#help" className="text-muted-foreground hover:text-primary transition-colors">
                   Help & Support
                 </a>
               </li>
@@ -67,7 +67,7 @@ export const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-sm font-semibold text-foreground mb-4">Contact</h4>
+            <h4 className="text-sm font-semibold text-primary mb-4">Contact</h4>
             <ul className="space-y-3 text-sm">
               <li className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 text-muted-foreground" />
@@ -96,13 +96,13 @@ export const Footer = () => {
             © 2025 IIIT Delhi Student Council. All rights reserved.
           </div>
           <div className="flex space-x-6 text-sm">
-            <a href="#privacy" className="text-muted-foreground hover:text-accent transition-colors">
+            <a href="#privacy" className="text-muted-foreground hover:text-primary transition-colors">
               Privacy Policy
             </a>
-            <a href="#terms" className="text-muted-foreground hover:text-accent transition-colors">
+            <a href="#terms" className="text-muted-foreground hover:text-primary transition-colors">
               Terms of Service
             </a>
-            <a href="#accessibility" className="text-muted-foreground hover:text-accent transition-colors">
+            <a href="#accessibility" className="text-muted-foreground hover:text-primary transition-colors">
               Accessibility
             </a>
           </div>
