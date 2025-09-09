@@ -63,16 +63,16 @@ export const Hero = () => {
       <div className="container relative z-10 px-4 text-center">
         <div className="max-w-5xl mx-auto">
           {/* Premium Badge */}
-          <Badge variant="outline" className="mb-8 px-6 py-3 text-sm font-medium border-primary/30 text-primary bg-primary/5 hover:bg-primary/10 transition-all duration-300">
+          <Badge variant="outline" className="mb-8 px-6 py-3 text-sm font-medium border-primary/30 text-primary bg-primary/5 hover:bg-primary/10 transition-all duration-300 text-foreground">
             <Award className="h-4 w-4 mr-2" />
             Student Leadership Excellence
           </Badge>
 
           {/* Main Heading with typography matching the posts */}
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
-            <span className="block text-foreground">IIIT DELHI</span>
+            <span className="block text-foreground">IIIT Delhi</span>
             <span className="block bg-gradient-primary bg-clip-text text-transparent text-glow-primary">
-              STUDENT COUNCIL
+           Student Council
             </span>
           </h1>
 
