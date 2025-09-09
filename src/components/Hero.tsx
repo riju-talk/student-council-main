@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Users, Calendar } from "lucide-react";
+import { FileText, Users, Calendar, Award, Star, Zap } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect, useMemo, useCallback } from "react";
-
 
 export const Hero = () => {
   const [activeMembers, setActiveMembers] = useState(0);
@@ -19,7 +18,7 @@ export const Hero = () => {
       const { count: clubsCount } = await supabase
         .from("clubs")
         .select('*', { count: 'exact', head: true })
-        .eq('is_active', true); // Only count active clubs
+        .eq('is_active', true);
 
       setActiveMembers(membersCount || 0);
       setActiveClubs(clubsCount || 0);
@@ -33,121 +32,142 @@ export const Hero = () => {
   }, [fetchData]);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-background overflow-hidden">
-      {/* Background Student Council Logo */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-30">
-        <div className="w-96 h-96 rounded-full bg-accent/30 flex items-center justify-center">
-          <img src="student_council.jpg" alt="Student Council Logo" className="w-96 h-96 text-accent brightness-150" />
+    <section className="relative min-h-screen flex items-center justify-center bg-background overflow-hidden geometric-grid">
+      {/* Sophisticated Background Elements inspired by the posts */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-40">
+        <div className="relative">
+          {/* Central council logo with glow */}
+          <div className="w-96 h-96 rounded-full bg-gradient-to-br from-primary/20 to-secondary/10 flex items-center justify-center shadow-glow">
+            <img 
+              src="student_council.jpg" 
+              alt="Student Council Logo" 
+              className="w-80 h-80 rounded-full object-cover border-4 border-primary/30" 
+            />
+          </div>
+          
+          {/* Geometric flowing elements like the posts */}
+          <div className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-gradient-to-tr from-secondary/10 to-transparent rounded-full blur-3xl animate-pulse [animation-delay:2s]"></div>
         </div>
       </div>
 
-      {/* Animated Floating Polygons */}
+      {/* Floating geometric elements inspired by the post design */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Large polygons */}
-        <div className="absolute top-20 left-10 w-24 h-24 bg-primary/20 rounded-3xl rotate-45 animate-bounce [animation-duration:8s] [animation-delay:0s] transform-gpu"></div>
-        <div className="absolute top-40 right-20 w-32 h-32 bg-secondary/15 rounded-full animate-pulse [animation-duration:6s] [animation-delay:1s] transform-gpu"></div>
-        <div className="absolute bottom-32 left-1/4 w-20 h-20 bg-accent/25 rounded-2xl transform rotate-12 animate-bounce [animation-duration:7s] [animation-delay:2s] transform-gpu"></div>
-        <div className="absolute bottom-20 right-1/3 w-28 h-28 bg-primary/10 rounded-full animate-pulse [animation-duration:9s] [animation-delay:3s] transform-gpu"></div>
-        
-        {/* Medium polygons */}
-        <div className="absolute top-1/3 left-1/2 w-16 h-16 bg-secondary/20 rounded-2xl transform rotate-45 animate-bounce [animation-duration:5s] [animation-delay:1.5s] transform-gpu"></div>
-        <div className="absolute top-1/4 right-1/4 w-14 h-14 bg-accent/15 rounded-xl rotate-12 animate-pulse [animation-duration:4s] [animation-delay:0.5s] transform-gpu"></div>
-        <div className="absolute bottom-1/3 left-20 w-18 h-18 bg-primary/15 rounded-full animate-bounce [animation-duration:6s] [animation-delay:2.5s] transform-gpu"></div>
-        <div className="absolute top-60 right-40 w-12 h-12 bg-secondary/25 rounded-xl transform rotate-90 animate-pulse [animation-duration:7s] [animation-delay:1s] transform-gpu"></div>
-        
-        {/* Small polygons */}
-        <div className="absolute top-80 left-1/3 w-8 h-8 bg-accent/30 rounded-full animate-bounce [animation-duration:3s] [animation-delay:0.8s] transform-gpu"></div>
-        <div className="absolute bottom-40 right-20 w-10 h-10 bg-primary/20 rounded-lg transform rotate-45 animate-pulse [animation-duration:4s] [animation-delay:1.2s] transform-gpu"></div>
-        <div className="absolute top-1/2 left-40 w-6 h-6 bg-secondary/35 rounded-lg animate-bounce [animation-duration:5s] [animation-delay:2s] transform-gpu"></div>
-        <div className="absolute bottom-60 left-1/2 w-12 h-12 bg-accent/20 rounded-xl transform rotate-12 animate-pulse [animation-duration:6s] [animation-delay:0.3s] transform-gpu"></div>
-        
-        {/* Extra floating elements */}
-        <div className="absolute top-32 right-1/3 w-5 h-5 bg-primary/40 rounded-full animate-bounce [animation-duration:4s] [animation-delay:3s] transform-gpu"></div>
-        <div className="absolute bottom-80 right-10 w-7 h-7 bg-secondary/30 rounded-lg transform rotate-45 animate-pulse [animation-duration:5s] [animation-delay:1.8s] transform-gpu"></div>
-        <div className="absolute top-1/4 left-10 w-9 h-9 bg-accent/25 rounded-xl rotate-90 animate-bounce [animation-duration:7s] [animation-delay:0.7s] transform-gpu"></div>
+        <div className="absolute top-20 left-10 w-32 h-32 bg-primary/20 rounded-3xl rotate-45 animate-bounce [animation-duration:8s] [animation-delay:0s]"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 bg-secondary/15 rounded-full animate-pulse [animation-duration:6s] [animation-delay:1s]"></div>
+        <div className="absolute bottom-32 left-1/4 w-20 h-20 bg-primary/25 rounded-2xl transform rotate-12 animate-bounce [animation-duration:7s] [animation-delay:2s]"></div>
+        <div className="absolute bottom-20 right-1/3 w-28 h-28 bg-secondary/10 rounded-full animate-pulse [animation-duration:9s] [animation-delay:3s]"></div>
+        <div className="absolute top-1/3 right-1/4 w-16 h-16 bg-primary/15 rounded-xl animate-bounce [animation-duration:5s] [animation-delay:1.5s]"></div>
       </div>
       
       <div className="container relative z-10 px-4 text-center">
-        <div className="max-w-4xl mx-auto">
-          {/* Badge */}
-          <Badge variant="outline" className="mb-6 px-4 py-2 border-accent/20 text-accent">
-            <Users className="h-3 w-3 mr-2" />
-            Student Leadership
+        <div className="max-w-5xl mx-auto">
+          {/* Premium Badge */}
+          <Badge variant="outline" className="mb-8 px-6 py-3 text-sm font-medium border-primary/30 text-primary bg-primary/5 hover:bg-primary/10 transition-all duration-300">
+            <Award className="h-4 w-4 mr-2" />
+            Student Leadership Excellence
           </Badge>
 
-          {/* Main Heading */}
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
-            IIIT Delhi
-            <br />
-            <span className="text-accent">Student Council</span>
+          {/* Main Heading with typography matching the posts */}
+          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
+            <span className="block text-foreground">IIIT DELHI</span>
+            <span className="block bg-gradient-primary bg-clip-text text-transparent text-glow-primary">
+              STUDENT COUNCIL
+            </span>
           </h1>
 
-          {/* Subtitle */}
-          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-            Your voice, our mission. Connecting students, fostering growth, and building a vibrant campus community at IIIT Delhi.
+          {/* Subtitle with professional styling */}
+          <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed font-sans font-light">
+            Empowering voices, fostering innovation, and building an extraordinary campus community through 
+            <span className="text-primary font-medium"> collaborative leadership</span> and 
+            <span className="text-secondary font-medium"> meaningful impact</span>.
           </p>
 
-          {/* Stats */}
-          <div className="flex flex-wrap justify-center gap-8 mb-10">
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-accent">{activeMembers}</div>
-              <div className="text-sm text-muted-foreground">Active Students</div>
+          {/* Enhanced Stats Section */}
+          <div className="flex flex-wrap justify-center gap-12 mb-16">
+            <div className="text-center group">
+              <div className="relative">
+                <div className="text-5xl md:text-6xl font-display font-bold bg-gradient-primary bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
+                  {activeMembers}
+                </div>
+                <div className="absolute -inset-2 bg-primary/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
+              <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Student Representatives</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-accent">500+</div>
-              <div className="text-sm text-muted-foreground">Events This Year</div>
+            <div className="text-center group">
+              <div className="relative">
+                <div className="text-5xl md:text-6xl font-display font-bold bg-gradient-secondary bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
+                  500+
+                </div>
+                <div className="absolute -inset-2 bg-secondary/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
+              <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Events This Year</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-accent">{activeClubs}</div>
-              <div className="text-sm text-muted-foreground">Active Clubs</div>
+            <div className="text-center group">
+              <div className="relative">
+                <div className="text-5xl md:text-6xl font-display font-bold bg-gradient-primary bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
+                  {activeClubs}
+                </div>
+                <div className="absolute -inset-2 bg-primary/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
+              <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Active Communities</div>
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" asChild>
+          {/* Premium Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
+            <Button 
+              size="lg" 
+              className="px-8 py-4 bg-gradient-primary hover:shadow-primary text-primary-foreground font-semibold text-lg rounded-xl transition-all duration-300 hover:scale-105" 
+              asChild
+            >
               <a href="#about">
                 <Users className="h-5 w-5 mr-2" />
-                Learn About Us
+                Discover Our Mission
               </a>
             </Button>
-            <Button variant="outline" size="lg" asChild>
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="px-8 py-4 border-2 border-primary/30 hover:border-primary text-foreground hover:bg-primary/10 font-semibold text-lg rounded-xl transition-all duration-300 hover:scale-105" 
+              asChild
+            >
               <a href="#representatives">
-                <Users className="h-5 w-5 mr-2" />
-                Meet Our Team
+                <Star className="h-5 w-5 mr-2" />
+                Meet Our Leaders
               </a>
             </Button>
           </div>
 
-          {/* Mission Cards */}
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <Card className="p-6 border-2 hover:border-accent/20 transition-all duration-300 hover:shadow-lg">
-              <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg mb-4 mx-auto">
-                <Users className="h-6 w-6 text-accent" />
+          {/* Mission Cards with sophisticated styling */}
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <Card className="card-hover p-8 bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl">
+              <div className="flex items-center justify-center w-16 h-16 bg-gradient-primary rounded-2xl mb-6 mx-auto shadow-primary">
+                <Users className="h-8 w-8 text-primary-foreground" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">Student Representation</h3>
-              <p className="text-muted-foreground text-sm">
-                Amplifying every student's voice in academic and administrative decisions
+              <h3 className="text-xl font-display font-semibold mb-4 text-foreground">Student Representation</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Amplifying every student's voice in academic and administrative decisions through democratic leadership
               </p>
             </Card>
 
-            <Card className="p-6 border-2 hover:border-accent/20 transition-all duration-300 hover:shadow-lg">
-              <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg mb-4 mx-auto">
-                <Calendar className="h-6 w-6 text-accent" />
+            <Card className="card-hover p-8 bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl">
+              <div className="flex items-center justify-center w-16 h-16 bg-gradient-secondary rounded-2xl mb-6 mx-auto shadow-secondary">
+                <Calendar className="h-8 w-8 text-secondary-foreground" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">Campus Events</h3>
-              <p className="text-muted-foreground text-sm">
-                Organizing vibrant cultural, technical, and social events for the community
+              <h3 className="text-xl font-display font-semibold mb-4 text-foreground">Campus Innovation</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Orchestrating transformative cultural, technical, and social experiences that define campus life
               </p>
             </Card>
 
-            <Card className="p-6 border-2 hover:border-accent/20 transition-all duration-300 hover:shadow-lg">
-              <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg mb-4 mx-auto">
-                <FileText className="h-6 w-6 text-accent" />
+            <Card className="card-hover p-8 bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl">
+              <div className="flex items-center justify-center w-16 h-16 bg-gradient-primary rounded-2xl mb-6 mx-auto shadow-primary">
+                <Zap className="h-8 w-8 text-primary-foreground" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">Student Support</h3>
-              <p className="text-muted-foreground text-sm">
-                Providing support, resources, and guidance for academic and personal growth
+              <h3 className="text-xl font-display font-semibold mb-4 text-foreground">Student Empowerment</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Providing comprehensive support, resources, and opportunities for academic and personal excellence
               </p>
             </Card>
           </div>
