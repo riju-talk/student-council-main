@@ -53,7 +53,7 @@ export const Header = () => {
 
       {/* Mobile Dropdown Menu */}
       {isMenuOpen && (
-        <div className="hidden xl:flex items-center space-x-6 font-medium text-sm">
+        <div className="xl:hidden bg-background border-t">{/* Fixed: Show on mobile, hide on xl+ */}
           <div className="flex flex-col items-start space-y-4 p-6">
             <Link to="/" className="w-full py-2 text-lg font-medium hover:text-accent" onClick={() => setIsMenuOpen(false)}>Home</Link>
             <Link to="/representatives" className="w-full py-2 text-lg font-medium hover:text-accent" onClick={() => setIsMenuOpen(false)}>Representatives</Link>

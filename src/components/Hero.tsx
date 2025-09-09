@@ -3,34 +3,34 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { FileText, Users, Calendar } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 
 
 export const Hero = () => {
   const [activeMembers, setActiveMembers] = useState(0);
   const [activeClubs, setActiveClubs] = useState(0);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { count: membersCount } = await supabase
-          .from("student_representatives")
-          .select('*', { count: 'exact', head: true });
-        
-        const { count: clubsCount } = await supabase
-          .from("clubs")
-          .select('*', { count: 'exact', head: true })
-          .eq('is_active', true); // Only count active clubs
+  const fetchData = useCallback(async () => {
+    try {
+      const { count: membersCount } = await supabase
+        .from("student_representatives")
+        .select('*', { count: 'exact', head: true });
+      
+      const { count: clubsCount } = await supabase
+        .from("clubs")
+        .select('*', { count: 'exact', head: true })
+        .eq('is_active', true); // Only count active clubs
 
-        setActiveMembers(membersCount || 0);
-        setActiveClubs(clubsCount || 0);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
+      setActiveMembers(membersCount || 0);
+      setActiveClubs(clubsCount || 0);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-background overflow-hidden">
