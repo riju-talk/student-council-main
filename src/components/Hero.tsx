@@ -32,6 +32,7 @@ export const Hero = () => {
   }, [fetchData]);
 
   return (
+    <>
     <section className="relative min-h-screen flex items-center justify-center bg-background overflow-hidden">
       {/* Grid background like the posts */}
       <div className="absolute inset-0 geometric-grid opacity-60"></div>
@@ -72,9 +73,9 @@ export const Hero = () => {
           </Badge>
 
           {/* Main Heading with typography matching the posts */}
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight text-glow-primary">
+          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
             <span className="block text-foreground">IIIT Delhi</span>
-            <span className="block gold-standard text-glow-primary">
+            <span className="block gold-standard">
            Student Council
             </span>
           </h1>
@@ -93,7 +94,7 @@ export const Hero = () => {
               className="px-8 py-4 bg-primary hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 text-primary-foreground font-semibold text-lg rounded-xl transition-all duration-300 hover:scale-105" 
               asChild
             >
-              <a href="#about">
+              <a href="/about">
                 <Users className="h-5 w-5 mr-2" />
                 Discover Our Mission
               </a>
@@ -104,7 +105,7 @@ export const Hero = () => {
               className="px-8 py-4 border-2 border-primary/50 hover:border-primary text-foreground hover:bg-primary/20 font-semibold text-lg rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/25" 
               asChild
             >
-              <a href="#representatives">
+              <a href="/representatives">
                 <Star className="h-5 w-5 mr-2" />
                 Meet Our Leaders
               </a>
@@ -133,8 +134,20 @@ export const Hero = () => {
               </p>
             </Card>
 
+            <Card className="card-hover p-8 bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl">
+              <div className="flex items-center justify-center w-16 h-16 bg-primary/20 rounded-2xl mb-6 mx-auto">
+                <Users className="h-8 w-8 text-primary-foreground" />
+              </div>
+              <h3 className="text-xl font-display font-semibold mb-4 text-foreground">Student Support</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Ensuring every student's needs are met through comprehensive support services
+              </p>
+            </Card>
+
+          </div>
+        </div>
+      </div>
     </section>
+    </>
   );
 };
-  )
-}

@@ -12,7 +12,7 @@ export const Footer = () => {
             <div className="flex items-center space-x-3 mb-4">
               {/* Placeholder for logos */}
               <div className="h-10 w-auto bg-muted/20 flex items-center justify-center">
-                <img src="student_council.jpg" alt="IIIT Delhi Logo" className="h-12 w-auto logo-glow brightness-125" />
+                <img src="student_council.jpg" alt="IIIT Delhi Logo" className="h-12 w-auto " />
               </div>
               <div>
                 <h3 className="text-lg gold-standard">Student Council</h3>

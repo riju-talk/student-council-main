@@ -119,7 +119,7 @@ export const AboutCouncil = () => {
                     <CardContent>
                       <div className="space-y-6">
                         {/* --- Elections and Members Info --- */}
-                        <div className="p-4 rounded-lg bg-gradient-to-r from-primary/90 to-accent/80 text-white shadow-md">
+                        <div className="p-4 rounded-lg bg-transparent text-white shadow-md border border-border/50">
                           <p className="text-sm">
                             <strong>The elections were conducted on 26th May 2025 for open positions in the Student Council.</strong>
                           </p>
@@ -135,7 +135,7 @@ export const AboutCouncil = () => {
                         </div>
 
                         {/* --- Leadership Positions --- */}
-                        <div className="p-4 rounded-lg bg-gradient-to-r from-secondary/90 to-muted/80 text-foreground shadow-md border border-secondary">
+                        <div className="p-4 rounded-lg bg-transparent text-white shadow-md border border-border/50">
                           <h4 className="font-medium mb-2">Leadership Positions</h4>
                           <ul className="text-sm space-y-1">
                             <li>• President</li>

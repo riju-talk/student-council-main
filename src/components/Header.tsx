@@ -13,14 +13,14 @@ export const Header = () => {
       <div className="container mx-auto flex items-center justify-between px-4 py-4 md:py-5">
         {/* Logo Section with enhanced styling */}
         <div className="flex items-center space-x-4">
-          <div className="relative">
-            <img src="IIITD.png" alt="IIIT Delhi Logo" className="h-12 transition-all duration-300 hover:scale-110 logo-glow" />
+          <div className="">
+            <img src="IIITD.png" alt="IIIT Delhi Logo" className="h-12" />
           </div>
           <div className="relative">
             <img 
               src="student_council.jpg" 
               alt="Student Council Logo" 
-              className="h-12 rounded-full border-2 border-primary/50 transition-all duration-300 hover:border-primary logo-glow brightness-125" 
+              className="h-12 rounded-full" 
             />
           </div>
           <div className="hidden md:block">

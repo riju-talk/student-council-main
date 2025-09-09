@@ -19,21 +19,6 @@ export const Representatives = () => {
     },
   });
 
-  // Only show these specific representatives
-  const allowedEmails = [
-    "nootan22340@iiitd.ac.in",
-    "riya22410@iiitd.ac.in",
-    "ayaan22121@iiitd.ac.in",
-    "krish22253@iiitd.ac.in",
-  ];
-
-  const iconMap: Record<string, any> = {
-    President: Crown,
-    "Vice-President": Briefcase,
-    Treasurer: IndianRupee,
-    "Sports Secretary": Volleyball,
-  };
-
   const filteredReps = useMemo(
     () =>
       representatives.filter(
@@ -84,7 +69,7 @@ export const Representatives = () => {
               ))
             ) : (
               filteredReps.map((rep: any, index: number) => {
-                const Icon = iconMap[rep.position] || Users;
+                //const Icon = iconMap[rep.position] || Users;
                 return (
                   <Card
                     key={index}
@@ -92,12 +77,11 @@ export const Representatives = () => {
                   >
                     <div className="flex flex-col items-center relative z-10">
                       <h3 className="font-bold text-xl text-foreground mb-1 text-center">{rep.name}</h3>
-                      <div className="flex items-center text-primary text-base font-medium mb-2">
-                        <Icon className="h-4 w-4 mr-1" />
+                      <div className="flex items-center text-primary text-base font-medium mb-2 text-center">
                         {rep.position}
                       </div>
                       <span className="text-xs bg-primary/10 text-primary px-3 py-1 rounded-full mb-2 tracking-wide">
-                        Batch of {rep.year}
+                        {rep.year === 0 ? 'PhD' : `Batch of ${rep.year}`}
                       </span>
                       <div className="flex items-center text-muted-foreground text-sm mt-2">
                         <Mail className="h-4 w-4 mr-2" />
