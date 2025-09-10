@@ -33,7 +33,7 @@
     
     /* Muted Colors */
     --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 65%;
+    --muted-foreground: 0 0% 78%;
     
     /* Accent - Sophisticated Gray */
     --accent: 0 0% 18%;
@@ -287,10 +287,15 @@
     }
   }
 
-  /* Floating geometric elements */
-  .floating-element {
-    animation: float 6s ease-in-out infinite;
-  }
+/* Floating geometric elements */
+.floating-element {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Text Shadow */
+.text-shadow-lg {
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
 
   .floating-element:nth-child(2) {
     animation-delay: -2s;

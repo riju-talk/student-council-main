@@ -41,11 +41,11 @@ export const Hero = () => {
       <div className="absolute inset-0 flex items-center justify-center opacity-30">
         <div className="relative">
           {/* Central council logo with glow */}
-          <div className="w-96 h-96 rounded-full bg-gradient-to-br from-primary/30 to-secondary/20 flex items-center justify-center logo-glow">
+          <div className="w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary/30 to-secondary/20 flex items-center justify-center logo-glow">
             <img 
               src="student_council.jpg" 
               alt="Student Council Logo" 
-              className="w-80 h-80 rounded-full object-cover border-4 border-primary/50 brightness-125" 
+              className="w-[450px] h-[450px] rounded-full object-cover border-4 border-primary/50 brightness-125" 
             />
           </div>
           
@@ -67,15 +67,15 @@ export const Hero = () => {
       <div className="container relative z-10 px-4 text-center">
         <div className="max-w-5xl mx-auto">
           {/* Premium Badge */}
-          <Badge variant="outline" className="mb-8 px-6 py-3 text-sm font-medium border-primary/30 text-primary bg-primary/5 hover:bg-primary/10 transition-all duration-300 text-foreground">
+          <Badge variant="outline" className="mb-8 px-6 py-3 text-sm font-medium border-primary/40 text-primary bg-primary/10 hover:bg-primary/15 transition-all duration-300 backdrop-blur-sm">
             <Award className="h-4 w-4 mr-2" />
             Student Leadership Excellence
           </Badge>
 
           {/* Main Heading with typography matching the posts */}
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
-            <span className="block text-foreground">IIIT Delhi</span>
-            <span className="block gold-standard">
+          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight text-shadow-lg">
+            <span className="block text-foreground drop-shadow-lg">IIIT Delhi</span>
+            <span className="block gold-standard drop-shadow-lg">
            Student Council
             </span>
           </h1>
