@@ -47,7 +47,7 @@ export const Representatives = () => {
               <Crown className="h-3 w-3 mr-2" />
               Leadership
             </Badge>
-            <h2 className="text-3xl md:text-4xl gold-standard mb-4">Student Representatives</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">Student Representatives</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Meet the dedicated students who represent your voice and work tirelessly to improve campus life
             </p>
@@ -76,7 +76,7 @@ export const Representatives = () => {
                     className="card-hover p-8 rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 shadow-xl group relative overflow-hidden"
                   >
                     <div className="flex flex-col items-center relative z-10">
-                      <h3 className="font-bold text-xl text-foreground mb-1 text-center">{rep.name}</h3>
+                      <h3 className="font-bold text-xl text-white mb-1 text-center">{rep.name}</h3>
                       <div className="flex items-center text-primary text-base font-medium mb-2 text-center">
                         {rep.position}
                       </div>

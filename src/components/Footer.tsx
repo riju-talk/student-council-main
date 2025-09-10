@@ -15,7 +15,7 @@ export const Footer = () => {
                 <img src="student_council.jpg" alt="IIIT Delhi Logo" className="h-12 w-auto " />
               </div>
               <div>
-                <h3 className="text-lg gold-standard">Student Council</h3>
+                <h3 className="text-lg text-primary font-display font-bold">Student Council</h3>
                 <p className="text-sm text-muted-foreground">IIIT Delhi</p>
               </div>
             </div>

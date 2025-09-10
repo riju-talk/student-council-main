@@ -24,7 +24,7 @@ export const Header = () => {
             />
           </div>
           <div className="hidden md:block">
-            <h1 className="text-xl gold-standard">
+            <h1 className="text-xl text-primary font-display font-bold">
               Student Council
             </h1>
             <p className="text-xs text-muted-foreground font-medium tracking-wide uppercase">

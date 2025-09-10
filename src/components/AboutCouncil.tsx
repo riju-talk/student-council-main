@@ -27,7 +27,7 @@ export const AboutCouncil = () => {
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">About Student Council</h2>
+            <h2 className="text-3xl font-bold mb-4 text-white">About Student Council</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Learn about the scope, composition, and functioning of the IIITD Student Council
             </p>
@@ -48,10 +48,10 @@ export const AboutCouncil = () => {
             <TabsContent value="scope" className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Target className="h-5 w-5" />
-                    Scope and Guidelines
-                  </CardTitle>
+                      <CardTitle className="flex items-center gap-2 text-white">
+                        <Target className="h-5 w-5" />
+                        Scope and Guidelines
+                      </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <p className="text-muted-foreground">
@@ -111,7 +111,7 @@ export const AboutCouncil = () => {
                 <TabsContent value="members" className="space-y-6">
                   <Card>
                     <CardHeader>
-                      <CardTitle>Student Council Leadership</CardTitle>
+                      <CardTitle className="text-white">Student Council Leadership</CardTitle>
                       <p className="text-sm text-muted-foreground">
                         The following are the current leadership positions in the Student Council.
                       </p>
@@ -136,7 +136,7 @@ export const AboutCouncil = () => {
 
                         {/* --- Leadership Positions --- */}
                         <div className="p-4 rounded-lg bg-transparent text-white shadow-md border border-border/50">
-                          <h4 className="font-medium mb-2">Leadership Positions</h4>
+                          <h4 className="font-medium mb-2 text-white">Leadership Positions</h4>
                           <ul className="text-sm space-y-1">
                             <li>• President</li>
                             <li>• Vice-President</li>
@@ -168,7 +168,7 @@ export const AboutCouncil = () => {
                                 <Card key={rep.id || index} className="hover:shadow-md transition-shadow">
                                   <CardContent className="p-4">
                                     <div className="space-y-2">
-                                      <h4 className="font-medium">{rep.name}</h4>
+                                      <h4 className="font-medium text-white">{rep.name}</h4>
                                       <Badge variant="secondary">{rep.position}</Badge>
                                       <div className="text-sm text-muted-foreground space-y-1">
                                         <p>
@@ -192,7 +192,7 @@ export const AboutCouncil = () => {
                 <TabsContent value="elections" className="space-y-6">
                   <Card>
                     <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
+                      <CardTitle className="flex items-center gap-2 text-white">
                         <Vote className="h-5 w-5" />
                         Election Process
                       </CardTitle>
@@ -200,10 +200,10 @@ export const AboutCouncil = () => {
                     <CardContent className="space-y-4">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-3">
-                          <h4 className="font-medium flex items-center gap-2">
-                            <Calendar className="h-4 w-4" />
-                            Election Schedule
-                          </h4>
+                           <h4 className="font-medium flex items-center gap-2 text-white">
+                             <Calendar className="h-4 w-4" />
+                             Election Schedule
+                           </h4>
                           <ul className="text-sm space-y-2 text-muted-foreground">
                             <li className="flex items-start gap-2">
                               <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
@@ -217,10 +217,10 @@ export const AboutCouncil = () => {
                         </div>
                         
                         <div className="space-y-3">
-                          <h4 className="font-medium flex items-center gap-2">
-                            <Users className="h-4 w-4" />
-                            Term Details
-                          </h4>
+                           <h4 className="font-medium flex items-center gap-2 text-white">
+                             <Users className="h-4 w-4" />
+                             Term Details
+                           </h4>
                           <ul className="text-sm space-y-2 text-muted-foreground">
                             <li className="flex items-start gap-2">
                               <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
@@ -240,7 +240,7 @@ export const AboutCouncil = () => {
                 <TabsContent value="meetings" className="space-y-6">
                   <Card>
                     <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
+                      <CardTitle className="flex items-center gap-2 text-white">
                         <Calendar className="h-5 w-5" />
                         Meeting Structure
                       </CardTitle>
@@ -252,7 +252,7 @@ export const AboutCouncil = () => {
                             <span className="text-sm font-medium">1</span>
                           </div>
                           <div>
-                            <h4 className="font-medium mb-1">Meeting Coordination</h4>
+                            <h4 className="font-medium mb-1 text-white">Meeting Coordination</h4>
                             <p className="text-sm text-muted-foreground">
                               Each meeting will be coordinated by one of the members, who will be suggested by the council, and will be rotated. 
                               The coordinator will write and circulate the minutes of the meeting.
@@ -265,7 +265,7 @@ export const AboutCouncil = () => {
                             <span className="text-sm font-medium">2</span>
                           </div>
                           <div>
-                            <h4 className="font-medium mb-1">Patron & Invitees</h4>
+                            <h4 className="font-medium mb-1 text-white">Patron & Invitees</h4>
                             <p className="text-sm text-muted-foreground">
                               Dean of student affairs will be the Patron of this council and a permanent invitee to all meetings; 
                               he/she may nominate some faculty member or staff for this.
@@ -278,7 +278,7 @@ export const AboutCouncil = () => {
                             <span className="text-sm font-medium">3</span>
                           </div>
                           <div>
-                            <h4 className="font-medium mb-1">Meeting Minutes</h4>
+                            <h4 className="font-medium mb-1 text-white">Meeting Minutes</h4>
                             <p className="text-sm text-muted-foreground">
                               Minutes of all meetings of the student council will be recorded, and sent to all members and invitees.
                             </p>
