@@ -59,7 +59,7 @@ const MeetingMinutes = () => {
         <main className="container mx-auto px-4 py-8 flex-1">
           {/* Page Header */}
           <div className="mb-8 text-center">
-            <h1 className="text-4xl font-bold text-foreground mb-4">Meeting Minutes</h1>
+            <h1 className="text-4xl font-bold text-white font-display mb-4">Meeting Minutes</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Access official records of Student Council meetings, decisions, and discussions.
             </p>

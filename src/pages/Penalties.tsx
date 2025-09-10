@@ -103,7 +103,7 @@ const Penalties = () => {
               <AlertTriangle className="h-3 w-3 mr-2" />
               Campus Discipline Policy
             </Badge>
-            <h1 className="text-4xl font-bold text-foreground">
+            <h1 className="text-4xl font-bold text-white font-display">
               IIIT Delhi – Campus Discipline & Fine Policy
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">

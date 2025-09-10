@@ -114,7 +114,7 @@ const Representatives = () => {
       <main className="container mx-auto px-4 py-8 relative z-10">
         <div className="max-w-6xl mx-auto space-y-8">
           <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold gold-standard text-primary">Student Representatives</h1>
+            <h1 className="text-4xl font-bold text-white font-display">Student Representatives</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Meet the elected student representatives working for the betterment of campus life and student affairs.
             </p>
@@ -139,7 +139,7 @@ const Representatives = () => {
           {leadership.length > 0 && (
             <div className="space-y-6">
               <div className="text-center">
-                <h2 className="text-2xl font-semibold gold-standard mb-2">Leadership Team</h2>
+                <h2 className="text-2xl font-semibold text-white font-display mb-2">Leadership Team</h2>
                 <p className="text-muted-foreground">Executive positions and secretaries leading various student affairs</p>
               </div>
               
@@ -192,7 +192,7 @@ const Representatives = () => {
           {/* All Members Section */}
           <div className="space-y-6">
             <div className="text-center">
-              <h2 className="text-2xl font-semibold gold-standard mb-2">General Members</h2>
+              <h2 className="text-2xl font-semibold text-white font-display mb-2">General Members</h2>
               <p className="text-muted-foreground">Student council members representing various departments and batches</p>
             </div>
 
