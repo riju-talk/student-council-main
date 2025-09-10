@@ -146,7 +146,7 @@ const Clubs = () => {
 
       <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold gold-standard">
+          <h1 className="text-4xl font-bold text-white font-display">
             Student Clubs
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -187,7 +187,7 @@ const Clubs = () => {
         </Card>
 
         <div className="space-y-6 pt-6">
-          <h2 className="text-2xl font-semibold gold-standard">
+          <h2 className="text-2xl font-semibold text-white font-display">
             Active Clubs
           </h2>
 
