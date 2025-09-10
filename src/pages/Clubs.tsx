@@ -11,8 +11,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
@@ -22,7 +20,6 @@ import {
   Mail,
   Users,
   FileText,
-  Plus,
   ChevronDown,
   Calendar,
   Search,
@@ -149,7 +146,7 @@ const Clubs = () => {
 
       <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold gold-standard text-glow-primary">
+          <h1 className="text-4xl font-bold gold-standard">
             Student Clubs
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">

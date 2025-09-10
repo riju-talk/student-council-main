@@ -12,7 +12,8 @@ export const Representatives = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("student_representatives")
-        .select("*");
+        .select("*")
+        .order("pref_order", { ascending: true });
       if (error) throw error;
       return data;
     },
@@ -46,7 +47,7 @@ export const Representatives = () => {
               <Crown className="h-3 w-3 mr-2" />
               Leadership
             </Badge>
-            <h2 className="text-3xl md:text-4xl gold-standard mb-4 text-glow-primary">Student Representatives</h2>
+            <h2 className="text-3xl md:text-4xl gold-standard mb-4">Student Representatives</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Meet the dedicated students who represent your voice and work tirelessly to improve campus life
             </p>
@@ -67,11 +68,11 @@ export const Representatives = () => {
                 </Card>
               ))
             ) : (
-              filteredReps.map((rep: any, index: number) => {
+              filteredReps.map((rep: any) => {
                 //const Icon = iconMap[rep.position] || Users;
                 return (
                   <Card
-                    key={index}
+                    key={rep.id}
                     className="card-hover p-8 rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 shadow-xl group relative overflow-hidden"
                   >
                     <div className="flex flex-col items-center relative z-10">

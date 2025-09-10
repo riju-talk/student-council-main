@@ -17,7 +17,7 @@ const Representatives = () => {
       const { data, error } = await supabase
         .from("student_representatives")
         .select("*")
-        .order("position", { ascending: true });
+        .order("pref_order", { ascending: true });
       
       if (error) throw error;
       return data;
@@ -166,9 +166,9 @@ const Representatives = () => {
                         {rep.year === 0 ? 'PhD' : `${rep.year} ${rep.program} ${rep.year !== 0 && `- ${rep.branch}`}`}
                         </div>
                         <div className="space-y-2">
-                          <div className="flex items-center gap-2 text-sm">
+                          <div className="flex items-center gap-2 text-sm text-center justify-center">
                             <Mail className="h-3 w-3 text-muted-foreground flex-shrink-0" />
-                            <a href={`mailto:${rep.email}`} className="text-primary hover:underline truncate">
+                            <a href={`mailto:${rep.email}`} className="text-primary hover:underline truncate text-center">
                               {rep.email}
                             </a>
                           </div>
