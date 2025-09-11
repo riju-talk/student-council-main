@@ -75,7 +75,7 @@ export const Hero = () => {
           {/* Main Heading with typography matching the posts */}
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-10 md:mb-12 leading-tight text-shadow-lg">
             <span className="block text-foreground drop-shadow-lg">IIIT Delhi</span>
-            <span className="text-white block font-display font-bold mt-2 md:mt-4">
+            <span className="text-primary block font-display font-bold mt-2 md:mt-4">
            Student Council
             </span>
           </h1>
