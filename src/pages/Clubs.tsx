@@ -146,10 +146,10 @@ const Clubs = () => {
 
       <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold text-white font-display">
+          <h1 className="text-4xl font-bold text-white font-display animate-fade-in-up">
             Student Clubs
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in-up animate-delay-200">
             Explore our vibrant community of student clubs and organizations.
             Join existing clubs or propose a new one!
           </p>
@@ -168,7 +168,7 @@ const Clubs = () => {
           </div>
         </div>
 
-        <Card className="bg-card/80 backdrop-blur-sm border-border/50">
+        <Card className="bg-card/80 backdrop-blur-sm border-border/50 hover-lift animate-fade-in-scale animate-delay-300">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileText className="h-5 w-5" /> Club Guidelines
@@ -177,7 +177,7 @@ const Clubs = () => {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {clubGuidelines.map((guideline, index) => (
-                <div key={index} className="flex items-center gap-2">
+                <div key={index} className="flex items-center gap-2 animate-fade-in-up" style={{ animationDelay: `${400 + index * 100}ms` }}>
                   <div className="w-2 h-2 bg-primary rounded-full" />
                   <span className="text-sm">{guideline}</span>
                 </div>
@@ -220,7 +220,8 @@ const Clubs = () => {
                   <div key={club.id}>
                     <Card
                       onClick={() => setSelectedClub(club)}
-                      className="card-hover cursor-pointer bg-card/80 backdrop-blur-sm border-border/50"
+                      className="card-hover cursor-pointer bg-card/80 backdrop-blur-sm border-border/50 hover-lift animate-fade-in-scale"
+                      style={{ animationDelay: `${(filteredClubs.indexOf(club) % 3) * 100}ms` }}
                     >
                       <CardHeader className="pb-3 flex items-center gap-3">
                         <div className="h-20 w-20 flex-shrink-0 bg-white rounded-lg border overflow-hidden flex items-center justify-center">
