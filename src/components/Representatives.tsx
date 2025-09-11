@@ -43,12 +43,12 @@ export const Representatives = () => {
         {/* Representatives Section */}
         <div className="max-w-6xl mx-auto mb-20">
           <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4 px-4 py-2 border-primary/30 text-primary bg-primary/10">
+            <Badge variant="outline" className="mb-4 px-4 py-2 border-primary/30 text-primary bg-primary/10 animate-fade-in-down">
               <Crown className="h-3 w-3 mr-2" />
               Leadership
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">Student Representatives</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4 animate-fade-in-up animate-delay-200">Student Representatives</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto animate-fade-in-up animate-delay-400">
               Meet the dedicated students who represent your voice and work tirelessly to improve campus life
             </p>
           </div>
@@ -68,16 +68,17 @@ export const Representatives = () => {
                 </Card>
               ))
             ) : (
-              filteredReps.map((rep: any) => {
+              filteredReps.map((rep: any, index: number) => {
                 //const Icon = iconMap[rep.position] || Users;
                 return (
                   <Card
                     key={rep.id}
-                    className="card-hover p-8 rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 shadow-xl group relative overflow-hidden"
+                    className="card-hover p-8 rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 shadow-xl group relative overflow-hidden hover-lift animate-fade-in-scale"
+                    style={{ animationDelay: `${(index % 4) * 150}ms` }}
                   >
                     <div className="flex flex-col items-center relative z-10">
                       <h3 className="font-bold text-xl text-white mb-1 text-center">{rep.name}</h3>
-                      <div className="flex items-center text-primary text-base font-medium mb-2 text-center">
+                      <div className="flex items-center text-primary text-base font-medium mb-2 text-center animate-gentle-float">
                         {rep.position}
                       </div>
                       <span className="text-xs bg-primary/10 text-primary px-3 py-1 rounded-full mb-2 tracking-wide">

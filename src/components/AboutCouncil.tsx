@@ -49,13 +49,13 @@ export const AboutCouncil = () => {
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-16">
-            <Badge className="mb-4 px-6 py-3 text-sm font-medium border-primary/40 text-primary bg-primary/10 backdrop-blur-sm">
+            <Badge className="mb-4 px-6 py-3 text-sm font-medium border-primary/40 text-primary bg-primary/10 backdrop-blur-sm animate-fade-in-down">
               Student Council
             </Badge>
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-foreground">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-foreground animate-fade-in-up animate-delay-200">
               About the Student Council
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed text-lg">
+            <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed text-lg animate-fade-in-up animate-delay-400">
               Learn about the scope, composition, and functioning of the IIITD
               Student Council — the official student body representing voices
               and ideas on campus.
@@ -87,10 +87,10 @@ export const AboutCouncil = () => {
 
             {/* Scope Tab */}
             <TabsContent value="scope">
-              <Card className="card-hover overflow-hidden border border-border/50 backdrop-blur-sm bg-card/80 rounded-2xl">
+              <Card className="card-hover overflow-hidden border border-border/50 backdrop-blur-sm bg-card/80 rounded-2xl hover-lift animate-fade-in-scale">
                 <CardHeader className="bg-gradient-to-r from-primary/20 to-transparent p-6">
                   <CardTitle className="flex items-center gap-2 text-foreground">
-                    <Target className="h-5 w-5 text-primary" />
+                    <Target className="h-5 w-5 text-primary animate-gentle-float" />
                     Scope & Guidelines
                   </CardTitle>
                 </CardHeader>
@@ -108,7 +108,7 @@ export const AboutCouncil = () => {
                       "Student council will have a say in allocation of budget for student activities.",
                       "In matters concerning student interests, the council will send representatives to present student views.",
                     ].map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-3">
+                      <div key={idx} className="flex items-start gap-3 animate-fade-in-up" style={{ animationDelay: `${600 + idx * 150}ms` }}>
                         <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                         <span className="text-sm text-foreground">{item}</span>
                       </div>
@@ -160,7 +160,7 @@ export const AboutCouncil = () => {
 
                 {/* Members */}
                 <TabsContent value="members">
-                  <Card className="card-hover border border-border/50 backdrop-blur-sm bg-card/80 rounded-2xl">
+                  <Card className="card-hover border border-border/50 backdrop-blur-sm bg-card/80 rounded-2xl hover-lift animate-fade-in-scale">
                     <CardHeader className="bg-gradient-to-r from-primary/20 to-transparent p-6">
                       <CardTitle className="text-foreground">
                         Student Council Leadership

@@ -67,31 +67,31 @@ export const Hero = () => {
       <div className="container relative z-10 px-6 md:px-8 text-center">
         <div className="max-w-6xl mx-auto py-12 md:py-16">
           {/* Premium Badge */}
-          <Badge variant="outline" className="mb-8 px-6 py-3 text-sm font-medium border-primary/40 text-primary bg-primary/10 hover:bg-primary/15 transition-all duration-300 backdrop-blur-sm">
+          <Badge variant="outline" className="mb-8 px-6 py-3 text-sm font-medium border-primary/40 text-primary bg-primary/10 hover:bg-primary/15 transition-all duration-300 backdrop-blur-sm animate-fade-in-down">
             <Award className="h-4 w-4 mr-2" />
             Student Leadership Excellence
           </Badge>
 
           {/* Main Heading with typography matching the posts */}
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-10 md:mb-12 leading-tight text-shadow-lg">
-            <span className="block text-foreground drop-shadow-lg">IIIT Delhi</span>
-            <span className="text-white block font-display font-bold mt-2 md:mt-4">
+          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-10 md:mb-12 leading-tight text-shadow-lg animate-fade-in-up animate-delay-200">
+            <span className="block text-foreground drop-shadow-lg animate-slide-in-left">IIIT Delhi</span>
+            <span className="text-white block font-display font-bold mt-2 md:mt-4 animate-slide-in-right animate-delay-300">
            Student Council
             </span>
           </h1>
 
           {/* Subtitle with professional styling */}
-          <p className="text-xl md:text-2xl text-foreground mb-12 max-w-3xl mx-auto leading-relaxed font-sans font-light">
+          <p className="text-xl md:text-2xl text-foreground mb-12 max-w-3xl mx-auto leading-relaxed font-sans font-light animate-fade-in-up animate-delay-500">
             Empowering voices, fostering innovation, and building an extraordinary campus community through 
             <span className="text-primary font-medium"> collaborative leadership</span> and 
             <span className="text-secondary font-medium"> meaningful impact</span>.
           </p>
 
           {/* Premium Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16 md:mb-24">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16 md:mb-24 animate-fade-in-scale animate-delay-400">
             <Button 
               size="lg" 
-              className="px-8 py-4 bg-primary hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 text-primary-foreground font-semibold text-lg rounded-xl transition-all duration-300 hover:scale-105" 
+              className="px-8 py-4 bg-primary hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 text-primary-foreground font-semibold text-lg rounded-xl transition-all duration-300 hover:scale-105 hover-lift" 
               asChild
             >
               <a href="/about">
@@ -102,7 +102,7 @@ export const Hero = () => {
             <Button 
               variant="outline" 
               size="lg" 
-              className="px-8 py-4 border-2 border-primary/50 hover:border-primary text-foreground hover:bg-primary/20 font-semibold text-lg rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/25" 
+              className="px-8 py-4 border-2 border-primary/50 hover:border-primary text-foreground hover:bg-primary/20 font-semibold text-lg rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/25 hover-lift" 
               asChild
             >
               <a href="/representatives">
@@ -114,8 +114,8 @@ export const Hero = () => {
 
           {/* Mission Cards with sophisticated styling */}
           <div className="grid md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto px-4 md:px-0">
-            <Card className="card-hover p-8 bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl">
-              <div className="flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-6 mx-auto">
+            <Card className="card-hover p-8 bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl hover-lift animate-fade-in-up animate-delay-200">
+              <div className="flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-6 mx-auto animate-gentle-float">
                 <Users className="h-8 w-8 text-primary-foreground" />
               </div>
               <h3 className="text-xl font-display font-semibold mb-4 text-foreground">Student Representation</h3>
@@ -124,8 +124,8 @@ export const Hero = () => {
               </p>
             </Card>
 
-            <Card className="card-hover p-8 bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl">
-              <div className="flex items-center justify-center w-16 h-16 bg-secondary rounded-2xl mb-6 mx-auto">
+            <Card className="card-hover p-8 bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl hover-lift animate-fade-in-up animate-delay-300">
+              <div className="flex items-center justify-center w-16 h-16 bg-secondary rounded-2xl mb-6 mx-auto animate-gentle-float animate-delay-100">
                 <Calendar className="h-8 w-8 text-secondary-foreground" />
               </div>
               <h3 className="text-xl font-display font-semibold mb-4 text-foreground">Campus Innovation</h3>
@@ -134,8 +134,8 @@ export const Hero = () => {
               </p>
             </Card>
 
-            <Card className="card-hover p-8 bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl">
-              <div className="flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-6 mx-auto">
+            <Card className="card-hover p-8 bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl hover-lift animate-fade-in-up animate-delay-400">
+              <div className="flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-6 mx-auto animate-gentle-float animate-delay-200">
                 <Users className="h-8 w-8 text-primary-foreground" />
               </div>
               <h3 className="text-xl font-display font-semibold mb-4 text-foreground">Student Support</h3>

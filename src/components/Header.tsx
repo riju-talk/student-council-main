@@ -13,14 +13,14 @@ export const Header = () => {
       <div className="container mx-auto flex items-center justify-between px-4 py-4 md:py-5">
         {/* Logo Section with enhanced styling */}
         <div className="flex items-center space-x-4">
-          <div className="">
-            <img src="IIITD.png" alt="IIIT Delhi Logo" className="h-12" />
+          <div className="animate-gentle-float">
+            <img src="IIITD.png" alt="IIIT Delhi Logo" className="h-12 transition-transform hover:scale-110 duration-300" />
           </div>
-          <div className="relative">
+          <div className="relative animate-gentle-float animate-delay-100">
             <img 
               src="student_council.jpg" 
               alt="Student Council Logo" 
-              className="h-12 rounded-full" 
+              className="h-12 rounded-full transition-transform hover:scale-110 duration-300" 
             />
           </div>
           <div className="hidden md:block">
@@ -37,43 +37,43 @@ export const Header = () => {
         <nav className="hidden xl:flex items-center space-x-8 font-medium text-sm">
           <Link 
             to="/" 
-            className="story-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
+            className="nav-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
           >
             Home
           </Link>
           <Link 
             to="/representatives" 
-            className="story-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
+            className="nav-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
           >
             Representatives
           </Link>
           <Link 
             to="/clubs" 
-            className="story-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
+            className="nav-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
           >
             Clubs
           </Link>
           <Link 
             to="/hostel" 
-            className="story-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
+            className="nav-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
           >
             Hostel
           </Link>
           <Link 
             to="/important-contacts" 
-            className="story-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
+            className="nav-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
           >
             Contacts
           </Link>
           <Link 
             to="/penalties" 
-            className="story-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
+            className="nav-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
           >
             Penalties
           </Link>
           <Link 
             to="/meeting-minutes" 
-            className="story-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
+            className="nav-link text-foreground/80 hover:text-primary transition-all duration-300 font-sans"
           >
             Minutes
           </Link>
