@@ -1,290 +1,272 @@
+"use client";
+
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Users, Calendar, BookOpen, Target, CheckCircle, Vote } from "lucide-react";
+import {
+  Users,
+  Calendar,
+  Target,
+  CheckCircle,
+  Vote,
+} from "lucide-react";
 
 export const AboutCouncil = () => {
   const [activeTab, setActiveTab] = useState("scope");
 
-  // Fetch representatives from Supabase
   const { data: representatives = [], isLoading } = useQuery({
     queryKey: ["student-representatives"],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("student_representatives")
         .select("*")
-        .order("position", { ascending: true });
+        .order("pref_order", { ascending: true });
       if (error) throw error;
       return data;
     },
   });
 
   return (
-    <section className="py-20 bg-background">
-      <div className="container mx-auto px-4">
+    <section className="relative py-20 bg-background overflow-hidden">
+      {/* Floating geometric elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="floating-element absolute top-20 left-10 w-32 h-32 bg-primary/25 rounded-3xl rotate-45"></div>
+        <div className="floating-element absolute top-40 right-20 w-24 h-24 bg-secondary/20 rounded-full"></div>
+        <div className="floating-element absolute bottom-32 left-1/4 w-20 h-20 bg-primary/30 rounded-2xl transform rotate-12"></div>
+        <div className="floating-element absolute bottom-20 right-1/3 w-28 h-28 bg-secondary/15 rounded-full"></div>
+        <div className="floating-element absolute top-1/3 right-1/4 w-16 h-16 bg-primary/20 rounded-xl"></div>
+      </div>
+
+      <div className="container relative z-10 mx-auto px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-white">About Student Council</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Learn about the scope, composition, and functioning of the IIITD Student Council
+          {/* Header */}
+          <div className="text-center mb-16">
+            <Badge className="mb-4 px-6 py-3 text-sm font-medium border-primary/40 text-primary bg-primary/10 backdrop-blur-sm">
+              Student Council
+            </Badge>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-foreground">
+              About the Student Council
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed text-lg">
+              Learn about the scope, composition, and functioning of the IIITD
+              Student Council — the official student body representing voices
+              and ideas on campus.
             </p>
           </div>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="scope" className="flex items-center gap-2">
+          {/* Tabs */}
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="w-full"
+          >
+            <TabsList className="flex w-full justify-center mb-12 gap-3 bg-transparent p-2 rounded-2xl">
+              <TabsTrigger
+                value="scope"
+                className="flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-medium data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
+              >
                 <Target className="h-4 w-4" />
                 Scope & Guidelines
               </TabsTrigger>
-              <TabsTrigger value="composition" className="flex items-center gap-2">
+              <TabsTrigger
+                value="composition"
+                className="flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-medium data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
+              >
                 <Users className="h-4 w-4" />
                 Composition
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="scope" className="space-y-6">
-              <Card>
-                <CardHeader>
-                      <CardTitle className="flex items-center gap-2 text-white">
-                        <Target className="h-5 w-5" />
-                        Scope and Guidelines
-                      </CardTitle>
+            {/* Scope Tab */}
+            <TabsContent value="scope">
+              <Card className="card-hover overflow-hidden border border-border/50 backdrop-blur-sm bg-card/80 rounded-2xl">
+                <CardHeader className="bg-gradient-to-r from-primary/20 to-transparent p-6">
+                  <CardTitle className="flex items-center gap-2 text-foreground">
+                    <Target className="h-5 w-5 text-primary" />
+                    Scope & Guidelines
+                  </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground">
-                    The scope of student council is limited to academic and extra curricular activities within the context of the Institute. 
-                    The student council will be the main student body for these activities.
+                <CardContent className="space-y-6 p-6">
+                  <p className="text-muted-foreground text-lg">
+                    The scope of the student council is limited to academic and
+                    extra-curricular activities within the Institute. It serves
+                    as the main student body to represent these areas.
                   </p>
-                  
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                      <span className="text-sm">The council will decide which clubs to start, which activities students should participate in, etc.</span>
-                    </div>
-                    
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                      <span className="text-sm">All such decisions must be approved by Dean of Students.</span>
-                    </div>
-                    
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                      <span className="text-sm">Student council will have a say in allocation of budget for student activities.</span>
-                    </div>
-                    
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                      <span className="text-sm">In most matters where student interests are involved, student council will be invited to send a representative to give student's view.</span>
-                    </div>
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {[
+                      "The council will decide which clubs to start and which activities students should participate in.",
+                      "All such decisions must be approved by the Dean of Students.",
+                      "Student council will have a say in allocation of budget for student activities.",
+                      "In matters concerning student interests, the council will send representatives to present student views.",
+                    ].map((item, idx) => (
+                      <div key={idx} className="flex items-start gap-3">
+                        <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                        <span className="text-sm text-foreground">{item}</span>
+                      </div>
+                    ))}
                   </div>
 
-                  <div className="bg-muted/50 p-4 rounded-lg">
-                    <p className="text-sm">
-                      <strong>Note:</strong> To know about Cultural Council, which is an independent body, 
-                      <a href="https://www.instagram.com/cc_iiitd/?hl=en" className="text-primary hover:underline ml-1" target="_blank" rel="noopener noreferrer">click here</a>
-                    </p>
+                  <div className="bg-muted/50 p-4 rounded-lg text-sm">
+                    <strong>Note:</strong> To know about the Cultural Council
+                    (independent body),{" "}
+                    <a
+                      href="https://www.instagram.com/cc_iiitd/?hl=en"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      click here
+                    </a>
                   </div>
                 </CardContent>
               </Card>
             </TabsContent>
 
-            <TabsContent value="composition" className="space-y-6">
+            {/* Composition Tab */}
+            <TabsContent value="composition">
               <Tabs defaultValue="members" className="w-full">
-                <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="members" className="flex items-center gap-2">
+                <TabsList className="flex w-full justify-center mb-8 gap-2 bg-transparent p-2 rounded-xl">
+                  <TabsTrigger
+                    value="members"
+                    className="px-5 py-2 rounded-lg text-sm font-medium data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
+                  >
                     <Users className="h-4 w-4" />
                     Members
                   </TabsTrigger>
-                  <TabsTrigger value="elections" className="flex items-center gap-2">
+                  <TabsTrigger
+                    value="elections"
+                    className="px-5 py-2 rounded-lg text-sm font-medium data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
+                  >
                     <Vote className="h-4 w-4" />
                     Elections
                   </TabsTrigger>
-                  <TabsTrigger value="meetings" className="flex items-center gap-2">
+                  <TabsTrigger
+                    value="meetings"
+                    className="px-5 py-2 rounded-lg text-sm font-medium data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
+                  >
                     <Calendar className="h-4 w-4" />
                     Meetings
                   </TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="members" className="space-y-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-white">Student Council Leadership</CardTitle>
+                {/* Members */}
+                <TabsContent value="members">
+                  <Card className="card-hover border border-border/50 backdrop-blur-sm bg-card/80 rounded-2xl">
+                    <CardHeader className="bg-gradient-to-r from-primary/20 to-transparent p-6">
+                      <CardTitle className="text-foreground">
+                        Student Council Leadership
+                      </CardTitle>
                       <p className="text-sm text-muted-foreground">
-                        The following are the current leadership positions in the Student Council.
+                        The following are the current leadership positions and
+                        election details.
                       </p>
                     </CardHeader>
-                    <CardContent>
-                      <div className="space-y-6">
-                        {/* --- Elections and Members Info --- */}
-                        <div className="p-4 rounded-lg bg-transparent text-white shadow-md border border-border/50">
-                          <p className="text-sm">
-                            <strong>The elections were conducted on 26th May 2025 for open positions in the Student Council.</strong>
-                          </p>
-                          <p className="text-sm mt-1">
-                            <strong>BTech 2025: 9 Student Representatives:</strong> 2 for CSE; 1 for ECE; 1 for CSAM, 1 for CSSS, 1 for CSD, 1 for CSB, 1 for CSAI, 1 for EVE
-                          </p>
-                          <p className="text-sm mt-1">
-                            <strong>Any student representative must have a CGPA of 7.0 or above.</strong>
-                          </p>
-                          <p className="text-sm mt-1">
-                            <strong>Student coordinators for identified activity clubs</strong> – students will select in consultation with the Dean.
-                          </p>
-                        </div>
+                    <CardContent className="space-y-6 p-6">
+                      <div className="rounded-lg border p-4 text-sm">
+                        <p>
+                          <strong>Elections held:</strong> 26th May 2025
+                        </p>
+                        <p className="mt-1">
+                          <strong>BTech 2025:</strong> 9 Representatives across
+                          CSE, ECE, CSAM, CSSS, CSD, CSB, CSAI, EVE
+                        </p>
+                        <p className="mt-1">
+                          Eligibility: CGPA of 7.0 or above
+                        </p>
+                        <p className="mt-1">
+                          Student coordinators selected in consultation with the
+                          Dean
+                        </p>
+                      </div>
 
-                        {/* --- Leadership Positions --- */}
-                        <div className="p-4 rounded-lg bg-transparent text-white shadow-md border border-border/50">
-                          <h4 className="font-medium mb-2 text-white">Leadership Positions</h4>
-                          <ul className="text-sm space-y-1">
-                            <li>• President</li>
-                            <li>• Vice-President</li>
-                            <li>• Treasurer</li>
-                            <li>• Sports Secretary</li>
-                          </ul>
-                        </div>
-
-                        {/* --- Leadership Cards --- */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          {isLoading ? (
-                            [...Array(4)].map((_, i) => (
-                              <Card key={i} className="animate-pulse">
-                                <CardContent className="p-4">
-                                  <div className="space-y-2">
-                                    <div className="h-5 bg-muted rounded w-3/4" />
-                                    <div className="h-4 bg-muted rounded w-1/2" />
-                                    <div className="h-4 bg-muted rounded w-full" />
-                                  </div>
-                                </CardContent>
-                              </Card>
-                            ))
-                          ) : (
-                            representatives
-                              .filter(rep =>
-                                ["President", "Vice-President", "Treasurer", "Sports Secretary"].includes(rep.position)
-                              )
-                              .map((rep, index) => (
-                                <Card key={rep.id || index} className="hover:shadow-md transition-shadow">
-                                  <CardContent className="p-4">
-                                    <div className="space-y-2">
-                                      <h4 className="font-medium text-white">{rep.name}</h4>
-                                      <Badge variant="secondary">{rep.position}</Badge>
-                                      <div className="text-sm text-muted-foreground space-y-1">
-                                        <p>
-                                          {rep.program || rep.year} - {rep.branch}
-                                        </p>
-                                        <a href={`mailto:${rep.email}`} className="text-primary hover:underline break-all">
-                                          {rep.email}
-                                        </a>
-                                      </div>
-                                    </div>
-                                  </CardContent>
-                                </Card>
-                              ))
-                          )}
-                        </div>
+                      <div className="rounded-lg border p-4 text-sm">
+                        <h4 className="font-medium mb-2">
+                          Leadership Positions
+                        </h4>
+                        <ul className="space-y-1">
+                          <li>• President</li>
+                          <li>• Vice-President</li>
+                          <li>• Treasurer</li>
+                          <li>• Sports Secretary</li>
+                        </ul>
                       </div>
                     </CardContent>
                   </Card>
                 </TabsContent>
 
-                <TabsContent value="elections" className="space-y-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2 text-white">
-                        <Vote className="h-5 w-5" />
+                {/* Elections */}
+                <TabsContent value="elections">
+                  <Card className="card-hover border border-border/50 backdrop-blur-sm bg-card/80 rounded-2xl">
+                    <CardHeader className="bg-gradient-to-r from-primary/20 to-transparent p-6">
+                      <CardTitle className="flex items-center gap-2 text-foreground">
+                        <Vote className="h-5 w-5 text-primary" />
                         Election Process
                       </CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-3">
-                           <h4 className="font-medium flex items-center gap-2 text-white">
-                             <Calendar className="h-4 w-4" />
-                             Election Schedule
-                           </h4>
-                          <ul className="text-sm space-y-2 text-muted-foreground">
-                            <li className="flex items-start gap-2">
-                              <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
-                              Every year, elections are held in March (even semester)
-                            </li>
-                            <li className="flex items-start gap-2">
-                              <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
-                              Newly elected council takes charge at the end of even semester (April)
-                            </li>
-                          </ul>
-                        </div>
-                        
-                        <div className="space-y-3">
-                           <h4 className="font-medium flex items-center gap-2 text-white">
-                             <Users className="h-4 w-4" />
-                             Term Details
-                           </h4>
-                          <ul className="text-sm space-y-2 text-muted-foreground">
-                            <li className="flex items-start gap-2">
-                              <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
-                              Term of a student council member is 1 year
-                            </li>
-                            <li className="flex items-start gap-2">
-                              <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
-                              May be re-elected at most once more
-                            </li>
-                          </ul>
-                        </div>
+                    <CardContent className="p-6 grid md:grid-cols-2 gap-6 text-sm">
+                      <div>
+                        <h4 className="font-medium mb-2">Election Schedule</h4>
+                        <ul className="space-y-2 text-muted-foreground">
+                          <li>• Elections held in March (even semester)</li>
+                          <li>• Council takes charge by April</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="font-medium mb-2">Term Details</h4>
+                        <ul className="space-y-2 text-muted-foreground">
+                          <li>• Term is 1 year</li>
+                          <li>• May be re-elected once more</li>
+                        </ul>
                       </div>
                     </CardContent>
                   </Card>
                 </TabsContent>
 
-                <TabsContent value="meetings" className="space-y-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2 text-white">
-                        <Calendar className="h-5 w-5" />
+                {/* Meetings */}
+                <TabsContent value="meetings">
+                  <Card className="card-hover border border-border/50 backdrop-blur-sm bg-card/80 rounded-2xl">
+                    <CardHeader className="bg-gradient-to-r from-primary/20 to-transparent p-6">
+                      <CardTitle className="flex items-center gap-2 text-foreground">
+                        <Calendar className="h-5 w-5 text-primary" />
                         Meeting Structure
                       </CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="space-y-4">
-                        <div className="flex items-start gap-3">
-                          <div className="w-8 h-8 bg-primary/10 text-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <span className="text-sm font-medium">1</span>
+                    <CardContent className="p-6 space-y-6 text-sm">
+                      {[
+                        {
+                          title: "Meeting Coordination",
+                          desc: "Each meeting is coordinated by a rotating member, responsible for writing and circulating minutes.",
+                        },
+                        {
+                          title: "Patron & Invitees",
+                          desc: "Dean of Student Affairs is Patron and permanent invitee; may nominate faculty/staff.",
+                        },
+                        {
+                          title: "Meeting Minutes",
+                          desc: "Minutes are recorded and sent to all members and invitees.",
+                        },
+                      ].map((item, idx) => (
+                        <div key={idx} className="flex gap-3">
+                          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-primary/10 text-primary font-medium">
+                            {idx + 1}
                           </div>
                           <div>
-                            <h4 className="font-medium mb-1 text-white">Meeting Coordination</h4>
-                            <p className="text-sm text-muted-foreground">
-                              Each meeting will be coordinated by one of the members, who will be suggested by the council, and will be rotated. 
-                              The coordinator will write and circulate the minutes of the meeting.
-                            </p>
+                            <h4 className="font-medium text-foreground">
+                              {item.title}
+                            </h4>
+                            <p className="text-muted-foreground">{item.desc}</p>
                           </div>
                         </div>
-
-                        <div className="flex items-start gap-3">
-                          <div className="w-8 h-8 bg-primary/10 text-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <span className="text-sm font-medium">2</span>
-                          </div>
-                          <div>
-                            <h4 className="font-medium mb-1 text-white">Patron & Invitees</h4>
-                            <p className="text-sm text-muted-foreground">
-                              Dean of student affairs will be the Patron of this council and a permanent invitee to all meetings; 
-                              he/she may nominate some faculty member or staff for this.
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-start gap-3">
-                          <div className="w-8 h-8 bg-primary/10 text-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <span className="text-sm font-medium">3</span>
-                          </div>
-                          <div>
-                            <h4 className="font-medium mb-1 text-white">Meeting Minutes</h4>
-                            <p className="text-sm text-muted-foreground">
-                              Minutes of all meetings of the student council will be recorded, and sent to all members and invitees.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
+                      ))}
                     </CardContent>
                   </Card>
                 </TabsContent>

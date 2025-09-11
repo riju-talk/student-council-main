@@ -94,7 +94,7 @@
   
   /* Typography matching the posts */
   .font-display {
-    font-family: 'Libre Baskerville', serif;
+    font-family: 'Libre Baskerville', sans-serif;
     font-weight: 500;
     letter-spacing: -0.02em;
   }

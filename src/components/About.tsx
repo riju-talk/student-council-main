@@ -51,7 +51,7 @@ export const About = () => {
             <Heart className="h-3 w-3 mr-2" />
             About Us
           </Badge>
-          <h2 className="text-3xl md:text-4xl gold-standard mb-6">Who We Are</h2>
+          <h2 className="text-3xl md:text-4xl text-foreground mb-6">Who We Are</h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
             The Student Council at IIIT Delhi is the official voice of our student body, dedicated to 
             enhancing campus life, advocating for student rights, and fostering academic excellence. 
@@ -61,7 +61,7 @@ export const About = () => {
         </div>
 
         {/* Values Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
           {values.map((value, index) => {
             const Icon = value.icon;
             return (
@@ -74,6 +74,22 @@ export const About = () => {
               </Card>
             );
           })}
+        </div>
+
+        {/* Clubs Section */}
+        <div className="max-w-5xl mx-auto text-center">
+          <Badge variant="outline" className="mb-4 px-4 py-2 border-secondary/30 text-secondary bg-secondary/10">
+            Our Clubs & Committees
+          </Badge>
+          <h2 className="text-2xl md:text-3xl text-foreground mb-6">Explore Student Communities</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {clubs.map((club, index) => (
+              <Card key={index} className="p-6 bg-card/80 backdrop-blur-sm border border-border/50 text-left">
+                <h3 className="font-semibold text-lg mb-2">{club.name}</h3>
+                <p className="text-sm text-muted-foreground">{club.focus}</p>
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -75,13 +75,13 @@ export const Hero = () => {
           {/* Main Heading with typography matching the posts */}
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight text-shadow-lg">
             <span className="block text-foreground drop-shadow-lg">IIIT Delhi</span>
-            <span className="block text-white font-display font-bold drop-shadow-lg">
+            <span className="text-primary block font-display font-bold">
            Student Council
-             </span>
+            </span>
           </h1>
 
           {/* Subtitle with professional styling */}
-          <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed font-sans font-light">
+          <p className="text-xl md:text-2xl text-foreground mb-12 max-w-3xl mx-auto leading-relaxed font-sans font-light">
             Empowering voices, fostering innovation, and building an extraordinary campus community through 
             <span className="text-primary font-medium"> collaborative leadership</span> and 
             <span className="text-secondary font-medium"> meaningful impact</span>.
@@ -115,7 +115,7 @@ export const Hero = () => {
           {/* Mission Cards with sophisticated styling */}
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <Card className="card-hover p-8 bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl">
-              <div className="flex items-center justify-center w-16 h-16 bg-primary/20 rounded-2xl mb-6 mx-auto">
+              <div className="flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-6 mx-auto">
                 <Users className="h-8 w-8 text-primary-foreground" />
               </div>
               <h3 className="text-xl font-display font-semibold mb-4 text-foreground">Student Representation</h3>
@@ -125,7 +125,7 @@ export const Hero = () => {
             </Card>
 
             <Card className="card-hover p-8 bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl">
-              <div className="flex items-center justify-center w-16 h-16 bg-secondary/20 rounded-2xl mb-6 mx-auto">
+              <div className="flex items-center justify-center w-16 h-16 bg-secondary rounded-2xl mb-6 mx-auto">
                 <Calendar className="h-8 w-8 text-secondary-foreground" />
               </div>
               <h3 className="text-xl font-display font-semibold mb-4 text-foreground">Campus Innovation</h3>
@@ -135,7 +135,7 @@ export const Hero = () => {
             </Card>
 
             <Card className="card-hover p-8 bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl">
-              <div className="flex items-center justify-center w-16 h-16 bg-primary/20 rounded-2xl mb-6 mx-auto">
+              <div className="flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-6 mx-auto">
                 <Users className="h-8 w-8 text-primary-foreground" />
               </div>
               <h3 className="text-xl font-display font-semibold mb-4 text-foreground">Student Support</h3>
