@@ -23,14 +23,14 @@ function MinutesList() {
   useEffect(() => {
     const fetchMinutes = async () => {
       const { data, error } = await supabase
-        .from("minutes")
+        .from("minutes" as any)
         .select("*")
         .order("date", { ascending: false });
 
       if (error) {
         console.error("Error fetching minutes:", error);
       } else {
-        setMinutes(data || []);
+        setMinutes(data ? (data as unknown as MeetingMinute[]) : []);
       }
       setLoading(false);
     };

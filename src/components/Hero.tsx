@@ -64,8 +64,8 @@ export const Hero = () => {
         <div className="floating-element absolute top-1/3 right-1/4 w-16 h-16 bg-primary/20 rounded-xl"></div>
       </div>
       
-      <div className="container relative z-10 px-4 text-center">
-        <div className="max-w-5xl mx-auto">
+      <div className="container relative z-10 px-6 md:px-8 text-center">
+        <div className="max-w-6xl mx-auto py-12 md:py-16">
           {/* Premium Badge */}
           <Badge variant="outline" className="mb-8 px-6 py-3 text-sm font-medium border-primary/40 text-primary bg-primary/10 hover:bg-primary/15 transition-all duration-300 backdrop-blur-sm">
             <Award className="h-4 w-4 mr-2" />
@@ -73,9 +73,9 @@ export const Hero = () => {
           </Badge>
 
           {/* Main Heading with typography matching the posts */}
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight text-shadow-lg">
+          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-10 md:mb-12 leading-tight text-shadow-lg">
             <span className="block text-foreground drop-shadow-lg">IIIT Delhi</span>
-            <span className="text-primary block font-display font-bold">
+            <span className="text-white block font-display font-bold mt-2 md:mt-4">
            Student Council
             </span>
           </h1>
@@ -88,7 +88,7 @@ export const Hero = () => {
           </p>
 
           {/* Premium Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16 md:mb-24">
             <Button 
               size="lg" 
               className="px-8 py-4 bg-primary hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 text-primary-foreground font-semibold text-lg rounded-xl transition-all duration-300 hover:scale-105" 
@@ -113,7 +113,7 @@ export const Hero = () => {
           </div>
 
           {/* Mission Cards with sophisticated styling */}
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto px-4 md:px-0">
             <Card className="card-hover p-8 bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl">
               <div className="flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-6 mx-auto">
                 <Users className="h-8 w-8 text-primary-foreground" />
