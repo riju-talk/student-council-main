@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, FileText } from "lucide-react";
+import { PageTransition } from "@/components/ui/page-transition";
 
 // Type for the minutes table
 type MeetingMinute = {
@@ -112,42 +113,44 @@ function MinutesList() {
 
 const MeetingMinutes = () => {
   return (
-    <div className="min-h-screen relative overflow-hidden flex flex-col">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/20">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.1),transparent_70%)] animate-pulse"></div>
+    <PageTransition>
+      <div className="min-h-screen relative overflow-hidden flex flex-col">
+        {/* Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/20">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.1),transparent_70%)] animate-pulse"></div>
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 flex flex-col min-h-screen">
+          <Header />
+
+          <main className="container mx-auto px-4 py-8 flex-1">
+            <div className="mb-8 text-center">
+              <h1 className="text-4xl font-bold text-white font-display mb-4">
+                Meeting Minutes
+              </h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Access official records of Student Council meetings, decisions, and discussions.
+              </p>
+            </div>
+
+            {/* Suspense for async load */}
+            <Suspense
+              fallback={
+                <div className="text-center py-12">
+                  <FileText className="h-10 w-10 mx-auto text-muted-foreground mb-4 animate-pulse" />
+                  <p className="text-muted-foreground">Loading meeting minutes...</p>
+                </div>
+              }
+            >
+              <MinutesList />
+            </Suspense>
+          </main>
+
+          <Footer />
+        </div>
       </div>
-
-      {/* Content */}
-      <div className="relative z-10 flex flex-col min-h-screen">
-        <Header />
-
-        <main className="container mx-auto px-4 py-8 flex-1">
-          <div className="mb-8 text-center">
-            <h1 className="text-4xl font-bold text-white font-display mb-4">
-              Meeting Minutes
-            </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Access official records of Student Council meetings, decisions, and discussions.
-            </p>
-          </div>
-
-          {/* Suspense for async load */}
-          <Suspense
-            fallback={
-              <div className="text-center py-12">
-                <FileText className="h-10 w-10 mx-auto text-muted-foreground mb-4 animate-pulse" />
-                <p className="text-muted-foreground">Loading meeting minutes...</p>
-              </div>
-            }
-          >
-            <MinutesList />
-          </Suspense>
-        </main>
-
-        <Footer />
-      </div>
-    </div>
+    </PageTransition>
   );
 };
 

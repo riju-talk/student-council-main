@@ -13,10 +13,10 @@ export const Header = () => {
       <div className="container mx-auto flex items-center justify-between px-4 py-4 md:py-5">
         {/* Logo Section with enhanced styling */}
         <div className="flex items-center space-x-4">
-          <div className="animate-gentle-float">
+          <div>
             <img src="IIITD.png" alt="IIIT Delhi Logo" className="h-12 transition-transform hover:scale-110 duration-300" />
           </div>
-          <div className="relative animate-gentle-float animate-delay-100">
+          <div className="relative">
             <img 
               src="student_council.jpg" 
               alt="Student Council Logo" 

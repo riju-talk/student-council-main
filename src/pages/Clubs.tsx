@@ -141,7 +141,6 @@ const Clubs = () => {
         <div className="floating-element absolute top-40 right-20 w-24 h-24 bg-secondary/15 rounded-full"></div>
         <div className="floating-element absolute bottom-32 left-1/4 w-20 h-20 bg-primary/25 rounded-2xl transform rotate-12"></div>
       </div>
-
       <Header />
 
       <div className="container mx-auto px-4 py-8 relative z-10">
