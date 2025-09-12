@@ -172,7 +172,7 @@ const Representatives = () => {
   );
 
   // Animation variants for staggered children
-  const container: { hidden: { opacity: number }; show: { opacity: number; transition: { staggerChildren: number; delayChildren: number } } } = {
+  const container = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -183,20 +183,19 @@ const Representatives = () => {
     },
   };
 
-  const item: { hidden: { opacity: number; y: number }; show: { opacity: number; y: number; transition: { type: string; stiffness: number; damping: number } } } = {
+  const item = {
     hidden: { opacity: 0, y: 20 },
     show: {
       opacity: 1,
       y: 0,
       transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 10
+        duration: 0.4,
+        ease: [0.16, 1, 0.3, 1]
       }
     }
   };
 
-  const fadeInUp: { hidden: { opacity: number; y: number }; show: { opacity: number; y: number; transition: { duration: number; ease: number[] } } } = {
+  const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     show: { 
       opacity: 1, 
