@@ -51,25 +51,11 @@ const Hostel = () => {
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-transparent flex flex-col relative">
-        {/* Sticky Header */}
+      <div className="min-h-screen bg-transparent flex flex-col">
         <div className="sticky top-0 z-50 w-full">
           <Header />
         </div>
-        {/* Main Content */}
-        <main className="container mx-auto px-4 py-8 mt-10 flex-1">
-          <div className="max-w-6xl mx-auto space-y-8">
-            <div className="text-center space-y-4">
-              <h1 className="text-4xl font-bold text-foreground">Hostel Information</h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Complete guide to campus hostels, facilities, rules, and contact information.
-              </p>
-            </div>
-
-        {/* Content */}
-        <div className="relative z-10">
-          <Header />
-          <main className="container mx-auto px-4 py-8">
+        <main className="container mx-auto px-4 py-8 mt-20 flex-1">
             <div className="max-w-6xl mx-auto space-y-8">
               <motion.div 
                 className="text-center space-y-4"
@@ -295,7 +281,6 @@ const Hostel = () => {
           </main>
           <Footer />
         </div>
-      </div>
     </PageTransition>
   );
 };

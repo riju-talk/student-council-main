@@ -41,18 +41,6 @@ const ImportantContacts = () => {
         </div>
         <main className="container mx-auto px-4 py-8 mt-20 flex-1">
           <div className="max-w-6xl mx-auto space-y-8">
-            <div className="text-center space-y-4">
-              <h1 className="text-4xl font-bold text-white font-display">Important Contacts</h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Contact them in case of any query or emergency
-              </p>
-            </div>
-
-        {/* Content */}
-        <div className="relative z-10">
-          <Header />
-          <main className="container mx-auto px-4 py-8">
-            <div className="max-w-6xl mx-auto space-y-8">
               <motion.div 
                 className="text-center space-y-4"
                 initial={{ opacity: 0, y: 20 }}
@@ -230,7 +218,6 @@ const ImportantContacts = () => {
           </main>
           <Footer />
         </div>
-      </div>
     </PageTransition>
   );
 };
