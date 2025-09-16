@@ -123,7 +123,7 @@ export const EventSubmission = () => {
                 <Button
                   size="lg"
                   variant="destructive"
-                  className="w-full mb-4 bg-gray-900 hover:bg-gray-800 text-red-400 border-2 border-red-400 hover:border-red-300 transition-colors"
+                  className="w-full mb-4 bg-red-700/10 hover:bg-red-700/20 text-red-400 border-2 border-red-400 hover:border-red-300 transition-colors"
                   onClick={() => setIsClosureModalOpen(true)}
                 >
                   <Trash2 className="h-5 w-5 mr-2" />

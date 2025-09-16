@@ -51,38 +51,23 @@ export type Database = {
         Row: {
           id: string
           created_at: string
-          club_name: string
-          founders: string
+          club_name: string | null
+          founders: string | null
           proposal_link: string | null
-          description: string
-          objectives: string
-          activities: string
-          status: 'pending' | 'approved' | 'rejected'
-          updated_at: string
         }
         Insert: {
           id?: string
           created_at?: string
-          club_name: string
-          founders: string
+          club_name?: string | null
+          founders?: string | null
           proposal_link?: string | null
-          description: string
-          objectives: string
-          activities: string
-          status?: 'pending' | 'approved' | 'rejected'
-          updated_at?: string
         }
         Update: {
           id?: string
           created_at?: string
-          club_name?: string
-          founders?: string
+          club_name?: string | null
+          founders?: string | null
           proposal_link?: string | null
-          description?: string
-          objectives?: string
-          activities?: string
-          status?: 'pending' | 'approved' | 'rejected'
-          updated_at?: string
         }
         Relationships: []
       }
@@ -107,7 +92,7 @@ export type Database = {
           status?: 'pending' | 'approved' | 'rejected'
           created_at?: string
           updated_at?: string
-          type: 'club' | 'event'
+          type?: string | null
         }
         Update: {
           id?: string
@@ -118,7 +103,7 @@ export type Database = {
           status?: 'pending' | 'approved' | 'rejected'
           created_at?: string
           updated_at?: string
-          type?: 'club' | 'event'
+          type?: string | null
         }
         Relationships: [
           {
@@ -277,67 +262,61 @@ export type Database = {
       }
       event_proposals: {
         Row: {
-          additional_requirements: string | null
-          budget_estimate: number | null
-          created_at: string
-          description: string
-          end_time: string
-          event_date: string
-          event_name: string
-          event_type: string
-          expected_participants: number
           id: string
-          objectives: string | null
-          organizer_email: string
+          event_name: string
           organizer_name: string
+          organizer_email: string
           organizer_phone: string | null
-          pdf_document_url: string | null
-          start_time: string
-          status: string | null
-          updated_at: string
+          event_type: string
+          event_date: string
           venue: string
+          expected_participants: number
+          budget_estimate: string | null
+          description: string
+          objectives: string | null
+          additional_requirements: string | null
+          pdf_document_url: string | null
+          status: 'pending' | 'approved' | 'rejected' | null
+          created_at: string
+          updated_at: string
         }
         Insert: {
-          additional_requirements?: string | null
-          budget_estimate?: number | null
-          created_at?: string
-          description: string
-          end_time: string
-          event_date: string
-          event_name: string
-          event_type: string
-          expected_participants: number
           id?: string
-          objectives?: string | null
-          organizer_email: string
+          event_name: string
           organizer_name: string
+          organizer_email: string
           organizer_phone?: string | null
-          pdf_document_url?: string | null
-          start_time: string
-          status?: string | null
-          updated_at?: string
+          event_type: string
+          event_date: string
           venue: string
+          expected_participants: number
+          budget_estimate?: string | null
+          description: string
+          objectives?: string | null
+          additional_requirements?: string | null
+          pdf_document_url?: string | null
+          status?: 'pending' | 'approved' | 'rejected' | null
+          created_at?: string
+          updated_at?: string
         }
         Update: {
-          additional_requirements?: string | null
-          budget_estimate?: number | null
-          created_at?: string
-          description?: string
-          end_time?: string
-          event_date?: string
-          event_name?: string
-          event_type?: string
-          expected_participants?: number
           id?: string
-          objectives?: string | null
-          organizer_email?: string
+          event_name?: string
           organizer_name?: string
+          organizer_email?: string
           organizer_phone?: string | null
-          pdf_document_url?: string | null
-          start_time?: string
-          status?: string | null
-          updated_at?: string
+          event_type?: string
+          event_date?: string
           venue?: string
+          expected_participants?: number
+          budget_estimate?: string | null
+          description?: string
+          objectives?: string | null
+          additional_requirements?: string | null
+          pdf_document_url?: string | null
+          status?: 'pending' | 'approved' | 'rejected' | null
+          created_at?: string
+          updated_at?: string
         }
         Relationships: []
       }

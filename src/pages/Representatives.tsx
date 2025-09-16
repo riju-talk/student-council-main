@@ -212,65 +212,16 @@ const Representatives = () => {
   return (
     <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
       {/* Sticky Header */}
+      <div className="absolute inset-0 geometric-grid opacity-40"></div>
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="floating-element absolute top-20 left-10 w-32 h-32 bg-primary/20 rounded-3xl rotate-45"></div>
+        <div className="floating-element absolute top-40 right-20 w-24 h-24 bg-secondary/15 rounded-full"></div>
+        <div className="floating-element absolute bottom-32 left-1/4 w-20 h-20 bg-primary/25 rounded-2xl transform rotate-12"></div>
+      </div>
       <div className="sticky top-0 z-50 w-full">
         <Header />
       </div>
-      
-      {/* Enhanced Animated background */}
-      <div className="fixed inset-0 geometric-grid opacity-40 -z-10"></div>
-      <div className="fixed inset-0 pointer-events-none -z-10">
-        <motion.div 
-          className="floating-element absolute top-20 left-10 w-32 h-32 bg-primary/20 rounded-3xl rotate-45"
-          animate={{
-            y: [0, -15, 0],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div 
-          className="floating-element absolute top-40 right-20 w-24 h-24 bg-secondary/15 rounded-full"
-          animate={{
-            y: [0, 15, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1
-          }}
-        />
-        <motion.div 
-          className="floating-element absolute bottom-32 left-1/4 w-20 h-20 bg-primary/25 rounded-2xl transform rotate-12"
-          animate={{
-            y: [0, -10, 0],
-            rotate: [12, 15, 12],
-          }}
-          transition={{
-            duration: 7,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 0.5
-          }}
-        />
-        <motion.div 
-          className="absolute top-1/3 right-1/4 w-16 h-16 bg-primary/10 rounded-xl"
-          animate={{
-            y: [0, 10, 0],
-            rotate: [0, 5, 0],
-          }}
-          transition={{
-            duration: 9,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1.5
-          }}
-        />
-      </div>
-
-      <main className="container mx-auto px-4 py-8 relative z-10 mt-20 flex-1">
+      <main className="container mx-auto px-4 py-8 relative z-10 mt-10 flex-1">
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Header */}
           <motion.div 

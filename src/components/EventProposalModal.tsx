@@ -221,20 +221,19 @@ export const EventProposalModal = ({
       description: formData.description,
       objectives: formData.marketingPlan || null,
       event_date: formData.date,
-      duration: formData.duration,
       venue: formData.venue,
       expected_participants: formData.expectedAttendees
         ? Number(formData.expectedAttendees)
-        : null,
+        : 0, // Default to 0 if not provided
       budget_estimate: formData.budget
-        ? Number(formData.budget)
+        ? Number(formData.budget).toFixed(2) // Convert to string with 2 decimal places
         : null,
       organizer_name: formData.organizer,
       organizer_email: formData.email,
-      organizer_phone: formData.phone,
+      organizer_phone: formData.phone || null,
       additional_requirements: formData.specialRequirements || null,
       pdf_document_url: fileUrl,
-      status: "pending",
+      status: "pending" as const, // Ensure type is 'pending' literal
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };

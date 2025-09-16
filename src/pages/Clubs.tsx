@@ -11,6 +11,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
@@ -23,7 +24,9 @@ import {
   ChevronDown,
   Calendar,
   Search,
+  Plus,
 } from "lucide-react";
+import { ClubProposalForm } from "@/components/ClubProposalForm";
 
 type Club = {
   id: string;
@@ -186,9 +189,27 @@ const Clubs = () => {
         </Card>
 
         <div className="space-y-6 pt-6">
-          <h2 className="text-2xl font-semibold text-white font-display">
-            Active Clubs
-          </h2>
+          <div className="flex justify-between items-center">
+            <h2 className="text-2xl font-semibold text-white font-display">
+              Active Clubs
+            </h2>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="gap-2">
+                  <Plus className="h-4 w-4" />
+                  Propose New Club
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[600px]">
+                <DialogHeader>
+                  <DialogTitle>Propose a New Club</DialogTitle>
+                </DialogHeader>
+                <div className="max-h-[70vh] overflow-y-auto p-1">
+                  <ClubProposalForm />
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
 
           {isLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
