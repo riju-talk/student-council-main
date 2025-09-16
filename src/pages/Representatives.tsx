@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,7 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
+import { LucideIcon } from "lucide-react";
 
 type Representative = {
   id: string;
@@ -46,7 +47,7 @@ import {
 const Representatives = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: representatives = [], isLoading } = useQuery<Representative[]>({
+  const { data: representatives = [], isLoading, error } = useQuery<Representative[]>({
     queryKey: ["student-representatives"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -54,9 +55,13 @@ const Representatives = () => {
         .select("*")
         .order("pref_order", { ascending: true });
 
-      if (error) throw error;
-      return data;
+      if (error) {
+        console.error("Error fetching representatives:", error);
+        throw new Error(error.message);
+      }
+      return data || [];
     },
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
   // Memoize search filter
@@ -82,58 +87,54 @@ const Representatives = () => {
   }, [filteredRepresentatives]);
 
   // Memoized icon mapping
-  const getPositionIcon = useMemo(
-    (): ((position: string) => React.ComponentType<{ className?: string }>) =>
-      (position: string) => {
-        switch (position) {
-          case "President":
-            return Crown;
-          case "Vice-President":
-            return Shield;
-          case "Treasurer":
-            return IndianRupee;
-          case "Sports Secretary":
-            return Volleyball;
-          case "Technical Secretary":
-            return Laptop;
-          case "Cultural Secretary":
-            return Palette;
-          case "Web Dev Head":
-            return Laptop;
-          case "PR Head":
-            return Megaphone;
-          case "Head of Communication":
-            return MessageCircle;
-          case "Alumni Secretary":
-            return GraduationCap;
-          case "Diversity and Inclusion Secretary":
-            return Heart;
-          case "Clubs Coordinator":
-            return Users;
-          case "Hostel Secretary":
-            return Building;
-          case "Environment and Sustainability Secretary":
-            return TreePine;
-          case "Well-Being Secretary":
-            return Heart;
-          case "Day Scholars Affairs Secretary":
-            return Calendar;
-          case "Mess Secretary":
-            return Utensils;
-          case "DAC Representative":
-            return UserCheck;
-          case "SA office Representative":
-            return Briefcase;
-          case "Batch Representatives":
-            return Users;
-          case "Member":
-            return Users;
-          default:
-            return Award;
-        }
-      },
-    []
-  );
+  const getPositionIcon = useCallback((position: string): LucideIcon => {
+    switch (position) {
+      case "President":
+        return Crown;
+      case "Vice President":
+        return IndianRupee;
+      case "Treasurer":
+        return IndianRupee;
+      case "Sports Secretary":
+        return Volleyball;
+      case "Technical Secretary":
+        return Laptop;
+      case "Cultural Secretary":
+        return Palette;
+      case "Web Dev Head":
+        return Laptop;
+      case "PR Head":
+        return Megaphone;
+      case "Head of Communication":
+        return MessageCircle;
+      case "Alumni Secretary":
+        return GraduationCap;
+      case "Diversity and Inclusion Secretary":
+        return Heart;
+      case "Clubs Coordinator":
+        return Users;
+      case "Hostel Secretary":
+        return Building;
+      case "Environment and Sustainability Secretary":
+        return TreePine;
+      case "Well-Being Secretary":
+        return Heart;
+      case "Day Scholars Affairs Secretary":
+        return Calendar;
+      case "Mess Secretary":
+        return Utensils;
+      case "DAC Representative":
+        return UserCheck;
+      case "SA office Representative":
+        return Briefcase;
+      case "Batch Representatives":
+        return Users;
+      case "Member":
+        return Users;
+      default:
+        return Award;
+    }
+  }, []);
 
   // Memoized color mapping (every position has a unique scheme, "Member" = muted)
   const getPositionColor = useMemo(
@@ -172,7 +173,7 @@ const Representatives = () => {
   );
 
   // Animation variants for staggered children
-  const container: { hidden: { opacity: number }; show: { opacity: number; transition: { staggerChildren: number; delayChildren: number } } } = {
+  const container: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -183,7 +184,7 @@ const Representatives = () => {
     },
   };
 
-  const item: { hidden: { opacity: number; y: number }; show: { opacity: number; y: number; transition: { type: string; stiffness: number; damping: number } } } = {
+  const item: Variants = {
     hidden: { opacity: 0, y: 20 },
     show: {
       opacity: 1,
@@ -191,28 +192,33 @@ const Representatives = () => {
       transition: {
         type: "spring",
         stiffness: 100,
-        damping: 10
-      }
-    }
+        damping: 10,
+      },
+    },
   };
 
-  const fadeInUp: { hidden: { opacity: number; y: number }; show: { opacity: number; y: number; transition: { duration: number; ease: number[] } } } = {
+  const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 20 },
-    show: { 
-      opacity: 1, 
+    show: {
+      opacity: 1,
       y: 0,
       transition: {
         duration: 0.6,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
+        ease: [0.16, 1, 0.3, 1],
+      },
+    },
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
+      {/* Sticky Header */}
+      <div className="sticky top-0 z-50 w-full">
+        <Header />
+      </div>
+      
       {/* Enhanced Animated background */}
-      <div className="absolute inset-0 geometric-grid opacity-40"></div>
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="fixed inset-0 geometric-grid opacity-40 -z-10"></div>
+      <div className="fixed inset-0 pointer-events-none -z-10">
         <motion.div 
           className="floating-element absolute top-20 left-10 w-32 h-32 bg-primary/20 rounded-3xl rotate-45"
           animate={{
@@ -264,8 +270,7 @@ const Representatives = () => {
         />
       </div>
 
-      <Header />
-      <main className="container mx-auto px-4 py-8 relative z-10">
+      <main className="container mx-auto px-4 py-8 relative z-10 mt-20 flex-1">
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Header */}
           <motion.div 

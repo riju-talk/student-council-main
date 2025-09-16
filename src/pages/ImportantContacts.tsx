@@ -34,9 +34,11 @@ const ImportantContacts = () => {
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-transparent">
-        <Header />
-        <main className="container mx-auto px-4 py-8">
+      <div className="min-h-screen bg-transparent flex flex-col">
+        <div className="sticky top-0 z-50 w-full">
+          <Header />
+        </div>
+        <main className="container mx-auto px-4 py-8 mt-20 flex-1">
           <div className="max-w-6xl mx-auto space-y-8">
             <div className="text-center space-y-4">
               <h1 className="text-4xl font-bold text-white font-display">Important Contacts</h1>

@@ -1,13 +1,41 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { Upload, X, FileText, Calendar, Users, MapPin } from "lucide-react";
+import {
+  Upload,
+  X,
+  FileText,
+  Calendar,
+  Users,
+  MapPin,
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { isAfter, parseISO, startOfDay } from "date-fns";
@@ -17,19 +45,20 @@ interface EventProposalModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalProps) => {
+export const EventProposalModal = ({
+  open,
+  onOpenChange,
+}: EventProposalModalProps) => {
   const { toast } = useToast();
   const [showConfirmCancel, setShowConfirmCancel] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  
+
   const [formData, setFormData] = useState({
     eventName: "",
     eventType: "",
     description: "",
     date: "",
-    time: "",
-    endTime: "", // <-- Add this
     duration: "",
     venue: "",
     expectedAttendees: "",
@@ -48,8 +77,6 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
       eventType: "",
       description: "",
       date: "",
-      time: "",
-      endTime: "", // <-- Add this
       duration: "",
       venue: "",
       expectedAttendees: "",
@@ -65,7 +92,7 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,7 +114,6 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
     }
   };
 
-  // Helper: Validate date is today or future
   const isFutureOrToday = (dateStr: string) => {
     if (!dateStr) return false;
     const today = startOfDay(new Date());
@@ -96,8 +122,13 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
   };
 
   const handleSubmit = async () => {
-    // Basic validation
-    if (!formData.eventName || !formData.eventType || !formData.description || !formData.organizer || !formData.email) {
+    if (
+      !formData.eventName ||
+      !formData.eventType ||
+      !formData.description ||
+      !formData.organizer ||
+      !formData.email
+    ) {
       toast({
         title: "Missing required fields",
         description: "Please fill in all required fields marked with *",
@@ -106,7 +137,6 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
       return;
     }
 
-    // Validate date
     if (!formData.date || !isFutureOrToday(formData.date)) {
       toast({
         title: "Invalid date",
@@ -116,8 +146,10 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
       return;
     }
 
-    // Validate expected attendees
-    if (formData.expectedAttendees && Number(formData.expectedAttendees) < 0) {
+    if (
+      formData.expectedAttendees &&
+      Number(formData.expectedAttendees) < 0
+    ) {
       toast({
         title: "Invalid attendees",
         description: "Expected attendees cannot be negative.",
@@ -126,7 +158,6 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
       return;
     }
 
-    // Validate budget
     if (formData.budget && Number(formData.budget) < 0) {
       toast({
         title: "Invalid budget",
@@ -136,7 +167,6 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
       return;
     }
 
-    // Validate file (if present)
     if (uploadedFile && uploadedFile.type !== "application/pdf") {
       toast({
         title: "Invalid file type",
@@ -145,28 +175,11 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
       });
       return;
     }
+
     if (uploadedFile && uploadedFile.size > 10 * 1024 * 1024) {
       toast({
         title: "File too large",
         description: "PDF must be less than 10MB.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Validate end time
-    if (!formData.endTime) {
-      toast({
-        title: "Missing end time",
-        description: "Please provide the event end time.",
-        variant: "destructive",
-      });
-      return;
-    }
-    if (formData.time && formData.endTime && formData.endTime <= formData.time) {
-      toast({
-        title: "Invalid end time",
-        description: "End time must be after start time.",
         variant: "destructive",
       });
       return;
@@ -179,37 +192,43 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
       const filePath = `event-proposals/${Date.now()}_${uploadedFile.name}`;
       const { error: uploadError } = await supabase.storage
         .from("event-proposals")
-        .upload(filePath, uploadedFile, { cacheControl: "3600", upsert: false });
+        .upload(filePath, uploadedFile, {
+          cacheControl: "3600",
+          upsert: false,
+        });
 
       if (uploadError) {
         toast({
           title: "File upload failed",
-          description: "Could not upload supporting document." + uploadError.message,
+          description:
+            "Could not upload supporting document. " +
+            uploadError.message,
           variant: "destructive",
         });
         setIsSubmitting(false);
         return;
       }
+
       const { data: publicUrlData } = supabase.storage
         .from("event-proposals")
         .getPublicUrl(filePath);
       fileUrl = publicUrlData?.publicUrl || null;
-
-      
     }
 
-    // Map formData to table columns
     const proposalData = {
       event_name: formData.eventName,
       event_type: formData.eventType,
       description: formData.description,
       objectives: formData.marketingPlan || null,
       event_date: formData.date,
-      start_time: formData.time,
-      end_time: formData.endTime, // <-- Add this
+      duration: formData.duration,
       venue: formData.venue,
-      expected_participants: formData.expectedAttendees ? Number(formData.expectedAttendees) : null,
-      budget_estimate: formData.budget ? Number(formData.budget) : null,
+      expected_participants: formData.expectedAttendees
+        ? Number(formData.expectedAttendees)
+        : null,
+      budget_estimate: formData.budget
+        ? Number(formData.budget)
+        : null,
       organizer_name: formData.organizer,
       organizer_email: formData.email,
       organizer_phone: formData.phone,
@@ -220,7 +239,6 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
       updated_at: new Date().toISOString(),
     };
 
-    // Insert into Supabase
     const { error } = await supabase
       .from("event_proposals")
       .insert([proposalData]);
@@ -229,7 +247,8 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
       console.error("Supabase insert error:", error);
       toast({
         title: "Submission failed",
-        description: "Could not submit your proposal. Please try again.",
+        description:
+          "Could not submit your proposal. Please try again.",
         variant: "destructive",
       });
       setIsSubmitting(false);
@@ -238,7 +257,8 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
 
     toast({
       title: "Proposal submitted successfully!",
-      description: "Your event proposal has been submitted for review. You'll hear back within 24-48 hours.",
+      description:
+        "Your event proposal has been submitted for review. You'll hear back within 24-48 hours.",
     });
 
     setIsSubmitting(false);
@@ -247,8 +267,10 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
   };
 
   const handleCancel = () => {
-    const hasData = Object.values(formData).some(value => value.trim() !== "") || uploadedFile;
-    
+    const hasData =
+      Object.values(formData).some((value) => value.trim() !== "") ||
+      uploadedFile;
+
     if (hasData) {
       setShowConfirmCancel(true);
     } else {
@@ -285,7 +307,8 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
               Submit Event Proposal
             </DialogTitle>
             <DialogDescription>
-              Fill out the form below to submit your event proposal. All fields marked with * are required.
+              Fill out the form below to submit your event proposal. All
+              fields marked with * are required.
             </DialogDescription>
           </DialogHeader>
 
@@ -302,13 +325,20 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
                   <Input
                     id="eventName"
                     value={formData.eventName}
-                    onChange={(e) => handleInputChange("eventName", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("eventName", e.target.value)
+                    }
                     placeholder="Enter event name"
                   />
                 </div>
                 <div>
                   <Label htmlFor="eventType">Event Type *</Label>
-                  <Select value={formData.eventType} onValueChange={(value) => handleInputChange("eventType", value)}>
+                  <Select
+                    value={formData.eventType}
+                    onValueChange={(value) =>
+                      handleInputChange("eventType", value)
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select event type" />
                     </SelectTrigger>
@@ -329,7 +359,9 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
                   <Textarea
                     id="description"
                     value={formData.description}
-                    onChange={(e) => handleInputChange("description", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("description", e.target.value)
+                    }
                     placeholder="Provide a detailed description of your event"
                     rows={4}
                   />
@@ -350,30 +382,19 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
                     id="date"
                     type="date"
                     value={formData.date}
-                    onChange={(e) => handleInputChange("date", e.target.value)}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="time">Start Time *</Label>
-                  <Input
-                    id="time"
-                    type="time"
-                    value={formData.time}
-                    onChange={(e) => handleInputChange("time", e.target.value)}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="endTime">End Time *</Label>
-                  <Input
-                    id="endTime"
-                    type="time"
-                    value={formData.endTime}
-                    onChange={(e) => handleInputChange("endTime", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("date", e.target.value)
+                    }
                   />
                 </div>
                 <div>
                   <Label htmlFor="duration">Duration</Label>
-                  <Select value={formData.duration} onValueChange={(value) => handleInputChange("duration", value)}>
+                  <Select
+                    value={formData.duration}
+                    onValueChange={(value) =>
+                      handleInputChange("duration", value)
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select duration" />
                     </SelectTrigger>
@@ -392,7 +413,9 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
                   <Input
                     id="venue"
                     value={formData.venue}
-                    onChange={(e) => handleInputChange("venue", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("venue", e.target.value)
+                    }
                     placeholder="e.g., Auditorium, Classroom, Outdoor"
                   />
                 </div>
@@ -402,7 +425,9 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
                     id="expectedAttendees"
                     type="number"
                     value={formData.expectedAttendees}
-                    onChange={(e) => handleInputChange("expectedAttendees", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("expectedAttendees", e.target.value)
+                    }
                     placeholder="Number of attendees"
                   />
                 </div>
@@ -412,7 +437,9 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
                     id="budget"
                     type="number"
                     value={formData.budget}
-                    onChange={(e) => handleInputChange("budget", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("budget", e.target.value)
+                    }
                     placeholder="0"
                   />
                 </div>
@@ -431,7 +458,9 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
                   <Input
                     id="organizer"
                     value={formData.organizer}
-                    onChange={(e) => handleInputChange("organizer", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("organizer", e.target.value)
+                    }
                     placeholder="Full name"
                   />
                 </div>
@@ -441,7 +470,9 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
                     id="email"
                     type="email"
                     value={formData.email}
-                    onChange={(e) => handleInputChange("email", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("email", e.target.value)
+                    }
                     placeholder="your.email@iiitd.ac.in"
                   />
                 </div>
@@ -451,7 +482,9 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
                     id="phone"
                     type="tel"
                     value={formData.phone}
-                    onChange={(e) => handleInputChange("phone", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("phone", e.target.value)
+                    }
                     placeholder="+91 XXXXX XXXXX"
                   />
                 </div>
@@ -460,7 +493,9 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
                   <Input
                     id="department"
                     value={formData.department}
-                    onChange={(e) => handleInputChange("department", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("department", e.target.value)
+                    }
                     placeholder="Your department or club"
                   />
                 </div>
@@ -469,24 +504,37 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
 
             {/* Additional Information */}
             <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">Additional Information</h3>
+              <h3 className="text-lg font-semibold mb-4">
+                Additional Information
+              </h3>
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="specialRequirements">Special Requirements</Label>
+                  <Label htmlFor="specialRequirements">
+                    Special Requirements
+                  </Label>
                   <Textarea
                     id="specialRequirements"
                     value={formData.specialRequirements}
-                    onChange={(e) => handleInputChange("specialRequirements", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "specialRequirements",
+                        e.target.value
+                      )
+                    }
                     placeholder="Any special equipment, permissions, or arrangements needed"
                     rows={3}
                   />
                 </div>
                 <div>
-                  <Label htmlFor="marketingPlan">Marketing & Promotion Plan</Label>
+                  <Label htmlFor="marketingPlan">
+                    Marketing & Promotion Plan
+                  </Label>
                   <Textarea
                     id="marketingPlan"
                     value={formData.marketingPlan}
-                    onChange={(e) => handleInputChange("marketingPlan", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("marketingPlan", e.target.value)
+                    }
                     placeholder="How do you plan to promote this event?"
                     rows={3}
                   />
@@ -503,7 +551,10 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
               <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
                 <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
                 <div className="mb-2">
-                  <Label htmlFor="file-upload" className="cursor-pointer text-sm font-medium text-primary hover:text-primary/80">
+                  <Label
+                    htmlFor="file-upload"
+                    className="cursor-pointer text-sm font-medium text-primary hover:text-primary/80"
+                  >
                     Upload PDF document
                   </Label>
                   <Input
@@ -515,7 +566,8 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
                   />
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Upload budget breakdown, venue plans, or other supporting documents (PDF only, max 10MB)
+                  Upload budget breakdown, venue plans, or other supporting
+                  documents (PDF only, max 10MB)
                 </p>
                 {uploadedFile && (
                   <div className="mt-4 flex items-center justify-center gap-2 text-sm text-green-600">
@@ -546,24 +598,28 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
         </DialogContent>
       </Dialog>
 
-      <AlertDialog open={showConfirmCancel} onOpenChange={setShowConfirmCancel}>
+      <AlertDialog
+        open={showConfirmCancel}
+        onOpenChange={setShowConfirmCancel}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Confirm Cancellation</AlertDialogTitle>
             <AlertDialogDescription>
-              You have unsaved changes. Are you sure you want to cancel? All your progress will be lost.
+              You have unsaved changes. Are you sure you want to cancel? All
+              your progress will be lost.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setShowConfirmCancel(false)}>
-              Continue Editing
-            </AlertDialogCancel>
-            <AlertDialogAction onClick={confirmCancel} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Yes, Cancel
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </>
-  );
+          <AlertDialogCancel onClick={() => setShowConfirmCancel(false)}>
+            Continue Editing
+          </AlertDialogCancel>
+          <AlertDialogAction onClick={confirmCancel}>
+            Discard Changes
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  </>
+);
 };

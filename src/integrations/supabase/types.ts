@@ -47,6 +47,96 @@ export type Database = {
         }
         Relationships: []
       }
+      club_proposals: {
+        Row: {
+          id: string
+          created_at: string
+          club_name: string
+          founders: string
+          proposal_link: string | null
+          description: string
+          objectives: string
+          activities: string
+          status: 'pending' | 'approved' | 'rejected'
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          club_name: string
+          founders: string
+          proposal_link?: string | null
+          description: string
+          objectives: string
+          activities: string
+          status?: 'pending' | 'approved' | 'rejected'
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          club_name?: string
+          founders?: string
+          proposal_link?: string | null
+          description?: string
+          objectives?: string
+          activities?: string
+          status?: 'pending' | 'approved' | 'rejected'
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      approvals: {
+        Row: {
+          id: string
+          proposal_id: string
+          admin_email: string
+          approved_at: string | null
+          comments: string | null
+          status: 'pending' | 'approved' | 'rejected'
+          created_at: string
+          updated_at: string
+          type: 'club' | 'event'
+        }
+        Insert: {
+          id?: string
+          proposal_id: string
+          admin_email: string
+          approved_at?: string | null
+          comments?: string | null
+          status?: 'pending' | 'approved' | 'rejected'
+          created_at?: string
+          updated_at?: string
+          type: 'club' | 'event'
+        }
+        Update: {
+          id?: string
+          proposal_id?: string
+          admin_email?: string
+          approved_at?: string | null
+          comments?: string | null
+          status?: 'pending' | 'approved' | 'rejected'
+          created_at?: string
+          updated_at?: string
+          type?: 'club' | 'event'
+        }
+        Relationships: [
+          {
+            foreignKeyName: "approvals_proposal_id_fkey"
+            columns: ["proposal_id"]
+            isOneToOne: false
+            referencedRelation: "club_proposals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "approvals_admin_email_fkey"
+            columns: ["admin_email"]
+            isOneToOne: false
+            referencedRelation: "authorized_admins"
+            referencedColumns: ["email"]
+          }
+        ]
+      }
       club_formation_requests: {
         Row: {
           charter_document_url: string | null
@@ -421,7 +511,34 @@ export type Database = {
           year?: number
         }
         Relationships: []
-      }
+      },
+      minutes: {
+        Row: {
+          meeting_id: number;
+          created_at: string;
+          title: string;
+          description: string;
+          date: string;
+          link: string | null;
+        };
+        Insert: {
+          meeting_id?: number;
+          created_at?: string;
+          title: string;
+          description: string;
+          date: string;
+          link?: string | null;
+        };
+        Update: {
+          meeting_id?: number;
+          created_at?: string;
+          title?: string;
+          description?: string;
+          date?: string;
+          link?: string | null;
+        };
+        Relationships: [];
+      };      
     }
     Views: {
       [_ in never]: never

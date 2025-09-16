@@ -19,13 +19,12 @@ export const Representatives = () => {
     },
   });
 
-  const filteredReps = useMemo(
-    () =>
-      representatives.filter(
-        (rep: any) => rep.position !== 'Member'
-      ),
-    [representatives]
-  );
+  const filteredReps = useMemo(() => {
+    return representatives
+      .filter((rep: any) => rep.position !== 'Member')
+      .slice(0, 7);
+  }, [representatives]);
+  
 
   return (
     <section className="py-20 relative overflow-hidden">
@@ -54,45 +53,62 @@ export const Representatives = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {isLoading ? (
-              [...Array(4)].map((_, index) => (
-                <Card key={index} className="p-6 animate-pulse rounded-2xl shadow-xl bg-card/80 border border-border/50">
-                  <div className="flex flex-col items-center mb-4">
-                    <div className="h-16 w-16 mb-2 ring-4 ring-primary/30 shadow-lg rounded-full bg-muted" />
-                    <div className="h-4 bg-muted rounded w-3/4 mb-2" />
-                    <div className="h-3 bg-muted rounded w-1/2" />
-                  </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="h-3 bg-muted rounded w-1/3" />
-                  </div>
-                </Card>
-              ))
-            ) : (
-              filteredReps.map((rep: any, index: number) => {
-                //const Icon = iconMap[rep.position] || Users;
-                return (
-                  <Card
-                    key={rep.id}
-                    className="card-hover p-8 rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 shadow-xl group relative overflow-hidden hover-lift animate-fade-in-scale"
-                    style={{ animationDelay: `${(index % 4) * 150}ms` }}
-                  >
-                    <div className="flex flex-col items-center relative z-10">
-                      <h3 className="font-bold text-xl text-white mb-1 text-center">{rep.name}</h3>
-                      <div className="flex items-center text-primary text-base font-medium mb-2 text-center animate-gentle-float">
-                        {rep.position}
-                      </div>
-                      <span className="text-xs bg-primary/10 text-primary px-3 py-1 rounded-full mb-2 tracking-wide">
-                        {rep.year === 0 ? 'PhD' : `Batch of ${rep.year}`}
-                      </span>
-                      <div className="flex items-center text-muted-foreground text-sm mt-2">
-                        <span className="break-all">{rep.email}</span>
-                      </div>
-                    </div>
-                  </Card>
-                );
-              })
-            )}
+  {isLoading ? (
+    [...Array(4)].map((_, index) => (
+      <Card
+        key={index}
+        className="p-6 animate-pulse rounded-2xl shadow-xl bg-card/80 border border-border/50"
+      >
+        <div className="flex flex-col items-center mb-4">
+          <div className="h-16 w-16 mb-2 ring-4 ring-primary/30 shadow-lg rounded-full bg-muted" />
+          <div className="h-4 bg-muted rounded w-3/4 mb-2" />
+          <div className="h-3 bg-muted rounded w-1/2" />
+        </div>
+        <div className="space-y-2 text-sm">
+          <div className="h-3 bg-muted rounded w-1/3" />
+        </div>
+      </Card>
+    ))
+  ) : (
+    <>
+      {filteredReps.map((rep: any, index: number) => (
+        <Card
+          key={rep.id}
+          className="card-hover p-8 rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 shadow-xl group relative overflow-hidden hover-lift animate-fade-in-scale"
+          style={{ animationDelay: `${(index % 4) * 150}ms` }}
+        >
+          <div className="flex flex-col items-center relative z-10">
+            <h3 className="font-bold text-xl text-white mb-1 text-center">
+              {rep.name}
+            </h3>
+            <div className="flex items-center text-primary text-base font-medium mb-2 text-center">
+              {rep.position}
+            </div>
+            <span className="text-xs bg-primary/10 text-primary px-3 py-1 rounded-full mb-2 tracking-wide">
+              {rep.year === 0 ? "PhD" : `Batch of ${rep.year}`}
+            </span>
+            <div className="flex items-center text-muted-foreground text-sm mt-2">
+              <span className="break-all">{rep.email}</span>
+            </div>
           </div>
+        </Card>
+      ))}
+
+      {/* 8th card: View All Representatives */}
+      <Card
+        key="view-all"
+        className="cursor-pointer p-8 rounded-2xl bg-primary/80 backdrop-blur-sm border border-border/50 shadow-xl group relative overflow-hidden hover-lift animate-fade-in-scale flex flex-col items-center justify-center text-white"
+        onClick={() => (window.location.href = "/representatives")}
+        style={{ animationDelay: `${(filteredReps.length % 4) * 150}ms` }}
+      >
+        <div className="text-center">
+          <h3 className="font-bold text-xl mb-2">View All</h3>
+          <p className="text-sm">See the full list of student representatives</p>
+        </div>
+      </Card>
+    </>
+  )}
+</div>
         </div>
       </div>
       {/* Custom animation utility for slow spin */}
