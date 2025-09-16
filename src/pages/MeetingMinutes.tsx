@@ -19,19 +19,10 @@ type MeetingMinute = Tables<"minutes">;
 function MinutesList() {
   const [minutes, setMinutes] = useState<MeetingMinute[]>([]);
   const [loading, setLoading] = useState(true);
-  const [debugInfo, setDebugInfo] = useState<string>("");
 
   useEffect(() => {
     const fetchMinutes = async () => {
       // Debug connection
-      setDebugInfo("Attempting to fetch minutes...");
-      
-      // Test connection with a count query first
-      const { count, error: countError } = await supabase
-        .from("minutes")
-        .select("*", { count: 'exact', head: true });
-      
-      setDebugInfo(prev => prev + `\nCount: ${count}, Count error: ${countError?.message || 'None'}`);
       
       const { data, error } = await supabase
         .from("minutes")
@@ -39,10 +30,8 @@ function MinutesList() {
         .order("created_at", { ascending: false }); // Use created_at for ordering
 
       if (error) {
-        setDebugInfo(prev => prev + `\nFetch error: ${error.message}`);
         setMinutes([]);
       } else {
-        setDebugInfo(prev => prev + `\nFetched ${data?.length || 0} minutes successfully`);
         setMinutes(data || []);
       }
 
@@ -57,12 +46,6 @@ function MinutesList() {
       <div className="text-center py-12">
         <FileText className="h-10 w-10 mx-auto text-muted-foreground mb-4 animate-pulse" />
         <p className="text-muted-foreground">Loading meeting minutes...</p>
-        {debugInfo && (
-          <div className="mt-4 p-4 bg-muted/20 rounded-lg text-left max-w-md mx-auto">
-            <h4 className="font-semibold mb-2">Debug Info:</h4>
-            <pre className="text-xs whitespace-pre-wrap">{debugInfo}</pre>
-          </div>
-        )}
       </div>
     );
   }
@@ -77,21 +60,6 @@ function MinutesList() {
         <p className="text-muted-foreground">
           Meeting minutes will be published here after each council session.
         </p>
-        {debugInfo && (
-          <div className="mt-6 p-4 bg-muted/20 rounded-lg text-left max-w-md mx-auto">
-            <h4 className="font-semibold mb-2">Debug Info:</h4>
-            <pre className="text-xs whitespace-pre-wrap">{debugInfo}</pre>
-            <div className="mt-4 p-3 bg-yellow-100 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded text-sm">
-              <p className="font-semibold text-yellow-800 dark:text-yellow-200">Likely Issue: RLS Policy</p>
-              <p className="text-yellow-700 dark:text-yellow-300 mt-1">
-                If count shows 0 but data exists in Supabase, you need to create a Row Level Security policy:
-              </p>
-              <code className="block mt-2 p-2 bg-yellow-50 dark:bg-yellow-900/30 rounded text-xs">
-                CREATE POLICY "Public read minutes" ON public.minutes FOR SELECT USING (true);
-              </code>
-            </div>
-          </div>
-        )}
       </div>
     );
   }
