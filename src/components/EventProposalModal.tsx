@@ -31,10 +31,6 @@ interface EventProposalFormData {
   description: string;
   organizer_email: string;
   organizer_phone: string;
-  organizer_name: string;
-  event_date: string;
-  venue: string;
-  expected_participants: number;
 }
 
 interface EventProposalModalProps {
@@ -56,10 +52,6 @@ export const EventProposalModal = ({
     description: "",
     organizer_email: "",
     organizer_phone: "",
-    organizer_name: "",
-    event_date: "",
-    venue: "",
-    expected_participants: 0,
   });
   const [showConfirmCancel, setShowConfirmCancel] = useState(false);
 
@@ -70,10 +62,6 @@ export const EventProposalModal = ({
       description: "",
       organizer_email: "",
       organizer_phone: "",
-      organizer_name: "",
-      event_date: "",
-      venue: "",
-      expected_participants: 0,
     });
     setUploadedFile(null);
   };
@@ -113,9 +101,7 @@ export const EventProposalModal = ({
       "event_name",
       "event_type",
       "organizer_email",
-      "organizer_name",
-      "event_date",
-      "venue",
+      "description",
     ];
 
     const missingFields = requiredFields.filter((field) => !formData[field]);
@@ -154,21 +140,14 @@ export const EventProposalModal = ({
         pdfUrl = publicUrl;
       }
 
-      // Prepare data for submission with all required fields
+      // Prepare data for submission matching database schema
       const submissionData = {
         event_name: formData.event_name,
         event_type: formData.event_type,
         description: formData.description,
-        organizer_name: formData.organizer_name,
         organizer_email: formData.organizer_email,
         organizer_phone: formData.organizer_phone || null,
-        event_date: formData.event_date,
-        venue: formData.venue,
-        expected_participants: Number(formData.expected_participants) || 0,
         pdf_document_url: pdfUrl || null,
-        status: "pending",
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
       };
 
       // Insert event proposal
@@ -270,50 +249,6 @@ export const EventProposalModal = ({
                   />
                 </div>
 
-                <div>
-                  <Label htmlFor="organizer_name">Organizer Name *</Label>
-                  <Input
-                    id="organizer_name"
-                    value={formData.organizer_name}
-                    onChange={(e) => handleInputChange("organizer_name", e.target.value)}
-                    placeholder="Organizer's full name"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="event_date">Event Date *</Label>
-                  <Input
-                    id="event_date"
-                    type="date"
-                    value={formData.event_date}
-                    onChange={(e) => handleInputChange("event_date", e.target.value)}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="venue">Venue *</Label>
-                  <Input
-                    id="venue"
-                    value={formData.venue}
-                    onChange={(e) => handleInputChange("venue", e.target.value)}
-                    placeholder="Event location"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="expected_participants">Expected Participants</Label>
-                  <Input
-                    id="expected_participants"
-                    type="number"
-                    min="0"
-                    value={formData.expected_participants}
-                    onChange={(e) => handleInputChange("expected_participants", e.target.value)}
-                    placeholder="Estimated number of participants"
-                  />
-                </div>
 
                 <div>
                   <Label>Upload Document (Optional)</Label>
@@ -352,7 +287,7 @@ export const EventProposalModal = ({
                 </div>
               </div>
 
-              {/* Contact Information - REMOVED DUPLICATE SECTION */}
+              {/* Contact Information */}
               <div className="space-y-4">
                 <h3 className="text-lg font-medium">Contact Information</h3>
 
