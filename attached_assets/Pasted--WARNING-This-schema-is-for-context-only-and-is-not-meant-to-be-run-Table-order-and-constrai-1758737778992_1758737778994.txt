@@ -1,0 +1,134 @@
+-- WARNING: This schema is for context only and is not meant to be run.
+-- Table order and constraints may not be valid for execution.
+
+CREATE TABLE public.approvals (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  proposal_id uuid NOT NULL,
+  admin_email text NOT NULL,
+  approved_at timestamp with time zone,
+  comments text,
+  status text NOT NULL DEFAULT 'pending'::text CHECK (status = ANY (ARRAY['pending'::text, 'approved'::text, 'rejected'::text])),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  type text,
+  CONSTRAINT approvals_pkey PRIMARY KEY (id),
+  CONSTRAINT event_approvals_admin_email_fkey FOREIGN KEY (admin_email) REFERENCES public.authorized_admins(email),
+  CONSTRAINT approvals_proposal_id_fkey FOREIGN KEY (proposal_id) REFERENCES public.event_proposals(id)
+);
+CREATE TABLE public.authorized_admins (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  email text NOT NULL UNIQUE,
+  name text NOT NULL,
+  role text NOT NULL,
+  approval_order integer NOT NULL,
+  is_active boolean NOT NULL DEFAULT true,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT authorized_admins_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.closed_events (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  reason text NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT closed_events_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.club_proposals (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  club_name text,
+  founders text,
+  proposal_link text,
+  CONSTRAINT club_proposals_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.clubs (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL UNIQUE,
+  description text,
+  coordinator_names text NOT NULL,
+  coordinator_emails text NOT NULL,
+  channel_links text,
+  is_active boolean DEFAULT true,
+  avatar_url text NOT NULL DEFAULT '""'::text,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  order bigint DEFAULT '0'::bigint,
+  CONSTRAINT clubs_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.event_proposals (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  event_name text NOT NULL,
+  organizer_email text NOT NULL,
+  organizer_phone text,
+  event_type text NOT NULL,
+  description text NOT NULL,
+  pdf_document_url text,
+  status text DEFAULT 'pending'::text CHECK (status = ANY (ARRAY['pending'::text, 'approved'::text, 'rejected'::text])),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT event_proposals_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.hostel_info (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  hostel_name text NOT NULL,
+  warden_name text,
+  warden_contact text,
+  capacity integer,
+  emergency_contact text,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT hostel_info_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.important_contacts (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  designation text,
+  phone_number text NOT NULL,
+  email text,
+  department text,
+  is_emergency boolean DEFAULT false,
+  display_order integer DEFAULT 0,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT important_contacts_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.mess_hostel_committee (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  email text NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT mess_hostel_committee_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.minutes (
+  meeting_id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  title text,
+  description text,
+  date date,
+  link text,
+  CONSTRAINT minutes_pkey PRIMARY KEY (meeting_id)
+);
+CREATE TABLE public.otp_verifications (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  email text NOT NULL,
+  otp text NOT NULL,
+  used boolean NOT NULL DEFAULT false,
+  expires_at timestamp with time zone NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT otp_verifications_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.student_representatives (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  position text NOT NULL,
+  email text NOT NULL,
+  official_email text,
+  program text NOT NULL,
+  year integer NOT NULL,
+  branch text NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  pref_order bigint DEFAULT '0'::bigint,
+  CONSTRAINT student_representatives_pkey PRIMARY KEY (id)
+);
