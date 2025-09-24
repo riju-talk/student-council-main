@@ -10,6 +10,7 @@ import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Trash2 } from "lucide-react";
+import { sendClosureEmail } from "@/integrations/supabase/email";
 
 const eventClosureSchema = z.object({
   eventId: z.string().min(1, "Please select an event"),
@@ -79,24 +80,35 @@ export const EventClosureModal = ({ open, onOpenChange }: EventClosureModalProps
   const onSubmit = async (data: EventClosureFormData) => {
     setSubmitting(true);
     try {
-      // Delete the event proposal
-      const { error } = await supabase
-        .from('event_proposals')
+      // First, delete dependent approvals
+      const { error: approvalsError } = await supabase
+        .from("approvals")
         .delete()
-        .eq('id', data.eventId);
-
-      if (error) throw error;
-
+        .eq("proposal_id", data.eventId);
+  
+      if (approvalsError) throw approvalsError;
+  
+      // Then delete the event itself
+      const { error: eventError } = await supabase
+        .from("event_proposals")
+        .delete()
+        .eq("id", data.eventId);
+  
+      if (eventError) throw eventError;
+  
+      // ✅ Send mail notifications to all authorized admins
+      await sendClosureEmail(data.eventId, data.reason);
+  
       toast({
         title: "Event Closed Successfully",
-        description: "The selected event has been removed from the system.",
+        description: "The selected event has been removed and admins notified.",
       });
-
+  
       form.reset();
       onOpenChange(false);
-      fetchApprovedEvents(); // Refresh the list
+      fetchApprovedEvents(); // Refresh list
     } catch (error) {
-      console.error('Error closing event:', error);
+      console.error("Error closing event:", error);
       toast({
         title: "Error",
         description: "Failed to close the event. Please try again.",

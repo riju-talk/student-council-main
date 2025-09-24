@@ -5,7 +5,15 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
+  DialogFooter,
 } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { Upload, X } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,29 +24,18 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Card } from "@/components/ui/card";
-import {
-  Upload,
-  X,
-  FileText,
-  Calendar,
-  Users,
-  MapPin,
-} from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { isAfter, parseISO, startOfDay } from "date-fns";
+
+interface EventProposalFormData {
+  event_name: string;
+  event_type: string;
+  description: string;
+  organizer_email: string;
+  organizer_phone: string;
+  organizer_name: string;
+  event_date: string;
+  venue: string;
+  expected_participants: number;
+}
 
 interface EventProposalModalProps {
   open: boolean;
@@ -50,55 +47,49 @@ export const EventProposalModal = ({
   onOpenChange,
 }: EventProposalModalProps) => {
   const { toast } = useToast();
-  const [showConfirmCancel, setShowConfirmCancel] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
-  const [formData, setFormData] = useState({
-    eventName: "",
-    eventType: "",
+  const [formData, setFormData] = useState<EventProposalFormData>({
+    event_name: "",
+    event_type: "",
     description: "",
-    date: "",
-    duration: "",
+    organizer_email: "",
+    organizer_phone: "",
+    organizer_name: "",
+    event_date: "",
     venue: "",
-    expectedAttendees: "",
-    budget: "",
-    organizer: "",
-    email: "",
-    phone: "",
-    department: "",
-    specialRequirements: "",
-    marketingPlan: "",
+    expected_participants: 0,
   });
+  const [showConfirmCancel, setShowConfirmCancel] = useState(false);
 
   const resetForm = () => {
     setFormData({
-      eventName: "",
-      eventType: "",
+      event_name: "",
+      event_type: "",
       description: "",
-      date: "",
-      duration: "",
+      organizer_email: "",
+      organizer_phone: "",
+      organizer_name: "",
+      event_date: "",
       venue: "",
-      expectedAttendees: "",
-      budget: "",
-      organizer: "",
-      email: "",
-      phone: "",
-      department: "",
-      specialRequirements: "",
-      marketingPlan: "",
+      expected_participants: 0,
     });
     setUploadedFile(null);
   };
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: keyof EventProposalFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      if (file.type === "application/pdf") {
+      if (
+        file.type === "application/pdf" ||
+        file.type === "application/msword" ||
+        file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      ) {
         setUploadedFile(file);
         toast({
           title: "File uploaded",
@@ -107,79 +98,32 @@ export const EventProposalModal = ({
       } else {
         toast({
           title: "Invalid file type",
-          description: "Please upload a PDF file only.",
+          description: "Please upload a PDF or Word document only.",
           variant: "destructive",
         });
       }
     }
   };
 
-  const isFutureOrToday = (dateStr: string) => {
-    if (!dateStr) return false;
-    const today = startOfDay(new Date());
-    const inputDate = startOfDay(parseISO(dateStr));
-    return isAfter(inputDate, today) || inputDate.getTime() === today.getTime();
-  };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  const handleSubmit = async () => {
-    if (
-      !formData.eventName ||
-      !formData.eventType ||
-      !formData.description ||
-      !formData.organizer ||
-      !formData.email
-    ) {
-      toast({
-        title: "Missing required fields",
-        description: "Please fill in all required fields marked with *",
-        variant: "destructive",
-      });
-      return;
-    }
+    // Basic validation
+    const requiredFields: (keyof EventProposalFormData)[] = [
+      "event_name",
+      "event_type",
+      "organizer_email",
+      "organizer_name",
+      "event_date",
+      "venue",
+    ];
 
-    if (!formData.date || !isFutureOrToday(formData.date)) {
-      toast({
-        title: "Invalid date",
-        description: "Event date must be today or a future date.",
-        variant: "destructive",
-      });
-      return;
-    }
+    const missingFields = requiredFields.filter((field) => !formData[field]);
 
-    if (
-      formData.expectedAttendees &&
-      Number(formData.expectedAttendees) < 0
-    ) {
+    if (missingFields.length > 0) {
       toast({
-        title: "Invalid attendees",
-        description: "Expected attendees cannot be negative.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (formData.budget && Number(formData.budget) < 0) {
-      toast({
-        title: "Invalid budget",
-        description: "Budget cannot be negative.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (uploadedFile && uploadedFile.type !== "application/pdf") {
-      toast({
-        title: "Invalid file type",
-        description: "Please upload a PDF file only.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (uploadedFile && uploadedFile.size > 10 * 1024 * 1024) {
-      toast({
-        title: "File too large",
-        description: "PDF must be less than 10MB.",
+        title: "Error",
+        description: `Please fill in all required fields: ${missingFields.join(", ")}`,
         variant: "destructive",
       });
       return;
@@ -187,438 +131,294 @@ export const EventProposalModal = ({
 
     setIsSubmitting(true);
 
-    let fileUrl = null;
-    if (uploadedFile) {
-      const filePath = `event-proposals/${Date.now()}_${uploadedFile.name}`;
-      const { error: uploadError } = await supabase.storage
-        .from("event-proposals")
-        .upload(filePath, uploadedFile, {
-          cacheControl: "3600",
-          upsert: false,
-        });
+    try {
+      let pdfUrl = "";
 
-      if (uploadError) {
-        toast({
-          title: "File upload failed",
-          description:
-            "Could not upload supporting document. " +
-            uploadError.message,
-          variant: "destructive",
-        });
-        setIsSubmitting(false);
-        return;
+      // Upload file if exists
+      if (uploadedFile) {
+        const fileExt = uploadedFile.name.split(".").pop();
+        const fileName = `${Date.now()}.${fileExt}`;
+        const filePath = `event_documents/${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from("event-documents")
+          .upload(filePath, uploadedFile);
+
+        if (uploadError) throw uploadError;
+
+        // Get public URL
+        const { data: { publicUrl } } = supabase.storage
+          .from("event-documents")
+          .getPublicUrl(filePath);
+
+        pdfUrl = publicUrl;
       }
 
-      const { data: publicUrlData } = supabase.storage
-        .from("event-proposals")
-        .getPublicUrl(filePath);
-      fileUrl = publicUrlData?.publicUrl || null;
-    }
+      // Prepare data for submission with all required fields
+      const submissionData = {
+        event_name: formData.event_name,
+        event_type: formData.event_type,
+        description: formData.description,
+        organizer_name: formData.organizer_name,
+        organizer_email: formData.organizer_email,
+        organizer_phone: formData.organizer_phone || null,
+        event_date: formData.event_date,
+        venue: formData.venue,
+        expected_participants: Number(formData.expected_participants) || 0,
+        pdf_document_url: pdfUrl || null,
+        status: "pending",
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
 
-    const proposalData = {
-      event_name: formData.eventName,
-      event_type: formData.eventType,
-      description: formData.description,
-      objectives: formData.marketingPlan || null,
-      event_date: formData.date,
-      venue: formData.venue,
-      expected_participants: formData.expectedAttendees
-        ? Number(formData.expectedAttendees)
-        : 0, // Default to 0 if not provided
-      budget_estimate: formData.budget
-        ? Number(formData.budget).toFixed(2) // Convert to string with 2 decimal places
-        : null,
-      organizer_name: formData.organizer,
-      organizer_email: formData.email,
-      organizer_phone: formData.phone || null,
-      additional_requirements: formData.specialRequirements || null,
-      pdf_document_url: fileUrl,
-      status: "pending" as const, // Ensure type is 'pending' literal
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
+      // Insert event proposal
+      const { error } = await supabase
+        .from("event_proposals")
+        .insert([submissionData]);
 
-    const { error } = await supabase
-      .from("event_proposals")
-      .insert([proposalData]);
+      if (error) throw error;
 
-    if (error) {
-      console.error("Supabase insert error:", error);
       toast({
-        title: "Submission failed",
-        description:
-          "Could not submit your proposal. Please try again.",
+        title: "Success",
+        description: "Event proposal submitted successfully!",
+      });
+
+      resetForm();
+      onOpenChange(false);
+    } catch (error) {
+      console.error("Error submitting proposal:", error);
+      toast({
+        title: "Error",
+        description: "Failed to submit event proposal. Please try again.",
         variant: "destructive",
       });
+    } finally {
       setIsSubmitting(false);
-      return;
     }
-
-    toast({
-      title: "Proposal submitted successfully!",
-      description:
-        "Your event proposal has been submitted for review. You'll hear back within 24-48 hours.",
-    });
-
-    setIsSubmitting(false);
-    resetForm();
-    onOpenChange(false);
   };
 
   const handleCancel = () => {
-    const hasData =
-      Object.values(formData).some((value) => value.trim() !== "") ||
-      uploadedFile;
+    // Check if form has any data to show confirmation dialog
+    const hasData = Object.values(formData).some(value => 
+      value !== "" && value !== 0 && value !== "0"
+    ) || uploadedFile !== null;
 
     if (hasData) {
       setShowConfirmCancel(true);
     } else {
+      resetForm();
       onOpenChange(false);
-    }
-  };
-
-  const confirmCancel = () => {
-    toast({
-      title: "Proposal canceled",
-      description: "Your event proposal has been canceled.",
-      variant: "destructive",
-    });
-    resetForm();
-    setShowConfirmCancel(false);
-    onOpenChange(false);
-  };
-
-  const handleOpenChange = (newOpen: boolean) => {
-    if (!newOpen) {
-      handleCancel();
-    } else {
-      onOpenChange(newOpen);
     }
   };
 
   return (
     <>
-      <Dialog open={open} onOpenChange={handleOpenChange}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <FileText className="h-5 w-5" />
-              Submit Event Proposal
-            </DialogTitle>
+            <DialogTitle>Submit Event Proposal</DialogTitle>
             <DialogDescription>
-              Fill out the form below to submit your event proposal. All
-              fields marked with * are required.
+              Fill out the form below to submit your event proposal for review.
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-6">
-            {/* Event Details */}
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <Calendar className="h-5 w-5" />
-                Event Details
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-4">
+              {/* Event Information */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium">Event Information</h3>
+
                 <div>
-                  <Label htmlFor="eventName">Event Name *</Label>
+                  <Label htmlFor="event_name">Event Name *</Label>
                   <Input
-                    id="eventName"
-                    value={formData.eventName}
-                    onChange={(e) =>
-                      handleInputChange("eventName", e.target.value)
-                    }
+                    id="event_name"
+                    value={formData.event_name}
+                    onChange={(e) => handleInputChange("event_name", e.target.value)}
                     placeholder="Enter event name"
+                    required
                   />
                 </div>
+
                 <div>
-                  <Label htmlFor="eventType">Event Type *</Label>
-                  <Select
-                    value={formData.eventType}
-                    onValueChange={(value) =>
-                      handleInputChange("eventType", value)
-                    }
+                  <Label htmlFor="event_type">Event Type *</Label>
+                  <select
+                    id="event_type"
+                    value={formData.event_type}
+                    onChange={(e) => handleInputChange("event_type", e.target.value)}
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    required
                   >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select event type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="cultural">Cultural</SelectItem>
-                      <SelectItem value="technical">Technical</SelectItem>
-                      <SelectItem value="sports">Sports</SelectItem>
-                      <SelectItem value="academic">Academic</SelectItem>
-                      <SelectItem value="social">Social</SelectItem>
-                      <SelectItem value="workshop">Workshop</SelectItem>
-                      <SelectItem value="seminar">Seminar</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
+                    <option value="">Select event type</option>
+                    <option value="workshop">Workshop</option>
+                    <option value="seminar">Seminar</option>
+                    <option value="conference">Conference</option>
+                    <option value="hackathon">Hackathon</option>
+                    <option value="competition">Competition</option>
+                    <option value="other">Other</option>
+                  </select>
                 </div>
-                <div className="md:col-span-2">
+
+                <div>
                   <Label htmlFor="description">Event Description *</Label>
                   <Textarea
                     id="description"
                     value={formData.description}
-                    onChange={(e) =>
-                      handleInputChange("description", e.target.value)
-                    }
+                    onChange={(e) => handleInputChange("description", e.target.value)}
                     placeholder="Provide a detailed description of your event"
                     rows={4}
+                    required
                   />
                 </div>
-              </div>
-            </Card>
 
-            {/* Event Logistics */}
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <MapPin className="h-5 w-5" />
-                Event Logistics
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <Label htmlFor="date">Event Date *</Label>
+                  <Label htmlFor="organizer_name">Organizer Name *</Label>
                   <Input
-                    id="date"
-                    type="date"
-                    value={formData.date}
-                    onChange={(e) =>
-                      handleInputChange("date", e.target.value)
-                    }
+                    id="organizer_name"
+                    value={formData.organizer_name}
+                    onChange={(e) => handleInputChange("organizer_name", e.target.value)}
+                    placeholder="Organizer's full name"
+                    required
                   />
                 </div>
+
                 <div>
-                  <Label htmlFor="duration">Duration</Label>
-                  <Select
-                    value={formData.duration}
-                    onValueChange={(value) =>
-                      handleInputChange("duration", value)
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select duration" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1-hour">1 hour</SelectItem>
-                      <SelectItem value="2-hours">2 hours</SelectItem>
-                      <SelectItem value="3-hours">3 hours</SelectItem>
-                      <SelectItem value="half-day">Half day</SelectItem>
-                      <SelectItem value="full-day">Full day</SelectItem>
-                      <SelectItem value="multi-day">Multiple days</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Label htmlFor="event_date">Event Date *</Label>
+                  <Input
+                    id="event_date"
+                    type="date"
+                    value={formData.event_date}
+                    onChange={(e) => handleInputChange("event_date", e.target.value)}
+                    required
+                  />
                 </div>
+
                 <div>
-                  <Label htmlFor="venue">Preferred Venue</Label>
+                  <Label htmlFor="venue">Venue *</Label>
                   <Input
                     id="venue"
                     value={formData.venue}
-                    onChange={(e) =>
-                      handleInputChange("venue", e.target.value)
-                    }
-                    placeholder="e.g., Auditorium, Classroom, Outdoor"
+                    onChange={(e) => handleInputChange("venue", e.target.value)}
+                    placeholder="Event location"
+                    required
                   />
                 </div>
+
                 <div>
-                  <Label htmlFor="expectedAttendees">Expected Attendees</Label>
+                  <Label htmlFor="expected_participants">Expected Participants</Label>
                   <Input
-                    id="expectedAttendees"
+                    id="expected_participants"
                     type="number"
-                    value={formData.expectedAttendees}
-                    onChange={(e) =>
-                      handleInputChange("expectedAttendees", e.target.value)
-                    }
-                    placeholder="Number of attendees"
+                    min="0"
+                    value={formData.expected_participants}
+                    onChange={(e) => handleInputChange("expected_participants", e.target.value)}
+                    placeholder="Estimated number of participants"
                   />
                 </div>
-                <div>
-                  <Label htmlFor="budget">Estimated Budget (₹)</Label>
-                  <Input
-                    id="budget"
-                    type="number"
-                    value={formData.budget}
-                    onChange={(e) =>
-                      handleInputChange("budget", e.target.value)
-                    }
-                    placeholder="0"
-                  />
-                </div>
-              </div>
-            </Card>
 
-            {/* Organizer Information */}
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <Users className="h-5 w-5" />
-                Organizer Information
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="organizer">Primary Organizer *</Label>
-                  <Input
-                    id="organizer"
-                    value={formData.organizer}
-                    onChange={(e) =>
-                      handleInputChange("organizer", e.target.value)
-                    }
-                    placeholder="Full name"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="email">Email Address *</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) =>
-                      handleInputChange("email", e.target.value)
-                    }
-                    placeholder="your.email@iiitd.ac.in"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="phone">Phone Number</Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) =>
-                      handleInputChange("phone", e.target.value)
-                    }
-                    placeholder="+91 XXXXX XXXXX"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="department">Department/Club</Label>
-                  <Input
-                    id="department"
-                    value={formData.department}
-                    onChange={(e) =>
-                      handleInputChange("department", e.target.value)
-                    }
-                    placeholder="Your department or club"
-                  />
-                </div>
-              </div>
-            </Card>
-
-            {/* Additional Information */}
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">
-                Additional Information
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="specialRequirements">
-                    Special Requirements
-                  </Label>
-                  <Textarea
-                    id="specialRequirements"
-                    value={formData.specialRequirements}
-                    onChange={(e) =>
-                      handleInputChange(
-                        "specialRequirements",
-                        e.target.value
-                      )
-                    }
-                    placeholder="Any special equipment, permissions, or arrangements needed"
-                    rows={3}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="marketingPlan">
-                    Marketing & Promotion Plan
-                  </Label>
-                  <Textarea
-                    id="marketingPlan"
-                    value={formData.marketingPlan}
-                    onChange={(e) =>
-                      handleInputChange("marketingPlan", e.target.value)
-                    }
-                    placeholder="How do you plan to promote this event?"
-                    rows={3}
-                  />
-                </div>
-              </div>
-            </Card>
-
-            {/* File Upload */}
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <Upload className="h-5 w-5" />
-                Supporting Documents
-              </h3>
-              <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
-                <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                <div className="mb-2">
-                  <Label
-                    htmlFor="file-upload"
-                    className="cursor-pointer text-sm font-medium text-primary hover:text-primary/80"
-                  >
-                    Upload PDF document
-                  </Label>
-                  <Input
-                    id="file-upload"
-                    type="file"
-                    accept=".pdf"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                  />
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Upload budget breakdown, venue plans, or other supporting
-                  documents (PDF only, max 10MB)
-                </p>
-                {uploadedFile && (
-                  <div className="mt-4 flex items-center justify-center gap-2 text-sm text-green-600">
-                    <FileText className="h-4 w-4" />
-                    {uploadedFile.name}
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setUploadedFile(null)}
-                      className="h-auto p-1"
+                  <Label>Upload Document (Optional)</Label>
+                  <div className="mt-1 flex items-center gap-2">
+                    <label
+                      htmlFor="file-upload"
+                      className="flex items-center gap-2 px-4 py-2 border rounded-md cursor-pointer hover:bg-accent"
                     >
-                      <X className="h-3 w-3" />
-                    </Button>
+                      <Upload className="h-4 w-4" />
+                      <span>
+                        {uploadedFile ? uploadedFile.name : "Upload PDF/DOC"}
+                      </span>
+                      <input
+                        id="file-upload"
+                        name="file-upload"
+                        type="file"
+                        className="sr-only"
+                        accept=".pdf,.doc,.docx"
+                        onChange={handleFileUpload}
+                      />
+                    </label>
+                    {uploadedFile && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setUploadedFile(null)}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    )}
                   </div>
-                )}
+                  <p className="text-xs text-muted-foreground mt-1">
+                    PDF or Word document (max 5MB)
+                  </p>
+                </div>
               </div>
-            </Card>
-          </div>
 
-          <div className="flex justify-end gap-3 pt-6 border-t">
-            <Button variant="outline" onClick={handleCancel}>
-              Cancel
-            </Button>
-            <Button onClick={handleSubmit} disabled={isSubmitting}>
-              {isSubmitting ? "Submitting..." : "Submit Proposal"}
-            </Button>
-          </div>
+              {/* Contact Information - REMOVED DUPLICATE SECTION */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium">Contact Information</h3>
+
+                <div>
+                  <Label htmlFor="organizer_email">Email *</Label>
+                  <Input
+                    id="organizer_email"
+                    type="email"
+                    value={formData.organizer_email}
+                    onChange={(e) => handleInputChange("organizer_email", e.target.value)}
+                    placeholder="your.email@example.com"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="organizer_phone">Phone Number</Label>
+                  <Input
+                    id="organizer_phone"
+                    type="tel"
+                    value={formData.organizer_phone}
+                    onChange={(e) => handleInputChange("organizer_phone", e.target.value)}
+                    placeholder="+91 1234567890"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleCancel}
+                disabled={isSubmitting}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Submitting..." : "Submit Proposal"}
+              </Button>
+            </DialogFooter>
+          </form>
         </DialogContent>
       </Dialog>
 
-      <AlertDialog
-        open={showConfirmCancel}
-        onOpenChange={setShowConfirmCancel}
-      >
+      <AlertDialog open={showConfirmCancel} onOpenChange={setShowConfirmCancel}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Confirm Cancellation</AlertDialogTitle>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              You have unsaved changes. Are you sure you want to cancel? All
-              your progress will be lost.
+              Any unsaved changes will be lost. Do you want to continue?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => setShowConfirmCancel(false)}>
-            Continue Editing
-          </AlertDialogCancel>
-          <AlertDialogAction onClick={confirmCancel}>
-            Discard Changes
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  </>
-);
+            <AlertDialogCancel>No, keep editing</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                resetForm();
+                onOpenChange(false);
+              }}
+            >
+              Yes, cancel
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
+  );
 };
