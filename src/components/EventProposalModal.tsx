@@ -99,6 +99,7 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
       "event_name",
       "event_type",
       "organizer_email",
+      "description",
     ];
 
     const missingFields = requiredFields.filter((field) => !formData[field]);
@@ -133,16 +134,14 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
         pdfUrl = data.publicUrl;
       }
 
+      // Prepare data for submission matching database schema
       const submissionData = {
         event_name: formData.event_name,
         event_type: formData.event_type,
         description: formData.description,
         organizer_email: formData.organizer_email,
         organizer_phone: formData.organizer_phone || null,
-        pdf_document_url: pdfUrl,
-        status: "pending",
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
+        pdf_document_url: pdfUrl || null,
       };
 
       const { error } = await supabase.from("event_proposals").insert([submissionData]);
@@ -265,6 +264,7 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
                 </div>
               </div>
 
+              {/* Contact Information */}
               <div className="space-y-4">
                 <h3 className="text-lg font-medium">Contact Information</h3>
 

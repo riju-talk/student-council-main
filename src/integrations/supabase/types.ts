@@ -264,17 +264,10 @@ export type Database = {
         Row: {
           id: string
           event_name: string
-          organizer_name: string
           organizer_email: string
           organizer_phone: string | null
           event_type: string
-          event_date: string
-          venue: string
-          expected_participants: number
-          budget_estimate: string | null
           description: string
-          objectives: string | null
-          additional_requirements: string | null
           pdf_document_url: string | null
           status: 'pending' | 'approved' | 'rejected' | null
           created_at: string
@@ -283,17 +276,10 @@ export type Database = {
         Insert: {
           id?: string
           event_name: string
-          organizer_name: string
           organizer_email: string
           organizer_phone?: string | null
           event_type: string
-          event_date: string
-          venue: string
-          expected_participants: number
-          budget_estimate?: string | null
           description: string
-          objectives?: string | null
-          additional_requirements?: string | null
           pdf_document_url?: string | null
           status?: 'pending' | 'approved' | 'rejected' | null
           created_at?: string
@@ -302,17 +288,10 @@ export type Database = {
         Update: {
           id?: string
           event_name?: string
-          organizer_name?: string
           organizer_email?: string
           organizer_phone?: string | null
           event_type?: string
-          event_date?: string
-          venue?: string
-          expected_participants?: number
-          budget_estimate?: string | null
           description?: string
-          objectives?: string | null
-          additional_requirements?: string | null
           pdf_document_url?: string | null
           status?: 'pending' | 'approved' | 'rejected' | null
           created_at?: string
