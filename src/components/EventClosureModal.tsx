@@ -10,7 +10,6 @@ import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Trash2 } from "lucide-react";
-import { sendClosureEmail } from "@/integrations/supabase/email";
 
 const eventClosureSchema = z.object({
   eventId: z.string().min(1, "Please select an event"),
@@ -97,7 +96,6 @@ export const EventClosureModal = ({ open, onOpenChange }: EventClosureModalProps
       if (eventError) throw eventError;
   
       // ✅ Send mail notifications to all authorized admins
-      await sendClosureEmail(data.eventId, data.reason);
   
       toast({
         title: "Event Closed Successfully",

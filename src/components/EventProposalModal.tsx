@@ -31,10 +31,6 @@ interface EventProposalFormData {
   description: string;
   organizer_email: string;
   organizer_phone: string;
-  organizer_name: string;
-  event_date: string;
-  venue: string;
-  expected_participants: number;
 }
 
 interface EventProposalModalProps {
@@ -42,10 +38,7 @@ interface EventProposalModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export const EventProposalModal = ({
-  open,
-  onOpenChange,
-}: EventProposalModalProps) => {
+export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalProps) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
@@ -56,11 +49,8 @@ export const EventProposalModal = ({
     description: "",
     organizer_email: "",
     organizer_phone: "",
-    organizer_name: "",
-    event_date: "",
-    venue: "",
-    expected_participants: 0,
   });
+
   const [showConfirmCancel, setShowConfirmCancel] = useState(false);
 
   const resetForm = () => {
@@ -70,10 +60,6 @@ export const EventProposalModal = ({
       description: "",
       organizer_email: "",
       organizer_phone: "",
-      organizer_name: "",
-      event_date: "",
-      venue: "",
-      expected_participants: 0,
     });
     setUploadedFile(null);
   };
@@ -113,9 +99,6 @@ export const EventProposalModal = ({
       "event_name",
       "event_type",
       "organizer_email",
-      "organizer_name",
-      "event_date",
-      "venue",
     ];
 
     const missingFields = requiredFields.filter((field) => !formData[field]);
@@ -132,7 +115,7 @@ export const EventProposalModal = ({
     setIsSubmitting(true);
 
     try {
-      let pdfUrl = "";
+      let pdfUrl = null;
 
       // Upload file if exists
       if (uploadedFile) {
@@ -146,36 +129,23 @@ export const EventProposalModal = ({
 
         if (uploadError) throw uploadError;
 
-        // Get public URL
-        const { data: { publicUrl } } = supabase.storage
-          .from("event-documents")
-          .getPublicUrl(filePath);
-
-        pdfUrl = publicUrl;
+        const { data } = supabase.storage.from("event-documents").getPublicUrl(filePath);
+        pdfUrl = data.publicUrl;
       }
 
-      // Prepare data for submission with all required fields
       const submissionData = {
         event_name: formData.event_name,
         event_type: formData.event_type,
         description: formData.description,
-        organizer_name: formData.organizer_name,
         organizer_email: formData.organizer_email,
         organizer_phone: formData.organizer_phone || null,
-        event_date: formData.event_date,
-        venue: formData.venue,
-        expected_participants: Number(formData.expected_participants) || 0,
-        pdf_document_url: pdfUrl || null,
+        pdf_document_url: pdfUrl,
         status: "pending",
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       };
 
-      // Insert event proposal
-      const { error } = await supabase
-        .from("event_proposals")
-        .insert([submissionData]);
-
+      const { error } = await supabase.from("event_proposals").insert([submissionData]);
       if (error) throw error;
 
       toast({
@@ -198,14 +168,11 @@ export const EventProposalModal = ({
   };
 
   const handleCancel = () => {
-    // Check if form has any data to show confirmation dialog
-    const hasData = Object.values(formData).some(value => 
-      value !== "" && value !== 0 && value !== "0"
-    ) || uploadedFile !== null;
+    const hasData =
+      Object.values(formData).some((v) => v !== "") || uploadedFile !== null;
 
-    if (hasData) {
-      setShowConfirmCancel(true);
-    } else {
+    if (hasData) setShowConfirmCancel(true);
+    else {
       resetForm();
       onOpenChange(false);
     }
@@ -224,7 +191,6 @@ export const EventProposalModal = ({
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-4">
-              {/* Event Information */}
               <div className="space-y-4">
                 <h3 className="text-lg font-medium">Event Information</h3>
 
@@ -245,7 +211,7 @@ export const EventProposalModal = ({
                     id="event_type"
                     value={formData.event_type}
                     onChange={(e) => handleInputChange("event_type", e.target.value)}
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     required
                   >
                     <option value="">Select event type</option>
@@ -271,51 +237,6 @@ export const EventProposalModal = ({
                 </div>
 
                 <div>
-                  <Label htmlFor="organizer_name">Organizer Name *</Label>
-                  <Input
-                    id="organizer_name"
-                    value={formData.organizer_name}
-                    onChange={(e) => handleInputChange("organizer_name", e.target.value)}
-                    placeholder="Organizer's full name"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="event_date">Event Date *</Label>
-                  <Input
-                    id="event_date"
-                    type="date"
-                    value={formData.event_date}
-                    onChange={(e) => handleInputChange("event_date", e.target.value)}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="venue">Venue *</Label>
-                  <Input
-                    id="venue"
-                    value={formData.venue}
-                    onChange={(e) => handleInputChange("venue", e.target.value)}
-                    placeholder="Event location"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="expected_participants">Expected Participants</Label>
-                  <Input
-                    id="expected_participants"
-                    type="number"
-                    min="0"
-                    value={formData.expected_participants}
-                    onChange={(e) => handleInputChange("expected_participants", e.target.value)}
-                    placeholder="Estimated number of participants"
-                  />
-                </div>
-
-                <div>
                   <Label>Upload Document (Optional)</Label>
                   <div className="mt-1 flex items-center gap-2">
                     <label
@@ -323,12 +244,9 @@ export const EventProposalModal = ({
                       className="flex items-center gap-2 px-4 py-2 border rounded-md cursor-pointer hover:bg-accent"
                     >
                       <Upload className="h-4 w-4" />
-                      <span>
-                        {uploadedFile ? uploadedFile.name : "Upload PDF/DOC"}
-                      </span>
+                      <span>{uploadedFile ? uploadedFile.name : "Upload PDF/DOC"}</span>
                       <input
                         id="file-upload"
-                        name="file-upload"
                         type="file"
                         className="sr-only"
                         accept=".pdf,.doc,.docx"
@@ -336,12 +254,7 @@ export const EventProposalModal = ({
                       />
                     </label>
                     {uploadedFile && (
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => setUploadedFile(null)}
-                      >
+                      <Button type="button" variant="ghost" size="icon" onClick={() => setUploadedFile(null)}>
                         <X className="h-4 w-4" />
                       </Button>
                     )}
@@ -352,7 +265,6 @@ export const EventProposalModal = ({
                 </div>
               </div>
 
-              {/* Contact Information - REMOVED DUPLICATE SECTION */}
               <div className="space-y-4">
                 <h3 className="text-lg font-medium">Contact Information</h3>
 
@@ -382,12 +294,7 @@ export const EventProposalModal = ({
             </div>
 
             <DialogFooter>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={handleCancel}
-                disabled={isSubmitting}
-              >
+              <Button type="button" variant="outline" onClick={handleCancel} disabled={isSubmitting}>
                 Cancel
               </Button>
               <Button type="submit" disabled={isSubmitting}>
