@@ -122,15 +122,15 @@ export const EventProposalModal = ({ open, onOpenChange }: EventProposalModalPro
       if (uploadedFile) {
         const fileExt = uploadedFile.name.split(".").pop();
         const fileName = `${Date.now()}.${fileExt}`;
-        const filePath = `event_documents/${fileName}`;
+        const filePath = `event-proposals/${fileName}`;
 
         const { error: uploadError } = await supabase.storage
-          .from("event-documents")
+          .from("event-proposals")
           .upload(filePath, uploadedFile);
 
         if (uploadError) throw uploadError;
 
-        const { data } = supabase.storage.from("event-documents").getPublicUrl(filePath);
+        const { data } = supabase.storage.from("event-proposals").getPublicUrl(filePath);
         pdfUrl = data.publicUrl;
       }
 

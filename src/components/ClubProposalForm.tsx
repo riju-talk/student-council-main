@@ -15,10 +15,19 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-export const formSchema = z.object({
+const formSchema = z.object({
   club_name: z.string().min(3, "Club name must be at least 3 characters"),
-  founders: z.string().min(3, "Please list at least one founder"),
-  proposal_link: z.string().url("Please enter a valid URL").or(z.literal(""))
+  founders: z
+    .string()
+    .min(3, "Please list at least one founder")
+    .refine(
+      (val) => val.includes(","),
+      "Please enter names separated by commas (e.g., Alice, Bob, Charlie)"
+    ),
+  proposal_link: z
+    .string()
+    .url("Please enter a valid Google Drive/Docs link")
+    .min(1, "Proposal link is required"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -38,44 +47,33 @@ export function ClubProposalForm() {
   });
 
   const handleSubmit = async (values: FormValues) => {
+    setIsSubmitting(true);
     try {
-      setIsSubmitting(true);
-      setIsSuccess(false);
-
-      // Prepare the club proposal data
-      const proposalData = {
+      const payload = {
         club_name: values.club_name,
         founders: values.founders,
-        proposal_link: values.proposal_link || null,
+        proposal_link: values.proposal_link,
       };
 
-      // Insert the club proposal
       const { error } = await supabase
         .from("club_proposals")
-        .insert([proposalData]);
+        .insert([payload]);
 
-      if (error) {
-        console.error("Error creating club proposal:", error);
-        throw new Error(
-          error.message || "Failed to create club proposal. Please try again."
-        );
-      }
+      if (error) throw error;
 
-      // Show success message
       toast({
         title: "✅ Proposal submitted successfully!",
-        description: "Your club proposal has been submitted for review. You'll be notified once it's approved.",
+        description: "Your proposal has been saved and is under review.",
       });
 
-      setIsSuccess(true);
       form.reset();
-    } catch (error) {
-      console.error("Error submitting proposal:", error);
-      const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
-
+      setIsSuccess(true);
+    } catch (err) {
+      console.error("Error submitting proposal:", err);
       toast({
         title: "❌ Submission failed",
-        description: errorMessage,
+        description:
+          err instanceof Error ? err.message : "An unexpected error occurred",
         variant: "destructive",
       });
     } finally {
@@ -93,17 +91,13 @@ export function ClubProposalForm() {
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M5 13l4 4L19 7"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
         <h3 className="text-lg font-medium">Proposal Submitted Successfully!</h3>
         <p className="text-sm text-muted-foreground">
-          Your club proposal has been received and is under review. We'll notify you once it's been processed.
+          Your club proposal has been received. We'll notify you once it's
+          processed.
         </p>
         <Button
           onClick={() => {
@@ -121,84 +115,74 @@ export function ClubProposalForm() {
 
   return (
     <div className="space-y-4">
-      <div className="space-y-1">
-        <h3 className="text-lg font-medium">Propose a New Club</h3>
-        <p className="text-sm text-muted-foreground">
-          Submit your club proposal for review. All fields are required unless marked optional.
-        </p>
-      </div>
+      <p className="text-sm text-muted-foreground">
+        Submit your club proposal for review. Paste a Google Drive/Docs link and
+        list founders separated by commas.
+      </p>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="club_name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Club Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter club name"
-                      {...field}
-                      disabled={isSubmitting}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+          <FormField
+            control={form.control}
+            name="club_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Club Name</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter club name"
+                    {...field}
+                    disabled={isSubmitting}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name="founders"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Founders</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="List all founders"
-                      {...field}
-                      disabled={isSubmitting}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <FormField
+            control={form.control}
+            name="founders"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Founders</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Alice, Bob, Charlie"
+                    {...field}
+                    disabled={isSubmitting}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name="proposal_link"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Proposal Link (Optional)</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="https://docs.google.com/document/..."
-                      {...field}
-                      value={field.value || ""}
-                      disabled={isSubmitting}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          <FormField
+            control={form.control}
+            name="proposal_link"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Proposal Link</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="https://drive.google.com/..."
+                    {...field}
+                    disabled={isSubmitting}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <div className="flex justify-end pt-2">
-            <Button 
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full sm:w-auto"
-            >
-              {isSubmitting ? "Submitting..." : "Submit Proposal"}
-            </Button>
-          </div>
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full sm:w-auto"
+          >
+            {isSubmitting ? "Submitting..." : "Submit Proposal"}
+          </Button>
         </form>
       </Form>
     </div>

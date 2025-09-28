@@ -341,6 +341,27 @@ export type Database = {
         }
         Relationships: []
       }
+      closed_events: {
+        Row: {
+          id: string
+          name: string
+          reason: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          reason: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          reason?: string
+          created_at?: string
+        }
+        Relationships: []
+      },
       important_contacts: {
         Row: {
           created_at: string

@@ -18,14 +18,17 @@ const eventClosureSchema = z.object({
 
 type EventClosureFormData = z.infer<typeof eventClosureSchema>;
 
+/** Match the real event_proposals columns (no event_date / venue / organizer_name etc.) */
 interface ApprovedEvent {
   id: string;
   event_name: string;
-  event_date: string;
-  organizer_name: string;
-  organizer_email: string;
-  venue: string;
-  status?: string;
+  organizer_email?: string | null;
+  organizer_phone?: string | null;
+  event_type?: string | null;
+  description?: string | null;
+  pdf_document_url?: string | null;
+  status?: string | null;
+  created_at?: string | null; // ISO string from Supabase
 }
 
 interface EventClosureModalProps {
@@ -50,36 +53,44 @@ export const EventClosureModal = ({ open, onOpenChange }: EventClosureModalProps
   const fetchApprovedEvents = async () => {
     setLoading(true);
     try {
-      // Get all event proposals from the table
+      // Select only columns that exist in your schema.
       const { data: events, error } = await supabase
-        .from('event_proposals')
-        .select('id, event_name, event_date, organizer_name, organizer_email, venue, status')
-        .order('event_date', { ascending: true });
+        .from("event_proposals")
+        .select(
+          "id, event_name, organizer_email, organizer_phone, event_type, description, pdf_document_url, status, created_at"
+        )
+        .order("created_at", { ascending: true });
 
       if (error) throw error;
-      setApprovedEvents(events || []);
-    } catch (error) {
-      console.error('Error fetching events:', error);
+
+      setApprovedEvents((events ?? []) as ApprovedEvent[]);
+    } catch (err) {
+      console.error("Error fetching events:", err);
+      // Show a helpful toast with the error message if available
+      const message = (err as any)?.message || "Failed to fetch events.";
       toast({
-        title: "Error",
-        description: "Failed to fetch events. Please try again.",
+        title: "Error fetching events",
+        description: message,
         variant: "destructive",
       });
+      setApprovedEvents([]);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (open) {
-      fetchApprovedEvents();
-    }
+    if (open) fetchApprovedEvents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   const onSubmit = async (data: EventClosureFormData) => {
     setSubmitting(true);
     try {
-      // First, delete dependent approvals
+      const selectedEvent = approvedEvents.find(e => e.id === data.eventId);
+      if (!selectedEvent) throw new Error("Selected event not found");
+  
+      // 1️⃣ Delete dependent approvals for this event
       const { error: approvalsError } = await supabase
         .from("approvals")
         .delete()
@@ -87,29 +98,36 @@ export const EventClosureModal = ({ open, onOpenChange }: EventClosureModalProps
   
       if (approvalsError) throw approvalsError;
   
-      // Then delete the event itself
+      // 2️⃣ Delete the event from proposals
       const { error: eventError } = await supabase
         .from("event_proposals")
         .delete()
         .eq("id", data.eventId);
   
       if (eventError) throw eventError;
-  
-      // ✅ Send mail notifications to all authorized admins
-  
+      
+      const { error: closedEventError } = await supabase
+        .from("closed_events")
+        .update({
+          reason: data.reason,
+        })
+        .eq("name", selectedEvent.event_name);
+      
+      if (closedEventError) throw closedEventError;
+      
       toast({
         title: "Event Closed Successfully",
-        description: "The selected event has been removed and admins notified.",
+        description: "The event was removed from proposals.",
       });
   
       form.reset();
       onOpenChange(false);
-      fetchApprovedEvents(); // Refresh list
-    } catch (error) {
-      console.error("Error closing event:", error);
+      fetchApprovedEvents(); // refresh
+    } catch (err) {
+      console.error("Error closing event:", err);
       toast({
-        title: "Error",
-        description: "Failed to close the event. Please try again.",
+        title: "Error closing event",
+        description: (err as any)?.message || "Failed to close the event. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -117,7 +135,7 @@ export const EventClosureModal = ({ open, onOpenChange }: EventClosureModalProps
     }
   };
 
-  const selectedEvent = approvedEvents.find(event => event.id === form.watch('eventId'));
+  const selectedEvent = approvedEvents.find((e) => e.id === form.watch("eventId"));
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -133,7 +151,7 @@ export const EventClosureModal = ({ open, onOpenChange }: EventClosureModalProps
           <div className="bg-muted/50 p-4 rounded-lg">
             <h3 className="font-semibold mb-2">Event Closure Instructions</h3>
             <ul className="text-sm text-muted-foreground space-y-1">
-              <li>• Select any event from the dropdown below</li>
+              <li>• Select an approved event from the dropdown below</li>
               <li>• Provide a detailed reason for event closure</li>
               <li>• This action will permanently remove the event from the system</li>
               <li>• Use this form to verify events and delete proposals from the portal</li>
@@ -154,6 +172,7 @@ export const EventClosureModal = ({ open, onOpenChange }: EventClosureModalProps
                           <SelectValue placeholder={loading ? "Loading events..." : "Select an event to close"} />
                         </SelectTrigger>
                       </FormControl>
+
                       <SelectContent>
                         {loading ? (
                           <SelectItem value="loading" disabled>
@@ -164,7 +183,7 @@ export const EventClosureModal = ({ open, onOpenChange }: EventClosureModalProps
                           </SelectItem>
                         ) : approvedEvents.length === 0 ? (
                           <SelectItem value="no-events" disabled>
-                            No events found
+                            No approved events found
                           </SelectItem>
                         ) : (
                           approvedEvents.map((event) => (
@@ -172,7 +191,7 @@ export const EventClosureModal = ({ open, onOpenChange }: EventClosureModalProps
                               <div className="flex flex-col items-start">
                                 <span className="font-medium">{event.event_name}</span>
                                 <span className="text-xs text-muted-foreground">
-                                  {new Date(event.event_date).toLocaleDateString()} • {event.venue} • by {event.organizer_name} • Status: {event.status || 'pending'}
+                                  {event.created_at ? new Date(event.created_at).toLocaleDateString() : "—"} • {event.event_type ?? "—"} • {event.organizer_email ?? "—"}
                                 </span>
                               </div>
                             </SelectItem>
@@ -194,17 +213,27 @@ export const EventClosureModal = ({ open, onOpenChange }: EventClosureModalProps
                       <p className="text-muted-foreground">{selectedEvent.event_name}</p>
                     </div>
                     <div>
-                      <span className="font-medium">Date:</span>
-                      <p className="text-muted-foreground">{new Date(selectedEvent.event_date).toLocaleDateString()}</p>
+                      <span className="font-medium">Created:</span>
+                      <p className="text-muted-foreground">{selectedEvent.created_at ? new Date(selectedEvent.created_at).toLocaleString() : "—"}</p>
                     </div>
                     <div>
-                      <span className="font-medium">Venue:</span>
-                      <p className="text-muted-foreground">{selectedEvent.venue}</p>
+                      <span className="font-medium">Organizer Email:</span>
+                      <p className="text-muted-foreground">{selectedEvent.organizer_email ?? "—"}</p>
                     </div>
                     <div>
-                      <span className="font-medium">Organizer:</span>
-                      <p className="text-muted-foreground">{selectedEvent.organizer_name}</p>
+                      <span className="font-medium">Organizer Phone:</span>
+                      <p className="text-muted-foreground">{selectedEvent.organizer_phone ?? "—"}</p>
                     </div>
+                    <div className="col-span-2">
+                      <span className="font-medium">Type:</span>
+                      <p className="text-muted-foreground">{selectedEvent.event_type ?? "—"}</p>
+                    </div>
+                    {selectedEvent.description && (
+                      <div className="col-span-2">
+                        <span className="font-medium">Description:</span>
+                        <p className="text-muted-foreground text-sm">{selectedEvent.description}</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
@@ -239,7 +268,7 @@ export const EventClosureModal = ({ open, onOpenChange }: EventClosureModalProps
                 <Button
                   type="submit"
                   variant="destructive"
-                  disabled={submitting || !form.watch('eventId')}
+                  disabled={submitting || !form.watch("eventId")}
                   className="flex-1"
                 >
                   {submitting ? (
