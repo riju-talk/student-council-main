@@ -344,16 +344,22 @@
 
   @keyframes gentleFloat {
     0%, 100% {
-      transform: translateY(0px);
+      transform: translateY(0px) rotate(0deg);
     }
     50% {
-      transform: translateY(-8px);
+      transform: translateY(-8px) rotate(1.5deg);
     }
   }
 
-/* Floating geometric elements */
+/* Floating geometric elements - optimized for performance */
 .floating-element {
   animation: float 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-gentle-float {
+  animation: gentleFloat 4s ease-in-out infinite;
+  will-change: transform;
 }
 
 /* Text Shadow */
@@ -464,5 +470,22 @@
   .logo-glow {
     animation: pulse-glow 4s ease-in-out infinite;
     border-radius: 50%;
+  }
+}
+
+/* Performance optimization: Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .floating-element,
+  .animate-gentle-float,
+  .logo-glow {
+    animation: none !important;
   }
 }
