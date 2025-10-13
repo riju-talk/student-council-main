@@ -55,7 +55,7 @@ const Hostel = () => {
         <div className="sticky top-0 z-50 w-full">
           <Header />
         </div>
-        <main className="container mx-auto px-4 py-8 mt-20 flex-1">
+        <main className="container mx-auto px-4 py-8 my-5 flex-1">
             <div className="max-w-6xl mx-auto space-y-8">
               <motion.div 
                 className="text-center space-y-4"
@@ -121,129 +121,6 @@ const Hostel = () => {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
-
-              {/* Hostels List */}
-              <motion.div 
-                className="space-y-6"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <h2 className="text-2xl font-semibold flex items-center gap-2 text-white font-display">
-                  <Home className="h-6 w-6" />
-                  Campus Hostels
-                </h2>
-                
-                {isLoading ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {[...Array(4)].map((_, i) => (
-                      <Card key={i} className="animate-pulse">
-                        <CardHeader>
-                          <div className="h-6 bg-muted rounded w-3/4" />
-                          <div className="h-4 bg-muted rounded w-1/2" />
-                        </CardHeader>
-                        <CardContent>
-                          <div className="space-y-2">
-                            <div className="h-4 bg-muted rounded" />
-                            <div className="h-4 bg-muted rounded w-3/4" />
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                ) : hostels.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {hostels.map((hostel, index) => (
-                      <motion.div
-                        key={hostel.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                        whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                      >
-                        <Card className="hover:shadow-lg transition-shadow h-full">
-                          <CardHeader>
-                            <CardTitle className="text-xl">{hostel.hostel_name}</CardTitle>
-                            {hostel.capacity && (
-                              <Badge variant="secondary">
-                                <Users className="h-3 w-3 mr-1" />
-                                Capacity: {hostel.capacity}
-                              </Badge>
-                            )}
-                          </CardHeader>
-                          <CardContent className="space-y-4">
-                            {hostel.warden_name && (
-                              <div>
-                                <h4 className="font-medium text-sm mb-1">Warden</h4>
-                                <p className="text-sm text-muted-foreground">{hostel.warden_name}</p>
-                                {hostel.warden_contact && (
-                                  <div className="flex items-center gap-2 mt-1">
-                                    <Phone className="h-3 w-3" />
-                                    <span className="text-sm">{hostel.warden_contact}</span>
-                                  </div>
-                                )}
-                              </div>
-                            )}
-                            
-                            {hostel.facilities && hostel.facilities.length > 0 && (
-                              <div>
-                                <h4 className="font-medium text-sm mb-2">Facilities</h4>
-                                <div className="flex flex-wrap gap-1">
-                                  {hostel.facilities.map((facility, index) => {
-                                    const IconComponent = facilityIcons[facility] || Home;
-                                    return (
-                                      <Badge key={index} variant="outline" className="text-xs">
-                                        <IconComponent className="h-3 w-3 mr-1" />
-                                        {facility}
-                                      </Badge>
-                                    );
-                                  })}
-                                </div>
-                              </div>
-                            )}
-                            
-                            {hostel.timings && (
-                              <div>
-                                <h4 className="font-medium text-sm mb-1 flex items-center gap-1">
-                                  <Clock className="h-3 w-3" />
-                                  Timings
-                                </h4>
-                                <div className="text-sm text-muted-foreground">
-                                  {Object.entries(hostel.timings).map(([key, value]) => (
-                                    <div key={key} className="flex justify-between">
-                                      <span>{key}:</span>
-                                      <span>{value as string}</span>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-                            
-                            {hostel.emergency_contact && (
-                              <div>
-                                <h4 className="font-medium text-sm mb-1 flex items-center gap-1">
-                                  <Shield className="h-3 w-3" />
-                                  Emergency Contact
-                                </h4>
-                                <p className="text-sm text-muted-foreground">{hostel.emergency_contact}</p>
-                              </div>
-                            )}
-                          </CardContent>
-                        </Card>
-                      </motion.div>
-                    ))}
-                  </div>
-                ) : (
-                  <Card>
-                    <CardContent className="text-center py-8">
-                      <Home className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                      <p className="text-muted-foreground">
-                        Hostel information will be available soon. Please contact the administration for details.
-                      </p>
-                    </CardContent>
-                  </Card>
-                )}
               </motion.div>
 
               {/* Emergency Information */}
