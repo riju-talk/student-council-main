@@ -38,28 +38,23 @@ export const Footer = () => {
             <h4 className="text-sm font-semibold text-primary mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#events" className="text-muted-foreground hover:text-primary transition-colors">
+                <a href="/events" className="text-muted-foreground hover:text-primary transition-colors">
                   Events
                 </a>
               </li>
               <li>
-                <a href="#portal" className="text-muted-foreground hover:text-primary transition-colors">
+                <a href="/" className="text-muted-foreground hover:text-primary transition-colors">
                   Portal
                 </a>
               </li>
               <li>
-                <a href="#guidelines" className="text-muted-foreground hover:text-primary transition-colors">
+                <a href="/about" className="text-muted-foreground hover:text-primary transition-colors">
                   Guidelines
                 </a>
               </li>
               <li>
-                <a href="#resources" className="text-muted-foreground hover:text-primary transition-colors">
-                  Resources
-                </a>
-              </li>
-              <li>
-                <a href="#help" className="text-muted-foreground hover:text-primary transition-colors">
-                  Help & Support
+                <a href="/important-contacts" className="text-muted-foreground hover:text-primary transition-colors">
+                  Important Contacts
                 </a>
               </li>
             </ul>
@@ -71,11 +66,7 @@ export const Footer = () => {
             <ul className="space-y-3 text-sm">
               <li className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 text-muted-foreground" />
-                <span className="text-muted-foreground">council@iiitd.ac.in</span>
-              </li>
-              <li className="flex items-center space-x-2">
-                <Phone className="h-4 w-4 text-muted-foreground" />
-                <span className="text-muted-foreground">+91 11 2690 7400</span>
+                <span className="text-muted-foreground">studentcouncil@iiitd.ac.in</span>
               </li>
               <li className="flex items-start space-x-2">
                 <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
