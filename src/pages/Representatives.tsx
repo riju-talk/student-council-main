@@ -92,7 +92,7 @@ const Representatives = () => {
       case "President":
         return Crown;
       case "Vice President":
-        return IndianRupee;
+        return Shield;
       case "Treasurer":
         return IndianRupee;
       case "Sports Secretary":

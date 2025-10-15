@@ -229,7 +229,7 @@ const Penalties = () => {
                       <p className="text-xs text-muted-foreground">
                         Please refer to this document for more details.
                       </p>
-                      <button className="text-xs text-primary hover:text-black transition-colors border border-primary rounded px-2 py-1 mt-5 hover:bg-primary" onClick={() => window.open("https://mail.google.com/mail/u/0?ui=2&ik=ff089cdbdd&attid=0.1&permmsgid=msg-f:1841699105986221814&th=198f0794437696f6&view=att&disp=inline&realattid=198f078f8585d5fd1a91&zw", "_blank")}>
+                      <button className="text-xs text-primary hover:text-black transition-colors border border-primary rounded px-2 py-1 mt-5 hover:bg-primary" onClick={() => window.open("/fine_policy.pdf", "_blank")}>
                         View Document
                       </button>
                     </div>
