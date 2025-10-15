@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { motion, AnimatePresence, Variants } from "framer-motion";
 import { LucideIcon } from "lucide-react";
 
 type Representative = {
@@ -172,51 +171,15 @@ const Representatives = () => {
     []
   );
 
-  // Animation variants for staggered children
-  const container: Variants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const item: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 10,
-      },
-    },
-  };
-
-  const fadeInUp: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.16, 1, 0.3, 1],
-      },
-    },
-  };
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
       {/* Sticky Header */}
       <div className="absolute inset-0 geometric-grid opacity-40"></div>
       <div className="absolute inset-0 pointer-events-none">
-        <div className="floating-element absolute top-20 left-10 w-32 h-32 bg-primary/20 rounded-3xl rotate-45"></div>
-        <div className="floating-element absolute top-40 right-20 w-24 h-24 bg-secondary/15 rounded-full"></div>
-        <div className="floating-element absolute bottom-32 left-1/4 w-20 h-20 bg-primary/25 rounded-2xl transform rotate-12"></div>
+        <div className="absolute top-20 left-10 w-32 h-32 bg-primary/20 rounded-3xl rotate-45"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 bg-secondary/15 rounded-full"></div>
+        <div className="absolute bottom-32 left-1/4 w-20 h-20 bg-primary/25 rounded-2xl transform rotate-12"></div>
       </div>
       <div className="sticky top-0 z-50 w-full">
         <Header />
@@ -224,28 +187,19 @@ const Representatives = () => {
       <main className="container mx-auto px-4 py-8 relative z-10 mt-10 flex-1">
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Header */}
-          <motion.div 
-            className="text-center space-y-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <h1 className="text-4xl font-bold text-white font-display animate-fade-in-up">
+          <div className="text-center space-y-4">
+            <h1 className="text-4xl font-bold text-white font-display">
               Student Representatives
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in-up animate-delay-200">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Meet the elected student representatives working for the
               betterment of campus life and student affairs.
             </p>
-          </motion.div>
+          </div>
 
           {/* Search Bar */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <Card className="bg-card/80 backdrop-blur-sm border-border/50 hover-lift transition-all duration-300">
+          <div>
+            <Card className="bg-card/80 backdrop-blur-sm border-border/50 transition-all duration-300">
               <CardContent className="pt-6">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -258,20 +212,12 @@ const Representatives = () => {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </div>
 
           {/* Leadership Team */}
           {leadership.length > 0 && (
-            <motion.div 
-              className="space-y-6"
-              initial="hidden"
-              animate="show"
-              variants={container}
-            >
-              <motion.div 
-                className="text-center"
-                variants={fadeInUp}
-              >
+            <div className="space-y-6">
+              <div className="text-center">
                 <h2 className="text-2xl font-semibold text-white font-display mb-2">
                   Leadership Team
                 </h2>
@@ -279,27 +225,15 @@ const Representatives = () => {
                   Executive positions and secretaries leading various student
                   affairs
                 </p>
-              </motion.div>
+              </div>
 
-              <motion.div 
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-                variants={container}
-              >
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {leadership.map((rep, index) => {
                   const IconComponent = getPositionIcon(rep.position);
                   return (
-                    <motion.div
-                      key={rep.id}
-                      variants={item}
-                      initial="hidden"
-                      animate="show"
-                      whileHover={{ 
-                        y: -5,
-                        transition: { duration: 0.2 }
-                      }}
-                    >
                     <Card
-                      className="card-hover bg-card/80 backdrop-blur-sm border-border/50 h-full"
+                      key={rep.id}
+                      className="bg-card/80 backdrop-blur-sm border-border/50 h-full transition-transform hover:scale-105"
                     >
                       <CardHeader className="text-center pb-4">
                         <div className="flex flex-col items-center space-y-3">
@@ -350,24 +284,15 @@ const Representatives = () => {
                         </div>
                       </CardContent>
                     </Card>
-                    </motion.div>
                   );
                 })}
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           )}
 
           {/* General Members */}
-          <motion.div 
-            className="space-y-6"
-            initial="hidden"
-            animate="show"
-            variants={container}
-          >
-            <motion.div 
-              className="text-center"
-              variants={fadeInUp}
-            >
+          <div className="space-y-6">
+            <div className="text-center">
               <h2 className="text-2xl font-semibold text-white font-display mb-2">
                 General Members
               </h2>
@@ -375,56 +300,31 @@ const Representatives = () => {
                 Student council members representing various departments and
                 batches
               </p>
-            </motion.div>
+            </div>
 
-            <AnimatePresence>
-              {isLoading ? (
-                <motion.div 
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
-                  initial="hidden"
-                  animate="show"
-                  variants={container}
-                >
-                  {[...Array(9)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      variants={item}
-                      initial="hidden"
-                      animate="show"
-                    >
-                      <Card className="animate-pulse bg-card/80">
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[...Array(9)].map((_, i) => (
+                  <Card key={i} className="animate-pulse bg-card/80">
                         <CardContent className="p-4">
                           <div className="space-y-3">
                             <div className="h-5 bg-muted rounded w-3/4" />
                             <div className="h-4 bg-muted rounded w-1/2" />
                             <div className="h-4 bg-muted rounded w-full" />
                             <div className="h-4 bg-muted rounded w-2/3" />
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
+                        </div>
+                      </CardContent>
+                    </Card>
                   ))}
-                </motion.div>
+                </div>
               ) : (
-                <motion.div 
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
-                  variants={container}
-                >
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {members.map((rep, index) => {
                     const IconComponent = getPositionIcon(rep.position);
                     return (
-                      <motion.div
-                        key={rep.id}
-                        variants={item}
-                        initial="hidden"
-                        animate="show"
-                        whileHover={{ 
-                          y: -3,
-                          transition: { duration: 0.2 }
-                        }}
-                      >
                       <Card
-                        className="card-hover bg-card/80 backdrop-blur-sm border-border/50 h-full"
+                        key={rep.id}
+                        className="bg-card/80 backdrop-blur-sm border-border/50 h-full transition-transform hover:scale-105"
                       >
                       <CardContent className="p-4">
                         <div className="space-y-3">
@@ -470,44 +370,21 @@ const Representatives = () => {
                         </div>
                       </CardContent>
                       </Card>
-                      </motion.div>
                     );
                   })}
-                </motion.div>
+                </div>
               )}
-            </AnimatePresence>
-
-            <AnimatePresence>
               {members.length === 0 && !isLoading && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Card className="bg-card/80 backdrop-blur-sm border-border/50">
-                    <CardContent className="text-center py-8">
-                      <motion.div
-                        animate={{ 
-                          y: [0, -5, 0],
-                          transition: { 
-                            repeat: Infinity, 
-                            duration: 3,
-                            ease: "easeInOut"
-                          } 
-                        }}
-                      >
-                        <Users className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                      </motion.div>
-                      <p className="text-muted-foreground">
-                        No members found matching your search criteria.
-                      </p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
+                <Card className="bg-card/80 backdrop-blur-sm border-border/50">
+                  <CardContent className="text-center py-8">
+                    <Users className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                    <p className="text-muted-foreground">
+                      No members found matching your search criteria.
+                    </p>
+                  </CardContent>
+                </Card>
               )}
-            </AnimatePresence>
-          </motion.div>
+          </div>
         </div>
       </main>
       <Footer />
