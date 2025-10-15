@@ -337,11 +337,11 @@ const Representatives = () => {
                             </a>
                           </div>
                           {rep.official_email && (
-                            <div className="flex items-center gap-2 text-sm">
+                            <div className="flex items-center gap-2 text-sm text-center justify-center">
                               <Mail className="h-3 w-3 text-muted-foreground flex-shrink-0" />
                               <a
                                 href={`mailto:${rep.official_email}`}
-                                className="text-primary hover:underline truncate"
+                                className="text-primary hover:underline truncate text-center"
                               >
                                 {rep.official_email}
                               </a>
@@ -446,21 +446,21 @@ const Representatives = () => {
                           </div>
 
                           <div className="space-y-2">
-                            <div className="flex items-center gap-2 text-sm">
+                            <div className="flex items-center gap-2 text-sm text-center justify-center">
                               <Mail className="h-3 w-3 text-muted-foreground flex-shrink-0" />
                               <a
                                 href={`mailto:${rep.email}`}
-                                className="text-primary hover:underline truncate"
+                                className="text-primary hover:underline truncate text-center"
                               >
                                 {rep.email}
                               </a>
                             </div>
                             {rep.official_email && (
-                              <div className="flex items-center gap-2 text-sm">
+                              <div className="flex items-center gap-2 text-sm text-center justify-center">
                                 <Mail className="h-3 w-3 text-muted-foreground flex-shrink-0" />
                                 <a
                                   href={`mailto:${rep.official_email}`}
-                                  className="text-primary hover:underline truncate"
+                                  className="text-primary hover:underline truncate text-center"
                                 >
                                   {rep.official_email}
                                 </a>
