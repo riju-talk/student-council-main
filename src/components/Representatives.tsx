@@ -28,26 +28,26 @@ export const Representatives = () => {
 
   return (
     <section className="py-20 relative overflow-hidden">
-      {/* Background */}
+      {/* Animated background */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 z-0"
       >
         <div className="absolute inset-0 geometric-grid opacity-30"></div>
-        <div className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-primary/30 via-secondary/20 to-transparent blur-3xl opacity-40" />
-        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-gradient-to-br from-primary/20 via-secondary/20 to-transparent blur-2xl opacity-30" />
+        <div className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-primary/30 via-secondary/20 to-transparent floating-element blur-3xl opacity-40" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-gradient-to-br from-primary/20 via-secondary/20 to-transparent floating-element blur-2xl opacity-30" />
       </div>
 
       <div className="container px-4 relative z-10">
         {/* Representatives Section */}
         <div className="max-w-6xl mx-auto mb-20">
           <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4 px-4 py-2 border-primary/30 text-primary bg-primary/10">
+            <Badge variant="outline" className="mb-4 px-4 py-2 border-primary/30 text-primary bg-primary/10 animate-fade-in-down">
               <Crown className="h-3 w-3 mr-2" />
               Leadership
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">Student Representatives</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4 animate-fade-in-up animate-delay-200">Student Representatives</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto animate-fade-in-up animate-delay-400">
               Meet the dedicated students who represent your voice and work tirelessly to improve campus life
             </p>
           </div>
@@ -74,7 +74,8 @@ export const Representatives = () => {
       {filteredReps.map((rep: any, index: number) => (
         <Card
           key={rep.id}
-          className="p-8 rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 shadow-xl group relative overflow-hidden transition-transform hover:scale-105"
+          className="card-hover p-8 rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 shadow-xl group relative overflow-hidden hover-lift animate-fade-in-scale"
+          style={{ animationDelay: `${(index % 4) * 150}ms` }}
         >
           <div className="flex flex-col items-center relative z-10">
             <h3 className="font-bold text-xl text-white mb-1 text-center">
@@ -96,8 +97,9 @@ export const Representatives = () => {
       {/* 8th card: View All Representatives */}
       <Card
         key="view-all"
-        className="cursor-pointer p-8 rounded-2xl bg-primary/80 backdrop-blur-sm border border-border/50 shadow-xl group relative overflow-hidden transition-transform hover:scale-105 flex flex-col items-center justify-center text-white"
+        className="cursor-pointer p-8 rounded-2xl bg-primary/80 backdrop-blur-sm border border-border/50 shadow-xl group relative overflow-hidden hover-lift animate-fade-in-scale flex flex-col items-center justify-center text-white"
         onClick={() => (window.location.href = "/representatives")}
+        style={{ animationDelay: `${(filteredReps.length % 4) * 150}ms` }}
       >
         <div className="text-center">
           <h3 className="font-bold text-xl mb-2">View All</h3>
@@ -109,6 +111,18 @@ export const Representatives = () => {
 </div>
         </div>
       </div>
+      {/* Custom animation utility for slow spin */}
+      <style>
+        {`
+          .animate-spin-slow {
+            animation: spin 18s linear infinite;
+          }
+          @keyframes spin {
+            0% { transform: rotate(0deg);}
+            100% { transform: rotate(360deg);}
+          }
+        `}
+      </style>
     </section>
   );
 };
