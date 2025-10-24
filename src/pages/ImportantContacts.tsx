@@ -205,10 +205,14 @@ const ImportantContacts = () => {
                       </div>
                       <div>
                         <h3 className="font-medium text-destructive mb-1">Emergency Contacts</h3>
-                        <p className="text-sm text-muted-foreground">
-                          For medical emergencies, contact campus medical center at Ext. 592. 
-                          For security emergencies, contact security at +91 9868244868.
-                        </p>
+                        <div className="space-y-1">
+                          <p className="text-sm text-muted-foreground">
+                            <strong>Student Affairs (Emergency Contact):</strong> 97737 93614
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            <strong>Infirmary (Medical Assistance):</strong> 78271 03055
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </CardContent>

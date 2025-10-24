@@ -46,7 +46,6 @@ const Hostel = () => {
     "Check-out Time": "10:00 AM",
     "Mess Timings": "Breakfast: 7:30-9:30 AM, Lunch: 12:30-2:30 PM, Dinner: 7:30-9:30 PM",
     "Visiting Hours": "9:00 AM - 10:00 PM",
-    "Emergency Contact": "+91 11 26907504",
   };
 
   return (
@@ -139,16 +138,10 @@ const Hostel = () => {
                   <CardContent>
                     <div className="space-y-2">
                       <p className="text-sm">
-                        <strong>Medical Emergency:</strong> Contact campus medical center at Ext. 592
+                        <strong>Student Affairs (Emergency Contact):</strong> 97737 93614
                       </p>
                       <p className="text-sm">
-                        <strong>Security Emergency:</strong> Contact security at +91 9868244868
-                      </p>
-                      <p className="text-sm">
-                        <strong>Hostel Warden:</strong> Contact your respective hostel warden immediately
-                      </p>
-                      <p className="text-sm">
-                        <strong>Dean Student Affairs:</strong> +91 9810165438
+                        <strong>Infirmary (Medical Assistance):</strong> 78271 03055
                       </p>
                     </div>
                   </CardContent>
