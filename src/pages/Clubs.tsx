@@ -57,13 +57,13 @@ const clubLogos: Record<string, string> = {
   "Social Service": "girlup.png",
   "ACM Student Chapter": "acm.png",
   "IEEE Student Branch": "ieee.png",
-  "Electroholics": "Electroholics.jpg",
+  "Electroholics": "electroholics.png",
   "BioBytes": "BioBytes.png",
   "Astronuts": "Astronuts.png",
   "Finnexia": "Finnexia.jpg",
   "MicDrop": "MicDrop.png",
-  "Philosoc": "Philosoc.png",
-  "Trivialis": "Trivialis.png",
+  "Philosoc": "Philosoc.jpg",
+  "Trivialis": "trivialis.png",
   "AudioBytes": "audiobytes.jpeg",
   "BYLD": "byld.jpg",
   "CyFuse": "cyfuse.jpg",
@@ -82,8 +82,8 @@ const clubLogos: Record<string, string> = {
   "The65thSquare": "the65thsquare.jpg",
   "URC": "urc.png",
   "Women in Tech": "women-in-tech-iiitd.jpg",
-  "LeanIn": "leanin.jpg",
   "Meraki": "meraki.jpg",
+  "SoberCircle": "landscape-placeholder.svg",
 };
 
 const getClubLogo = (clubName: string): string | null => {
@@ -412,11 +412,11 @@ const Clubs = () => {
                                 {selectedClub.created_at && (
                                   <div className="flex items-center gap-2">
                                     <Calendar className="h-4 w-4" />
-                                    <span>Established:</span>
+                                    <span>Last Updated:</span>
                                     <span>
                                       {format(
                                         new Date(
-                                          selectedClub.created_at
+                                          selectedClub.updated_at
                                         ),
                                         "MMMM yyyy"
                                       )}
