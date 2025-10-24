@@ -20,6 +20,7 @@ export const Representatives = () => {
   });
 
   const filteredReps = useMemo(() => {
+    if (!representatives || !Array.isArray(representatives)) return [];
     return representatives
       .filter((rep: any) => rep.position !== 'Member')
       .slice(0, 7);
