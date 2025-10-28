@@ -83,7 +83,7 @@ const clubLogos: Record<string, string> = {
   "URC": "urc.png",
   "Women in Tech": "women-in-tech-iiitd.jpg",
   "Meraki": "meraki.jpg",
-  "SoberCircle": "landscape-placeholder.svg",
+  "SoberCircle": "sobercircle.png",
 };
 
 const getClubLogo = (clubName: string): string | null => {

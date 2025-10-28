@@ -1,51 +1,26 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { Home, Phone, Users, Clock, Shield, Wifi, Car, Coffee } from "lucide-react";
 import { motion } from "framer-motion";
 import { PageTransition } from "@/components/ui/page-transition";
 
 const Hostel = () => {
-  const { data: hostels = [], isLoading } = useQuery({
-    queryKey: ["hostels"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("hostel_info")
-        .select("*")
-        .order("hostel_name");
-      
-      if (error) throw error;
-      return data;
-    },
-  });
-
-  const facilityIcons: { [key: string]: any } = {
-    "WiFi": Wifi,
-    "Parking": Car,
-    "Cafeteria": Coffee,
-    "Security": Shield,
-    "Common Room": Users,
-  };
-
   const hostelRules = [
-    "Visitors must register at the reception",
-    "No outside guests after 11 PM",
-    "Maintain cleanliness in common areas",
-    "No loud music or disturbances after 10 PM",
-    "Report any maintenance issues immediately",
-    "Follow mess timings strictly",
-    "ID cards must be carried at all times",
-    "No smoking or alcohol consumption"
+    "Suspension or termination (academic or non-academic) results in automatic hostel debarment and removal from all positions of responsibility.",
+    "Hostel allocation is strictly for academic purposes within IIITD; no other reasons are accepted.",
+    "Entry is gender-restricted — students may enter only their respective hostels.",
+    "Students must be medically fit to reside in the hostel and maintain cooperation with hostel authorities; any misconduct may lead to debarment.",
+    "Smoking, drugs, alcohol, and gambling are strictly prohibited; violations result in permanent hostel expulsion.",
+    "Possession of prohibited materials or involvement in violence or property damage leads to immediate debarment and penalties.",
+    "Cooking in rooms, vehicle parking, or leaving campus after midnight is prohibited; non-residents cannot stay overnight.",
+    "Damage costs must be covered by the responsible student(s); all residents must follow decorum and hostel discipline."
   ];
-
   const generalInfo = {
-    "Check-in Time": "2:00 PM - 6:00 PM",
-    "Check-out Time": "10:00 AM",
-    "Mess Timings": "Breakfast: 7:30-9:30 AM, Lunch: 12:30-2:30 PM, Dinner: 7:30-9:30 PM",
-    "Visiting Hours": "9:00 AM - 10:00 PM",
+    "Admin Email": " admin-hostel@iiitd.ac.in",
+    "Common room Access for Day Scholars": "8:00 AM - 8:00 PM",
+    "Mess Timings": "Breakfast: 7:30-10:00 AM, Lunch: 12:30-2:30 PM, Dinner: 8:00-9:30 PM",
+    "Visiting Hours": "8:00 AM - 8:00 PM",
   };
 
   return (
