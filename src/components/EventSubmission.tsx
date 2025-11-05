@@ -65,7 +65,7 @@ export const EventSubmission = () => {
               return (
                 <Card 
                   key={index} 
-                  className="p-6 text-center hover:shadow-lg transition-all duration-300 hover:border-text-primary/20"
+                  className="p-6 text-center"
                 >
                   <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4 mx-auto">
                     <Icon className="h-8 w-8 text-primary" />

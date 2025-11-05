@@ -29,14 +29,9 @@ export const Representatives = () => {
 
   return (
     <section className="py-20 relative overflow-hidden">
-      {/* Background */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-0"
-      >
-        <div className="absolute inset-0 geometric-grid opacity-30"></div>
-        <div className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-primary/30 via-secondary/20 to-transparent blur-3xl opacity-40" />
-        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-gradient-to-br from-primary/20 via-secondary/20 to-transparent blur-2xl opacity-30" />
+      {/* Simplified Background */}
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-20">
+        <div className="absolute -top-32 -left-32 w-[400px] h-[400px] rounded-full bg-primary/20 blur-3xl" />
       </div>
 
       <div className="container px-4 relative z-10">
@@ -58,7 +53,7 @@ export const Representatives = () => {
     [...Array(4)].map((_, index) => (
       <Card
         key={index}
-        className="p-6 animate-pulse rounded-2xl shadow-xl bg-card/80 border border-border/50"
+        className="p-6 rounded-2xl shadow-xl bg-card border border-border/50"
       >
         <div className="flex flex-col items-center mb-4">
           <div className="h-16 w-16 mb-2 ring-4 ring-primary/30 shadow-lg rounded-full bg-muted" />
@@ -75,7 +70,7 @@ export const Representatives = () => {
       {filteredReps.map((rep: any) => (
         <Card
           key={rep.id}
-          className="p-8 rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 shadow-xl group relative overflow-hidden transition-transform hover:scale-105"
+          className="p-8 rounded-2xl bg-card border border-border/50 shadow-xl group relative overflow-hidden"
         >
           <div className="flex flex-col items-center relative z-10">
             <h3 className="font-bold text-xl text-white mb-1 text-center">
@@ -97,7 +92,7 @@ export const Representatives = () => {
       {/* 8th card: View All Representatives */}
       <Card
         key="view-all"
-        className="cursor-pointer p-8 rounded-2xl bg-primary/80 backdrop-blur-sm border border-border/50 shadow-xl group relative overflow-hidden transition-transform hover:scale-105 flex flex-col items-center justify-center text-white"
+        className="cursor-pointer p-8 rounded-2xl bg-primary border border-border/50 shadow-xl group relative overflow-hidden flex flex-col items-center justify-center text-white"
         onClick={() => (window.location.href = "/representatives")}
       >
         <div className="text-center">
