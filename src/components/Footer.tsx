@@ -20,7 +20,7 @@ export const Footer = () => {
               </div>
             </div>
             <p className="text-muted-foreground mb-4 max-w-md">
-              Empowering student initiatives and fostering academic excellence through 
+              Empowering student initiatives and enriching campus life through 
               streamlined event management and collaborative decision-making.
             </p>
             <div className="flex space-x-2">
@@ -37,11 +37,6 @@ export const Footer = () => {
           <div>
             <h4 className="text-sm font-semibold text-primary mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
-              <li>
-                <a href="/events" className="text-muted-foreground hover:text-primary transition-colors">
-                  Events
-                </a>
-              </li>
               <li>
                 <a href="/" className="text-muted-foreground hover:text-primary transition-colors">
                   Portal
@@ -85,17 +80,6 @@ export const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="text-sm text-muted-foreground">
             © 2025 IIIT Delhi Student Council. All rights reserved.
-          </div>
-          <div className="flex space-x-6 text-sm">
-            <a href="#privacy" className="text-muted-foreground hover:text-primary transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#terms" className="text-muted-foreground hover:text-primary transition-colors">
-              Terms of Service
-            </a>
-            <a href="#accessibility" className="text-muted-foreground hover:text-primary transition-colors">
-              Accessibility
-            </a>
           </div>
         </div>
       </div>

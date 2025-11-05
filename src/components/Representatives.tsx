@@ -72,7 +72,7 @@ export const Representatives = () => {
     ))
   ) : (
     <>
-      {filteredReps.map((rep: any, index: number) => (
+      {filteredReps.map((rep: any) => (
         <Card
           key={rep.id}
           className="p-8 rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 shadow-xl group relative overflow-hidden transition-transform hover:scale-105"
@@ -85,10 +85,10 @@ export const Representatives = () => {
               {rep.position}
             </div>
             <span className="text-xs bg-primary/10 text-primary px-3 py-1 rounded-full mb-2 tracking-wide">
-              {rep.year === 0 ? "PhD" : `Batch of ${rep.year}`}
+              Batch of {rep.year}
             </span>
             <div className="flex items-center text-muted-foreground text-sm mt-2">
-              <span className="break-all">{rep.email}</span>
+              <span className="break-all">{rep.official_email}</span>
             </div>
           </div>
         </Card>

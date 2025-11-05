@@ -26,15 +26,6 @@ export const About = () => {
     }
   ];
 
-  const clubs = [
-    { name: "Technical Society", focus: "Coding, Hackathons, Tech Events" },
-    { name: "Cultural Committee", focus: "Arts, Music, Dance, Drama" },
-    { name: "Sports Committee", focus: "Athletics, Tournaments, Fitness" },
-    { name: "Literary Society", focus: "Writing, Debates, Publications" },
-    { name: "Entrepreneurship Cell", focus: "Startups, Business, Innovation" },
-    { name: "Social Service", focus: "Community Outreach, Volunteering" }
-  ];
-
   return (
     <section className="py-20 relative overflow-hidden">
       {/* Animated background */}
@@ -74,22 +65,6 @@ export const About = () => {
               </Card>
             );
           })}
-        </div>
-
-        {/* Clubs Section */}
-        <div className="max-w-5xl mx-auto text-center">
-          <Badge variant="outline" className="mb-4 px-4 py-2 border-secondary/30 text-secondary bg-secondary/10">
-            Our Clubs & Committees
-          </Badge>
-          <h2 className="text-2xl md:text-3xl text-foreground mb-6">Explore Student Communities</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {clubs.map((club, index) => (
-              <Card key={index} className="p-6 bg-card/80 backdrop-blur-sm border border-border/50 text-left">
-                <h3 className="font-semibold text-lg mb-2">{club.name}</h3>
-                <p className="text-sm text-muted-foreground">{club.focus}</p>
-              </Card>
-            ))}
-          </div>
         </div>
       </div>
     </section>

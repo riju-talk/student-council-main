@@ -52,36 +52,7 @@ const ImportantContacts = () => {
                   Contact them in case of any query or emergency
                 </p>
               </motion.div>
-
-              {/* Social Media Links */}
-              <motion.div 
-                className="flex justify-center gap-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <a 
-                  href="https://facebook.com/iiitdelhi" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors hover-lift"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  Facebook
-                </a>
-                <a 
-                  href="https://instagram.com/iiitdelhi" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors hover-lift"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  Instagram
-                </a>
-                <button className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors hover-lift">
-                  Explore
-                </button>
-              </motion.div>
+              
 
               {/* Search */}
               <motion.div

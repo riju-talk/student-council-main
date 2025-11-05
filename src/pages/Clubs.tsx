@@ -127,11 +127,11 @@ const Clubs = () => {
   );
 
   const clubGuidelines = [
-    "At least 15 active members and 3 co-ordinators are required for any club to exist...",
+    "At least 15 active members and 3 co-ordinators are required for any club to exist.",
     "At least two activities per semester.",
-    "Regular updates to club website...",
-    "15 interested students needed for visiting instructors...",
-    "Tentative annual budget with justification...",
+    "Regular updates to club website.",
+    "15 interested students needed for visiting instructors.",
+    "Tentative annual budget with justification.",
     "Detailed breakdown of budget must be provided.",
   ];
 

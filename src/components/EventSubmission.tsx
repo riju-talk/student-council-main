@@ -23,7 +23,7 @@ export const EventSubmission = () => {
     {
       icon: Clock,
       title: "Review Process",
-      description: "Our team reviews your submission within 24-48 hours for completeness and feasibility"
+      description: "Our team reviews your submission for completeness and feasibility"
     },
     {
       icon: CheckCircle,
@@ -134,22 +134,6 @@ export const EventSubmission = () => {
                   Need help? Contact us at rijusmit22400@iiitd.ac.in
                 </p>
               </Card>
-            </div>
-          </div>
-
-          {/* Stats */}
-          <div className="flex flex-wrap justify-center gap-8 mt-16 pt-12 border-t">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-foreground">48h</div>
-              <div className="text-sm text-muted-foreground">Average Review Time</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-foreground">95%</div>
-              <div className="text-sm text-muted-foreground">Approval Rate</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-foreground">200+</div>
-              <div className="text-sm text-muted-foreground">Events This Year</div>
             </div>
           </div>
         </div>

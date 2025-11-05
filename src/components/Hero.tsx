@@ -67,11 +67,6 @@ export const Hero = () => {
       
       <div className="container relative z-10 px-6 md:px-8 text-center">
         <div className="max-w-6xl mx-auto py-12 md:py-16">
-          {/* Badge - faster animation */}
-          <Badge variant="outline" className="mb-8 px-6 py-3 text-sm font-medium border-primary/40 text-primary bg-primary/10 hover:bg-primary/15 transition-all duration-300 backdrop-blur-sm animate-fade-in-down" style={{ willChange: 'transform, opacity' }}>
-            <Award className="h-4 w-4 mr-2" />
-            Student Leadership Excellence
-          </Badge>
 
           {/* Main Heading - optimized stagger */}
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-10 md:mb-12 leading-tight text-shadow-lg animate-fade-in-up animate-delay-100" style={{ willChange: 'transform, opacity' }}>
@@ -121,7 +116,7 @@ export const Hero = () => {
               </div>
               <h3 className="text-xl font-display font-semibold mb-4 text-foreground">Student Representation</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Amplifying every student's voice in academic and administrative decisions through democratic leadership
+                Amplifying every student's voice in non-academic and administrative decisions through democratic leadership
               </p>
             </Card>
 

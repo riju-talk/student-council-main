@@ -37,12 +37,12 @@ export const AboutCouncil = () => {
   return (
     <section className="relative py-20 bg-background overflow-hidden" style={{ contentVisibility: 'auto' }}>
       {/* Floating geometric elements - optimized */}
-      <div className="absolute inset-0 pointer-events-none" style={{ contain: 'layout style paint' }}>
-        <div className="floating-element absolute top-20 left-10 w-32 h-32 bg-primary/20 rounded-3xl rotate-45 [animation-delay:0.3s]" style={{ willChange: 'transform' }}></div>
-        <div className="floating-element absolute top-40 right-20 w-24 h-24 bg-secondary/15 rounded-full [animation-delay:0.6s]" style={{ willChange: 'transform' }}></div>
-        <div className="floating-element absolute bottom-32 left-1/4 w-20 h-20 bg-primary/25 rounded-2xl transform rotate-12 [animation-delay:0.9s]" style={{ willChange: 'transform' }}></div>
-        <div className="floating-element absolute bottom-20 right-1/3 w-28 h-28 bg-secondary/10 rounded-full [animation-delay:1.2s]" style={{ willChange: 'transform' }}></div>
-        <div className="floating-element absolute top-1/3 right-1/4 w-16 h-16 bg-primary/15 rounded-xl [animation-delay:0.5s]" style={{ willChange: 'transform' }}></div>
+      <div className="absolute inset-0" style={{ contain: 'layout style paint' }}>
+        <div className="floating-element absolute top-20 left-10 w-32 h-32 bg-primary/20 rounded-3xl rotate-45 [animation-delay:0.3s] pointer-events-none" style={{ willChange: 'transform' }}></div>
+        <div className="floating-element absolute top-40 right-20 w-24 h-24 bg-secondary/15 rounded-full [animation-delay:0.6s] pointer-events-none" style={{ willChange: 'transform' }}></div>
+        <div className="floating-element absolute bottom-32 left-1/4 w-20 h-20 bg-primary/25 rounded-2xl transform rotate-12 [animation-delay:0.9s] pointer-events-none" style={{ willChange: 'transform' }}></div>
+        <div className="floating-element absolute bottom-20 right-1/3 w-28 h-28 bg-secondary/10 rounded-full [animation-delay:1.2s] pointer-events-none" style={{ willChange: 'transform' }}></div>
+        <div className="floating-element absolute top-1/3 right-1/4 w-16 h-16 bg-primary/15 rounded-xl [animation-delay:0.5s] pointer-events-none" style={{ willChange: 'transform' }}></div>
       </div>
 
       <div className="container relative z-10 mx-auto px-4">
@@ -90,13 +90,13 @@ export const AboutCouncil = () => {
               <Card className="card-hover overflow-hidden border border-border/50 backdrop-blur-sm bg-card/80 rounded-2xl hover-lift animate-fade-in-scale" style={{ willChange: 'transform' }}>
                 <CardHeader className="bg-gradient-to-r from-primary/20 to-transparent p-6">
                   <CardTitle className="flex items-center gap-2 text-foreground">
-                    <Target className="h-5 w-5 text-primary animate-gentle-float" style={{ willChange: 'transform' }} />
+                    <Target className="h-5 w-5 text-primary"/>
                     Scope & Guidelines
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6 p-6">
                   <p className="text-muted-foreground text-lg">
-                    The scope of the student council is limited to academic and
+                    The scope of the student council is limited to non-academic and
                     extra-curricular activities within the Institute. It serves
                     as the main student body to represent these areas.
                   </p>
@@ -116,15 +116,32 @@ export const AboutCouncil = () => {
                   </div>
 
                   <div className="bg-muted/50 p-4 rounded-lg text-sm">
-                    <strong>Note:</strong> To know about the Cultural Council
-                    (independent body),{" "}
+                    <strong>Note:</strong> To learn more about other student bodies at IIITD:{" "}
                     <a
                       href="https://www.instagram.com/cc_iiitd/?hl=en"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-primary hover:underline"
+                      className="text-primary hover:underline relative z-10 cursor-pointer"
                     >
-                      click here
+                      Cultural Council
+                    </a>
+                    {", "}
+                    <a
+                      href="https://www.instagram.com/iiitdtechcouncil?igsh=czJpdTJrN3I5cGxl"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline relative z-10 cursor-pointer"
+                    >
+                      Technical Council
+                    </a>
+                    {", "}
+                    <a
+                      href="https://www.instagram.com/iiitdsports?igsh=bHVyb3RvMXJ3eWNo"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline relative z-10 cursor-pointer"
+                    >
+                      Sports Council
                     </a>
                   </div>
                 </CardContent>
@@ -137,21 +154,21 @@ export const AboutCouncil = () => {
                 <TabsList className="flex w-full justify-center mb-8 gap-2 bg-transparent p-2 rounded-xl">
                   <TabsTrigger
                     value="members"
-                    className="px-5 py-2 rounded-lg text-sm font-medium data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
+                    className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
                   >
                     <Users className="h-4 w-4" />
                     Members
                   </TabsTrigger>
                   <TabsTrigger
                     value="elections"
-                    className="px-5 py-2 rounded-lg text-sm font-medium data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
+                    className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
                   >
                     <Vote className="h-4 w-4" />
                     Elections
                   </TabsTrigger>
                   <TabsTrigger
                     value="meetings"
-                    className="px-5 py-2 rounded-lg text-sm font-medium data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
+                    className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
                   >
                     <Calendar className="h-4 w-4" />
                     Meetings
@@ -196,7 +213,6 @@ export const AboutCouncil = () => {
                           <li>• President</li>
                           <li>• Vice-President</li>
                           <li>• Treasurer</li>
-                          <li>• Sports Secretary</li>
                         </ul>
                       </div>
                     </CardContent>
