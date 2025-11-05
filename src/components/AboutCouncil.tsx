@@ -35,27 +35,24 @@ export const AboutCouncil = () => {
   });
 
   return (
-    <section className="relative py-20 bg-background overflow-hidden" style={{ contentVisibility: 'auto' }}>
-      {/* Floating geometric elements - optimized */}
-      <div className="absolute inset-0" style={{ contain: 'layout style paint' }}>
-        <div className="floating-element absolute top-20 left-10 w-32 h-32 bg-primary/20 rounded-3xl rotate-45 [animation-delay:0.3s] pointer-events-none" style={{ willChange: 'transform' }}></div>
-        <div className="floating-element absolute top-40 right-20 w-24 h-24 bg-secondary/15 rounded-full [animation-delay:0.6s] pointer-events-none" style={{ willChange: 'transform' }}></div>
-        <div className="floating-element absolute bottom-32 left-1/4 w-20 h-20 bg-primary/25 rounded-2xl transform rotate-12 [animation-delay:0.9s] pointer-events-none" style={{ willChange: 'transform' }}></div>
-        <div className="floating-element absolute bottom-20 right-1/3 w-28 h-28 bg-secondary/10 rounded-full [animation-delay:1.2s] pointer-events-none" style={{ willChange: 'transform' }}></div>
-        <div className="floating-element absolute top-1/3 right-1/4 w-16 h-16 bg-primary/15 rounded-xl [animation-delay:0.5s] pointer-events-none" style={{ willChange: 'transform' }}></div>
+    <section className="relative py-20 bg-background overflow-hidden">
+      {/* Minimal decorative elements */}
+      <div className="absolute inset-0 pointer-events-none opacity-30">
+        <div className="absolute top-20 left-10 w-32 h-32 bg-primary/10 rounded-3xl rotate-45"></div>
+        <div className="absolute bottom-20 right-1/3 w-28 h-28 bg-secondary/5 rounded-full"></div>
       </div>
 
       <div className="container relative z-10 mx-auto px-4">
         <div className="max-w-6xl mx-auto">
-          {/* Header - optimized animations */}
+          {/* Header */}
           <div className="text-center mb-16">
-            <Badge className="mb-4 px-6 py-3 text-sm font-medium border-primary/40 text-primary bg-primary/10 backdrop-blur-sm animate-fade-in-down" style={{ willChange: 'transform, opacity' }}>
+            <Badge className="mb-4 px-6 py-3 text-sm font-medium border-primary/40 text-primary bg-primary/10">
               Student Council
             </Badge>
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-foreground animate-fade-in-up animate-delay-100" style={{ willChange: 'transform, opacity' }}>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-foreground">
               About the Student Council
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed text-lg animate-fade-in-up animate-delay-200" style={{ willChange: 'transform, opacity' }}>
+            <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed text-lg">
               Learn about the scope, composition, and functioning of the IIITD
               Student Council — the official student body representing voices
               and ideas on campus.
@@ -87,8 +84,8 @@ export const AboutCouncil = () => {
 
             {/* Scope Tab */}
             <TabsContent value="scope">
-              <Card className="card-hover overflow-hidden border border-border/50 backdrop-blur-sm bg-card/80 rounded-2xl hover-lift animate-fade-in-scale" style={{ willChange: 'transform' }}>
-                <CardHeader className="bg-gradient-to-r from-primary/20 to-transparent p-6">
+              <Card className="overflow-hidden border border-border/50 bg-card rounded-2xl">
+                <CardHeader className="bg-primary/10 p-6">
                   <CardTitle className="flex items-center gap-2 text-foreground">
                     <Target className="h-5 w-5 text-primary"/>
                     Scope & Guidelines
@@ -108,7 +105,7 @@ export const AboutCouncil = () => {
                       "Student council will have a say in allocation of budget for student activities.",
                       "In matters concerning student interests, the council will send representatives to present student views.",
                     ].map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-3 animate-fade-in-up" style={{ animationDelay: `${300 + idx * 100}ms`, willChange: 'transform, opacity' }}>
+                      <div key={idx} className="flex items-start gap-3">
                         <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                         <span className="text-sm text-foreground">{item}</span>
                       </div>
@@ -177,8 +174,8 @@ export const AboutCouncil = () => {
 
                 {/* Members */}
                 <TabsContent value="members">
-                  <Card className="card-hover border border-border/50 backdrop-blur-sm bg-card/80 rounded-2xl hover-lift animate-fade-in-scale">
-                    <CardHeader className="bg-gradient-to-r from-primary/20 to-transparent p-6">
+                  <Card className="border border-border/50 bg-card rounded-2xl">
+                    <CardHeader className="bg-primary/10 p-6">
                       <CardTitle className="text-foreground">
                         Student Council Leadership
                       </CardTitle>
@@ -221,8 +218,8 @@ export const AboutCouncil = () => {
 
                 {/* Elections */}
                 <TabsContent value="elections">
-                  <Card className="card-hover border border-border/50 backdrop-blur-sm bg-card/80 rounded-2xl">
-                    <CardHeader className="bg-gradient-to-r from-primary/20 to-transparent p-6">
+                  <Card className="border border-border/50 bg-card rounded-2xl">
+                    <CardHeader className="bg-primary/10 p-6">
                       <CardTitle className="flex items-center gap-2 text-foreground">
                         <Vote className="h-5 w-5 text-primary" />
                         Election Process
@@ -249,8 +246,8 @@ export const AboutCouncil = () => {
 
                 {/* Meetings */}
                 <TabsContent value="meetings">
-                  <Card className="card-hover border border-border/50 backdrop-blur-sm bg-card/80 rounded-2xl">
-                    <CardHeader className="bg-gradient-to-r from-primary/20 to-transparent p-6">
+                  <Card className="border border-border/50 bg-card rounded-2xl">
+                    <CardHeader className="bg-primary/10 p-6">
                       <CardTitle className="flex items-center gap-2 text-foreground">
                         <Calendar className="h-5 w-5 text-primary" />
                         Meeting Structure
